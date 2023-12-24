@@ -12,34 +12,42 @@ datasource db {
 }
 
 model Users {
-  id              Int                 @id @default(autoincrement())
-  firstName       String
-  lastName        String
-  email           String
-  typeTeacher     String //example : walikelas, guru mapel, kepsek
-  typeOfStudy     String // example : penjas, ipa, matematika
-  categoryTeacher String // example : ipa, matematika, dll
-  rating          Int
-  classRoom       UsersOnClassRooms[]
+  id               Int                           @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  email            String
+  typeTeacher      String //example : walikelas, guru mapel, kepsek
+  typeOfStudy      String // example : penjas, ipa, matematika
+  categoryTeacher  String // example : ipa, matematika, dll
+  rating           Int
+  classRoom        UsersOnClassRooms[]
+  classRoomStudent StudentsAndUserOnClassRooms[]
+  createdAt        DateTime                      @default(now())
+  updatedAt        DateTime                      @default(now())
 
   @@index([id])
 }
 
 model ClassRooms {
-  id           Int                    @id @default(autoincrement())
-  name         String
-  location     String
-  studentTotal Int
-  periodeStart DateTime
-  periodeEnd   DateTime
-  user         UsersOnClassRooms[]
-  students     StudentsOnClassRooms[]
+  id               Int                           @id @default(autoincrement())
+  name             String
+  location         String
+  studentTotal     Int
+  periodeStart     DateTime
+  periodeEnd       DateTime
+  createdAt        DateTime                      @default(now())
+  updatedAt        DateTime                      @default(now())
+  user             UsersOnClassRooms[]
+  students         StudentsOnClassRooms[]
+  studentClassRoom StudentsAndUserOnClassRooms[]
 }
 
 model MataPelajarans {
-  id   Int    @id @default(autoincrement())
-  name String
-  code String
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model UsersOnClassRooms {
@@ -49,24 +57,29 @@ model UsersOnClassRooms {
   classRoomId Int // relation scalar field (used in the `@relation` attribute above)
   assignedAt  DateTime   @default(now())
   assignedBy  String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
 
   @@id([userId, classRoomId])
 }
 
 model Students {
-  id            Int                    @id @default(autoincrement())
-  nis           String
-  firstName     String
-  lastName      String
-  email         String
-  gender        String
-  dateOfBirth   String
-  address       String
-  parent        String
-  rating        Int
-  favoriteLearn String // matika, ipa, dll
-  Hobby         String //sepak bola, basket, karate, mancing, dll
-  classRoom     StudentsOnClassRooms[]
+  id               Int                           @id @default(autoincrement())
+  nis              String
+  firstName        String
+  lastName         String
+  email            String
+  gender           String
+  dateOfBirth      String
+  address          String
+  parent           String
+  rating           Int
+  favoriteLearn    String // matika, ipa, dll
+  Hobby            String //sepak bola, basket, karate, mancing, dll
+  createdAt        DateTime                      @default(now())
+  updatedAt        DateTime                      @default(now())
+  classRoom        StudentsOnClassRooms[]
+  classRoomStudent StudentsAndUserOnClassRooms[]
 
   @@index([id])
 }
@@ -78,18 +91,40 @@ model StudentsOnClassRooms {
   classRoomId Int // relation scalar field (used in the `@relation` attribute above)
   assignedAt  DateTime   @default(now())
   assignedBy  String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
 
   @@id([studentId, classRoomId])
 }
 
 model Absensi {
-  id          Int      @id @default(autoincrement())
-  teacherId   Int
-  classRoomId Int
-  studentId   Int
-  mapelId     Int
-  absensiType String // Sakit, bolos, alpa, terlambat
-  absensiDate DateTime
+  id           Int      @id @default(autoincrement())
+  teacherId    Int
+  classRoomId  Int
+  studentId    Int
+  mapelId      Int
+  absensiType  String // Sakit, bolos, alpa, terlambat
+  infoTambahan Boolean
+  absensiDate  DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
 
   @@index([id])
+}
+
+model StudentsAndUserOnClassRooms {
+  student      Students   @relation(fields: [studentId], references: [id])
+  studentId    Int // relation scalar field (used in the `@relation` attribute above)
+  classRoom    ClassRooms @relation(fields: [classRoomId], references: [id])
+  classRoomId  Int // relation scalar field (used in the `@relation` attribute above)
+  user         Users      @relation(fields: [userId], references: [id])
+  userId       Int
+  periodeStart DateTime
+  periodeEnd   DateTime
+  assignedAt   DateTime   @default(now())
+  assignedBy   String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
+
+  @@id([studentId, classRoomId, userId])
 }
