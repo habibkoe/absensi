@@ -1,26 +1,51 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
+import { getOne } from "@/services/userService";
+import { Users } from "@prisma/client";
 import { Card } from "flowbite-react";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
+
+  const [userData, setUserData] = useState<Users>()
+
+
+  const getData = async () => {
+    let user = await getOne(1);
+
+    setUserData(user.data)
+  }
+
+  useEffect(() => {
+    getData();
+  }, [])
+  
+
   return (
     <>
       <Head>
-        <title>Setting</title>
+        <title>Profile {userData?.firstName} {userData?.lastName}</title>
       </Head>
 
       <Card className="w-3/6 p-3 bg-white mx-auto">
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Profile
+              Profile {userData?.firstName} {userData?.lastName}
             </h5>
             <MainMenu />
           </div>
         </div>
+        <div className="w-full text-black">
+        {userData?.firstName} {userData?.lastName}
 
+        {userData?.email}
+        {userData?.categoryTeacher}
+        {userData?.rating}
+        {userData?.typeOfStudy}
+        {userData?.typeTeacher}
+        </div>
         <div className="w-full">
           <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
             <Card href="#" className="w-full">
