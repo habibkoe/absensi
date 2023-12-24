@@ -1,6 +1,12 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
-import { getAll, getOne, post } from "@/services/mapelService";
+import {
+  deleteData,
+  editData,
+  getAllData,
+  getOneData,
+  postData,
+} from "@/services/mapelService";
 import { MataPelajarans } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
@@ -14,19 +20,47 @@ export interface NewForm {
 const MapelPage = () => {
   const [showForm, setShowForm] = useState(false);
 
+  const [currentId, setCurrentId] = useState(0);
+
   let initialState: NewForm = {
     code: "",
     name: "",
   };
 
   const [newData, setNewData] = useState<NewForm>(initialState);
-
   const [dataMapel, setDataMapel] = useState<MataPelajarans[]>([]);
 
   const getData = async () => {
     try {
-      let datas = await getAll();
+      let datas = await getAllData();
       setDataMapel(datas.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const ubahData = async (id: any) => {
+    try {
+      let datas = await getOneData(id);
+
+      console.log("check data ", datas);
+
+      setNewData({
+        code: datas.data.code,
+        name: datas.data.name,
+      });
+
+      setShowForm(true);
+      setCurrentId(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const hapusData = async (id: any) => {
+    try {
+      let datas = await deleteData(id);
+      getData();
     } catch (error) {
       console.error(error);
     }
@@ -46,10 +80,16 @@ const MapelPage = () => {
     e.preventDefault();
 
     try {
-      let store = await post(JSON.stringify(newData));
+      let store = null;
+      if (currentId == 0) {
+        store = await postData(JSON.stringify(newData));
+      } else {
+        store = await editData(currentId, JSON.stringify(newData));
+      }
 
       if (store.data) {
         setNewData(initialState);
+        setCurrentId(0);
         getData();
       } else {
         console.error("Failed to post data");
@@ -164,14 +204,14 @@ const MapelPage = () => {
                         <Table.Cell>
                           <div className="flex flex-wrap gap-4 w-full">
                             <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                              onClick={() => hapusData(data.id)}
+                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
                             >
                               Hapus
                             </a>
                             <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                              onClick={() => ubahData(data.id)}
+                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
                             >
                               Edit
                             </a>
