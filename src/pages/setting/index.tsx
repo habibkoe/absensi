@@ -23,6 +23,14 @@ const SettingPage = () => {
 
         <div className="w-full">
           <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
+            <Card href="/setting/siswa-kelas" className="w-full">
+              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Kelas <br /> Siswa
+              </h5>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Setting Kelas Siswa
+              </p>
+            </Card>
             <Card href="/setting/siswa" className="w-full">
               <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Master <br /> Siswa
