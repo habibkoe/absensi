@@ -18,14 +18,15 @@ export interface NewForm {
 }
 
 const MapelPage = () => {
-  const [showForm, setShowForm] = useState(false);
-
-  const [currentId, setCurrentId] = useState(0);
 
   let initialState: NewForm = {
     code: "",
     name: "",
   };
+
+  const [showForm, setShowForm] = useState(false);
+
+  const [currentId, setCurrentId] = useState(0);
 
   const [newData, setNewData] = useState<NewForm>(initialState);
   const [dataMapel, setDataMapel] = useState<MataPelajarans[]>([]);
@@ -42,9 +43,6 @@ const MapelPage = () => {
   const ubahData = async (id: any) => {
     try {
       let datas = await getOneData(id);
-
-      console.log("check data ", datas);
-
       setNewData({
         code: datas.data.code,
         name: datas.data.name,
@@ -81,21 +79,24 @@ const MapelPage = () => {
 
     try {
       let store = null;
-      if (currentId == 0) {
-        store = await postData(JSON.stringify(newData));
-      } else {
-        store = await editData(currentId, JSON.stringify(newData));
-      }
 
-      if (store.data) {
-        setNewData(initialState);
-        setCurrentId(0);
-        getData();
-      } else {
-        console.error("Failed to post data");
-      }
+      if (newData.code !== "" && newData.name !== "") {
+        if (currentId == 0) {
+          store = await postData(JSON.stringify(newData));
+        } else {
+          store = await editData(currentId, JSON.stringify(newData));
+        }
 
-      setShowForm(false);
+        if (store.data) {
+          setNewData(initialState);
+          setCurrentId(0);
+          getData();
+        } else {
+          console.error("Failed to post data");
+        }
+
+        setShowForm(false);
+      }
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -135,7 +136,6 @@ const MapelPage = () => {
             {showForm ? (
               <div className="border rounded-lg p-5">
                 <form
-                  action=""
                   onSubmit={handleFormSubmit}
                   className="space-y-4"
                 >
@@ -150,33 +150,55 @@ const MapelPage = () => {
                         type="text"
                         placeholder="nama mapel..."
                         required
+                        color={newData.name == "" ? "failure" : "gray"}
                         value={newData.name}
+                        helperText={
+                          newData.name == "" ? (
+                            <>
+                              <span className="font-medium">Oops!</span> Harus
+                              diisi
+                            </>
+                          ) : null
+                        }
                         onChange={handleInputChange}
                       />
                     </div>
                     <div>
                       <div className="mb-2 block">
-                        <Label htmlFor="code" value="Code" />
+                        <Label htmlFor="code" value="Code Mapel" />
                       </div>
                       <TextInput
                         id="code"
                         name="code"
                         type="text"
+                        color={newData.code == "" ? "failure" : "gray"}
                         placeholder="code mapel..."
                         value={newData.code}
+                        helperText={
+                          newData.code == "" ? (
+                            <>
+                              <span className="font-medium">Oops!</span> Harus
+                              diisi
+                            </>
+                          ) : null
+                        }
                         onChange={handleInputChange}
                         required
                       />
                     </div>
                   </div>
                   <div>
-                    <Button
-                      type="submit"
-                      gradientDuoTone="purpleToPink"
-                      className="w-fit"
-                    >
-                      Simpan
-                    </Button>
+                    {newData.name == "" && newData.code == "" ? (
+                      <Button color="light">Simpan</Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        gradientDuoTone="purpleToPink"
+                        className="w-fit"
+                      >
+                        Simpan
+                      </Button>
+                    )}
                   </div>
                 </form>
               </div>

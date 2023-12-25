@@ -5,7 +5,7 @@ interface Props {
 }
 
 const AppLayout = ({ children }: Props) => {
-  return <div className="w-full h-screen">{children}</div>;
+  return <div className="w-full h-screen p-5">{children}</div>;
 };
 
 export default AppLayout;

@@ -33,8 +33,6 @@ model ClassRooms {
   name             String
   location         String
   studentTotal     Int
-  periodeStart     DateTime
-  periodeEnd       DateTime
   createdAt        DateTime                      @default(now())
   updatedAt        DateTime                      @default(now())
   user             UsersOnClassRooms[]

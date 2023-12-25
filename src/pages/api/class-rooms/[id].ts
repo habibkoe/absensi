@@ -30,7 +30,7 @@ export default async function handler(
       data: user,
     });
   } else if (req.method === "PUT" || req.method === "PATCH") {
-    const { name, location, studentTotal, periodeStart, periodeEnd } = req.body;
+    const { name, location, studentTotal } = req.body;
 
     const user = await prisma.classRooms.update({
       where: {
@@ -39,9 +39,7 @@ export default async function handler(
       data: {
         name: name,
         location: location,
-        studentTotal: studentTotal,
-        periodeStart: periodeStart,
-        periodeEnd: periodeEnd,
+        studentTotal: Number(studentTotal),
       },
     });
 

@@ -15,15 +15,13 @@ export default async function handler(
       data: users,
     });
   } else if (req.method === "POST") {
-    const { name, location, studentTotal, periodeStart, periodeEnd } = req.body;
+    const { name, location, studentTotal } = req.body;
 
     const user = await prisma.classRooms.create({
       data: {
         name: name,
         location: location,
-        studentTotal: studentTotal,
-        periodeStart: periodeStart,
-        periodeEnd: periodeEnd,
+        studentTotal: Number(studentTotal),
       },
     });
     return res.status(200).json({
