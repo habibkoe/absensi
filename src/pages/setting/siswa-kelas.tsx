@@ -1,12 +1,31 @@
 import AppLayout from "@/components/AppLayout";
+import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
+import SelectStudent from "@/components/DataComponents/SelectStudent";
+import SelectTahun from "@/components/DataComponents/SelectTahun";
 import MainMenu from "@/components/MainMenu";
 import { ClassRooms } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useState } from "react";
 
+export interface NewForm {
+  studentId: number;
+  classRoomId: number;
+  periodeStart: number;
+  periodeEnd: number;
+}
+
 const SiswaKelasPage = () => {
+  let initialState: NewForm = {
+    studentId: 0,
+    classRoomId: 0,
+    periodeStart: 0,
+    periodeEnd: 0,
+  };
+
   const [showForm, setShowForm] = useState(false);
+
+  const [newData, setNewData] = useState<NewForm>(initialState);
 
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
 
@@ -42,58 +61,23 @@ const SiswaKelasPage = () => {
               <div className="border rounded-lg p-5 space-y-4">
                 <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                   <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="email1" value="Nama kelas" />
-                    </div>
-                    <TextInput
-                      id="email1"
-                      type="email"
-                      placeholder="name@flowbite.com"
-                      required
+                    <SelectClassRoom value={newData.classRoomId} />
+                  </div>
+                  <div>
+                    <SelectStudent value={newData.studentId} />
+                  </div>
+                  <div>
+                    <SelectTahun
+                      label="Tahun Mulai Ajaran"
+                      name="periodeStart"
+                      value={newData.periodeStart}
                     />
                   </div>
                   <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="email1" value="Lokasi" />
-                    </div>
-                    <TextInput
-                      id="email1"
-                      type="email"
-                      placeholder="name@flowbite.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="email1" value="Total siswa" />
-                    </div>
-                    <TextInput
-                      id="email1"
-                      type="email"
-                      placeholder="name@flowbite.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="email1" value="Tahun ajaran mulai" />
-                    </div>
-                    <TextInput
-                      id="email1"
-                      type="email"
-                      placeholder="name@flowbite.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="email1" value="Tahun ajaran ahir" />
-                    </div>
-                    <TextInput
-                      id="email1"
-                      type="email"
-                      placeholder="name@flowbite.com"
-                      required
+                    <SelectTahun
+                      label="Tahun Selesai Ajaran"
+                      name="periodeEnd"
+                      value={newData.periodeEnd}
                     />
                   </div>
                 </div>

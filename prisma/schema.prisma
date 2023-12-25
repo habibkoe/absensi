@@ -54,6 +54,8 @@ model UsersOnClassRooms {
   classRoom   ClassRooms @relation(fields: [classRoomId], references: [id])
   classRoomId Int // relation scalar field (used in the `@relation` attribute above)
   assignedAt  DateTime   @default(now())
+  periodeStart Int
+  periodeEnd   Int
   assignedBy  String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now())
@@ -88,6 +90,8 @@ model StudentsOnClassRooms {
   classRoom   ClassRooms @relation(fields: [classRoomId], references: [id])
   classRoomId Int // relation scalar field (used in the `@relation` attribute above)
   assignedAt  DateTime   @default(now())
+  periodeStart Int
+  periodeEnd   Int
   assignedBy  String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now())
@@ -117,8 +121,8 @@ model StudentsAndUserOnClassRooms {
   classRoomId  Int // relation scalar field (used in the `@relation` attribute above)
   user         Users      @relation(fields: [userId], references: [id])
   userId       Int
-  periodeStart DateTime
-  periodeEnd   DateTime
+  periodeStart Int
+  periodeEnd   Int
   assignedAt   DateTime   @default(now())
   assignedBy   String
   createdAt    DateTime   @default(now())
