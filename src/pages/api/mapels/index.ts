@@ -6,13 +6,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const mapel = await prisma.mataPelajarans.findMany();
+    const datas = await prisma.mataPelajarans.findMany();
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "get data success",
-      data: mapel,
+      data: datas,
     });
   } else if (req.method === "POST") {
     const { name, code } = req.body;
@@ -24,7 +24,7 @@ export default async function handler(
     });
 
     if (checkData === 0) {
-      const mapel = await prisma.mataPelajarans.create({
+      const datas = await prisma.mataPelajarans.create({
         data: {
           name: name,
           code: code,
@@ -35,7 +35,7 @@ export default async function handler(
         status: 200,
         success: true,
         message: "create data success",
-        data: mapel,
+        data: datas,
       });
     } else {
       return res.status(501).json({

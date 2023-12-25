@@ -5,29 +5,29 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const userId = req.query.id;
+  const dataId = req.query.id;
 
   if (req.method === "DELETE") {
-    const user = await prisma.users.delete({
-      where: { id: Number(userId) },
+    const datas = await prisma.users.delete({
+      where: { id: Number(dataId) },
     });
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "delete success",
-      data: user,
+      data: datas,
     });
   } else if (req.method === "GET") {
-    const user = await prisma.users.findFirst({
-      where: { id: Number(userId) },
+    const datas = await prisma.users.findFirst({
+      where: { id: Number(dataId) },
     });
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "get data success",
-      data: user,
+      data: datas,
     });
   } else if (req.method === "PUT" || req.method === "PATCH") {
     const {
@@ -40,9 +40,9 @@ export default async function handler(
       rating,
     } = req.body;
 
-    const user = await prisma.users.update({
+    const datas = await prisma.users.update({
       where: {
-        id: Number(userId),
+        id: Number(dataId),
       },
       data: {
         firstName: firstName,
@@ -59,7 +59,7 @@ export default async function handler(
       status: 200,
       success: true,
       message: "update data success",
-      data: user,
+      data: datas,
     });
   }
 }

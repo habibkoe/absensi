@@ -10,7 +10,7 @@ import {
 import { ClassRooms } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export interface NewForm {
   name: string;
@@ -103,6 +103,9 @@ const KelasPage = () => {
     }
   };
 
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <Head>

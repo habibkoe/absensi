@@ -6,13 +6,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const users = await prisma.users.findMany();
+    const datas = await prisma.users.findMany();
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "get data success",
-      data: users,
+      data: datas,
     });
   } else if (req.method === "POST") {
     const {
@@ -25,7 +25,7 @@ export default async function handler(
       rating,
     } = req.body;
 
-    const user = await prisma.users.create({
+    const datas = await prisma.users.create({
       data: {
         firstName: firstName,
         lastName: lastName,
@@ -40,7 +40,7 @@ export default async function handler(
       status: 200,
       success: true,
       message: "create data success",
-      data: user,
+      data: datas,
     });
   }
 }

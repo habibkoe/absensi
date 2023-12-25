@@ -5,36 +5,36 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const classId = req.query.id;
+  const dataId = req.query.id;
 
   if (req.method === "DELETE") {
-    const user = await prisma.classRooms.delete({
-      where: { id: Number(classId) },
+    const datas = await prisma.classRooms.delete({
+      where: { id: Number(dataId) },
     });
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "delete success",
-      data: user,
+      data: datas,
     });
   } else if (req.method === "GET") {
-    const user = await prisma.classRooms.findFirst({
-      where: { id: Number(classId) },
+    const datas = await prisma.classRooms.findFirst({
+      where: { id: Number(dataId) },
     });
 
     return res.status(200).json({
       status: 200,
       success: true,
       message: "get data success",
-      data: user,
+      data: datas,
     });
   } else if (req.method === "PUT" || req.method === "PATCH") {
     const { name, location, studentTotal } = req.body;
 
-    const user = await prisma.classRooms.update({
+    const datas = await prisma.classRooms.update({
       where: {
-        id: Number(classId),
+        id: Number(dataId),
       },
       data: {
         name: name,
@@ -47,7 +47,7 @@ export default async function handler(
       status: 200,
       success: true,
       message: "update data success",
-      data: user,
+      data: datas,
     });
   }
 }
