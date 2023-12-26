@@ -2,6 +2,7 @@ import { Dropdown } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
 import { siteConfig } from "@/libs/config";
+import { signOut } from "next-auth/react";
 
 const MainMenu = () => {
   return (
@@ -10,13 +11,13 @@ const MainMenu = () => {
         {siteConfig.menu.length > 0
           ? siteConfig.menu.map((data, index) => (
               <Dropdown.Item key={data.id}>
-                <Link href={data.url} className="w-full text-left">
+                <Link href={data.url} className="w-full text-left h-full">
                   {data.name}
                 </Link>
               </Dropdown.Item>
             ))
           : null}
-        <Dropdown.Item>Sign out</Dropdown.Item>
+        <Dropdown.Item onClick={() => signOut()}>Sign out</Dropdown.Item>
       </Dropdown>
     </div>
   );

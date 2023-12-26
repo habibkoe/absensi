@@ -65,6 +65,7 @@ export default async function handler(
         rating: 0,
         password: hashPassword,
         username: username,
+        roleId: 3
       },
     });
     return res.status(200).json({

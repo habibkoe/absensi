@@ -1,10 +1,15 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
 import { Card } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React from "react";
 
 const DashboardPage = () => {
+  const { data: session } = useSession();
+
+  console.log("ini data apa ", session)
+
   return (
     <>
       <Head>
@@ -19,6 +24,10 @@ const DashboardPage = () => {
             </h5>
             <MainMenu />
           </div>
+        </div>
+
+        <div className="w-full">
+          <div className="text-gray-900">Hi {session?.user?.username}!</div>
         </div>
 
         <div className="w-full">

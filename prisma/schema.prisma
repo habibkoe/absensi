@@ -22,6 +22,7 @@ model Users {
   typeOfStudy      String // example : penjas, ipa, matematika
   categoryTeacher  String // example : ipa, matematika, dll
   rating           Int
+  roleId           Int?
   classRoom        UsersOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
   createdAt        DateTime                      @default(now())

@@ -148,7 +148,7 @@ const PeriodePage = () => {
                   <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                     <div>
                       <div className="mb-2 block">
-                        <Label htmlFor="name" value="Nama Mapel" />
+                        <Label htmlFor="name" value="Nama Periode" />
                       </div>
                       <TextInput
                         id="name"
