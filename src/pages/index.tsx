@@ -14,6 +14,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { HiX } from "react-icons/hi";
+
 const loginSchema = z.object({
   username: z.string().min(3, "minimum 3"),
   password: z.string().min(8),
@@ -112,7 +113,7 @@ const HomePage = () => {
             <form onSubmit={login} className="flex max-w-md flex-col gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="username" value="Your username" />
+                  <Label htmlFor="username" value="Username" />
                 </div>
                 <TextInput
                   id="username"
@@ -132,13 +133,14 @@ const HomePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="password1" value="Your password here..." />
+                  <Label htmlFor="password1" value="Password" />
                 </div>
                 <TextInput
                   id="password1"
                   type="password"
                   required
                   name="password"
+                  placeholder="Your password here..."
                   value={newData.password}
                   onChange={handleInputChange}
                   color={getError("password") != null ? "failure" : "gray"}
