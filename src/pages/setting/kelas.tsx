@@ -8,13 +8,14 @@ import {
   postData,
 } from "@/services/classRoomService";
 import { ClassRooms } from "@prisma/client";
-import { Button, Card, Label, Table, TextInput } from "flowbite-react";
+import { Button, Card, Label, Select, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 export interface NewForm {
   name: string;
   location: string;
+  levelClass: number;
   studentTotal: number;
 }
 
@@ -23,6 +24,7 @@ const KelasPage = () => {
     name: "",
     location: "",
     studentTotal: 0,
+    levelClass: 0,
   };
 
   const [showForm, setShowForm] = useState(false);
@@ -46,6 +48,7 @@ const KelasPage = () => {
       setNewData({
         name: datas.data.name,
         location: datas.data.location,
+        levelClass: datas.data.levelClass,
         studentTotal: datas.data.studentTotal,
       });
 
@@ -66,7 +69,9 @@ const KelasPage = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setNewData({
@@ -186,7 +191,7 @@ const KelasPage = () => {
                     </div>
                     <div>
                       <div className="mb-2 block">
-                        <Label htmlFor="studentTotal" value="Total siswa" />
+                        <Label htmlFor="studentTotal" value="Daya Tampung" />
                       </div>
                       <TextInput
                         id="studentTotal"
@@ -207,9 +212,27 @@ const KelasPage = () => {
                         onChange={handleInputChange}
                       />
                     </div>
+                    <div>
+                      <div className="mb-2 block">
+                        <Label htmlFor="levelClass" value="Level" />
+                      </div>
+                      <Select
+                        id="levelClass"
+                        name="levelClass"
+                        value={newData.levelClass}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Pilih</option>
+                        <option value="1">Kelas VII</option>
+                        <option value="2">Kelas VIII</option>
+                        <option value="3">Kelas X</option>
+                      </Select>
+                    </div>
                   </div>
                   <div>
-                    {newData.name == "" && newData.location == "" ? (
+                    {newData.name == "" ||
+                    newData.location == "" ||
+                    newData.studentTotal == 0 ? (
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
@@ -231,7 +254,7 @@ const KelasPage = () => {
                   <Table.Head>
                     <Table.HeadCell>Nama Kelas</Table.HeadCell>
                     <Table.HeadCell>Lokasi</Table.HeadCell>
-                    <Table.HeadCell>Total Siswa</Table.HeadCell>
+                    <Table.HeadCell>Daya Tampung</Table.HeadCell>
                     <Table.HeadCell>
                       <span className="sr-only">Edit</span>
                     </Table.HeadCell>

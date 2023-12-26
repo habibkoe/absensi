@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import SelectTahun from "@/components/DataComponents/SelectTahun";
 import MainMenu from "@/components/MainMenu";
 import {
   deleteData,
@@ -6,22 +7,23 @@ import {
   getAllData,
   getOneData,
   postData,
-} from "@/services/mapelService";
-import { MataPelajarans } from "@prisma/client";
+} from "@/services/periodeService";
+import { MataPelajarans, Periode } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 export interface NewForm {
-  code: string;
   name: string;
+  periodeStart: number;
+  periodeEnd: number;
 }
 
-const MapelPage = () => {
-
+const PeriodePage = () => {
   let initialState: NewForm = {
-    code: "",
     name: "",
+    periodeStart: 0,
+    periodeEnd: 0,
   };
 
   const [showForm, setShowForm] = useState(false);
@@ -29,12 +31,12 @@ const MapelPage = () => {
   const [currentId, setCurrentId] = useState(0);
 
   const [newData, setNewData] = useState<NewForm>(initialState);
-  const [dataMapel, setDataMapel] = useState<MataPelajarans[]>([]);
+  const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
 
   const getData = async () => {
     try {
       let datas = await getAllData();
-      setDataMapel(datas.data);
+      setDataPeriode(datas.data);
     } catch (error) {
       console.error(error);
     }
@@ -44,8 +46,9 @@ const MapelPage = () => {
     try {
       let datas = await getOneData(id);
       setNewData({
-        code: datas.data.code,
         name: datas.data.name,
+        periodeStart: datas.data.periodeStart,
+        periodeEnd: datas.data.periodeEnd,
       });
 
       setShowForm(true);
@@ -65,7 +68,9 @@ const MapelPage = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setNewData({
@@ -80,7 +85,11 @@ const MapelPage = () => {
     try {
       let store = null;
 
-      if (newData.code !== "" && newData.name !== "") {
+      if (
+        newData.name !== "" &&
+        newData.periodeStart !== 0 &&
+        newData.periodeEnd !== 0
+      ) {
         if (currentId == 0) {
           store = await postData(JSON.stringify(newData));
         } else {
@@ -108,14 +117,14 @@ const MapelPage = () => {
   return (
     <>
       <Head>
-        <title>Setting Mapel</title>
+        <title>Setting Periode</title>
       </Head>
 
       <Card className="w-3/6 p-3 bg-white mx-auto">
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Setting Mapel
+              Setting Periode
             </h5>
             <MainMenu />
           </div>
@@ -135,10 +144,7 @@ const MapelPage = () => {
 
             {showForm ? (
               <div className="border rounded-lg p-5">
-                <form
-                  onSubmit={handleFormSubmit}
-                  className="space-y-4"
-                >
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                     <div>
                       <div className="mb-2 block">
@@ -148,7 +154,7 @@ const MapelPage = () => {
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="nama mapel..."
+                        placeholder="nama periode..."
                         required
                         color={newData.name == "" ? "failure" : "gray"}
                         value={newData.name}
@@ -164,31 +170,26 @@ const MapelPage = () => {
                       />
                     </div>
                     <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="code" value="Code Mapel" />
-                      </div>
-                      <TextInput
-                        id="code"
-                        name="code"
-                        type="text"
-                        color={newData.code == "" ? "failure" : "gray"}
-                        placeholder="code mapel..."
-                        value={newData.code}
-                        helperText={
-                          newData.code == "" ? (
-                            <>
-                              <span className="font-medium">Oops!</span> Harus
-                              diisi
-                            </>
-                          ) : null
-                        }
-                        onChange={handleInputChange}
-                        required
+                      <SelectTahun
+                        label="Tahun Mulai Ajaran"
+                        name="periodeStart"
+                        value={newData.periodeStart}
+                        handleChange={handleInputChange}
+                      />
+                    </div>
+                    <div>
+                      <SelectTahun
+                        label="Tahun Selesai Ajaran"
+                        name="periodeEnd"
+                        value={newData.periodeEnd}
+                        handleChange={handleInputChange}
                       />
                     </div>
                   </div>
                   <div>
-                    {newData.name == "" || newData.code == "" ? (
+                    {newData.name == "" ||
+                    newData.periodeStart == 0 ||
+                    newData.periodeEnd == 0 ? (
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
@@ -203,18 +204,18 @@ const MapelPage = () => {
                 </form>
               </div>
             ) : null}
-            {dataMapel !== null && dataMapel.length > 0 ? (
+            {dataPeriode !== null && dataPeriode.length > 0 ? (
               <div className="overflow-x-auto">
                 <Table hoverable>
                   <Table.Head>
-                    <Table.HeadCell>Nama Mapel</Table.HeadCell>
-                    <Table.HeadCell>Code</Table.HeadCell>
+                    <Table.HeadCell>Nama Tahun Ajaran</Table.HeadCell>
+                    <Table.HeadCell>Tahun Ajaran</Table.HeadCell>
                     <Table.HeadCell>
                       <span className="sr-only">Edit</span>
                     </Table.HeadCell>
                   </Table.Head>
                   <Table.Body className="divide-y">
-                    {dataMapel.map((data, index) => (
+                    {dataPeriode.map((data, index) => (
                       <Table.Row
                         className="bg-white dark:border-gray-700 dark:bg-gray-800"
                         key={data.id}
@@ -222,7 +223,7 @@ const MapelPage = () => {
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                           {data.name}
                         </Table.Cell>
-                        <Table.Cell>{data.code}</Table.Cell>
+                        <Table.Cell>{data.periodeStart} - {data.periodeEnd}</Table.Cell>
                         <Table.Cell>
                           <div className="flex flex-wrap gap-4 w-full">
                             <a
@@ -254,8 +255,8 @@ const MapelPage = () => {
   );
 };
 
-MapelPage.getLayout = function getLayout(content: any) {
+PeriodePage.getLayout = function getLayout(content: any) {
   return <AppLayout>{content}</AppLayout>;
 };
 
-export default MapelPage;
+export default PeriodePage;

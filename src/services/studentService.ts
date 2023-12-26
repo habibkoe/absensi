@@ -5,6 +5,11 @@ export const getAllData = async () => {
   return res.data;
 };
 
+export const getAvalibleData = async () => {
+  const res = await http.get(`/students/available`);
+  return res.data;
+};
+
 export const getOneData = async (id: Number) => {
   const res = await http.get(`/students/${id}`);
   return res.data;

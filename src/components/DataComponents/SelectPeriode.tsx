@@ -1,5 +1,5 @@
-import { getAvalibleData } from "@/services/studentService";
-import { Students } from "@prisma/client";
+import { getAllData } from "@/services/periodeService";
+import { Periode } from "@prisma/client";
 import { Label, Select } from "flowbite-react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
@@ -11,13 +11,13 @@ interface Props {
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectStudent = (props: Props) => {
-  const [dataSiswa, setDataSiswa] = useState<Students[]>([]);
+const SelectPeriode = (props: Props) => {
+  const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
 
   const getData = async () => {
     try {
-      let datas = await getAvalibleData();
-      setDataSiswa(datas.data);
+      let datas = await getAllData();
+      setDataPeriode(datas.data);
     } catch (error) {
       console.error(error);
     }
@@ -30,19 +30,19 @@ const SelectStudent = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="studentId" value="Siswa" />
+        <Label htmlFor="periodeId" value="Tahun Angkatan" />
       </div>
       <Select
-        id="studentId"
-        name="studentId"
+        id="periodeId"
+        name="periodeId"
         required
         defaultValue={props.value}
         onChange={props.handleChange}
       >
         <option value="">Pilih</option>
-        {dataSiswa.map((data, index) => (
+        {dataPeriode.map((data, index) => (
           <option value={data.id} key={data.id}>
-            {data.firstName} {data.lastName}
+            {data.name}
           </option>
         ))}
       </Select>
@@ -50,4 +50,4 @@ const SelectStudent = (props: Props) => {
   );
 };
 
-export default SelectStudent;
+export default SelectPeriode;

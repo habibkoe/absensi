@@ -8,7 +8,7 @@ export default async function handler(
   const dataId = req.query.id;
 
   if (req.method === "DELETE") {
-    const datas = await prisma.users.delete({
+    const datas = await prisma.periode.delete({
       where: { id: Number(dataId) },
     });
 
@@ -19,7 +19,7 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "GET") {
-    const datas = await prisma.users.findFirst({
+    const datas = await prisma.periode.findFirst({
       where: { id: Number(dataId) },
     });
 
@@ -30,32 +30,16 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "PUT" || req.method === "PATCH") {
-    const {
-      firstName,
-      lastName,
-      email,
-      typeTeacher,
-      typeOfStudy,
-      categoryTeacher,
-      rating,
-      password,
-      username,
-    } = req.body;
+    const { name, periodeStart, periodeEnd } = req.body;
 
-    const datas = await prisma.users.update({
+    const datas = await prisma.periode.update({
       where: {
         id: Number(dataId),
       },
       data: {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        typeTeacher: typeTeacher,
-        typeOfStudy: typeOfStudy,
-        categoryTeacher: categoryTeacher,
-        rating: rating,
-        password: password,
-        username: username,
+        name: name,
+        periodeStart: Number(periodeStart),
+        periodeEnd : Number(periodeEnd)    
       },
     });
 

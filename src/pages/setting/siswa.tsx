@@ -131,6 +131,9 @@ const SiswaPage = () => {
         newData.gender !== "" &&
         String(newData.dateOfBirth) !== ""
       ) {
+
+        console.log("apa ini ya inside ", newData)
+        console.log("apa ini ya inside ", currentId)
         if (currentId == 0) {
           store = await postData(JSON.stringify(newData));
         } else {
@@ -270,6 +273,7 @@ const SiswaPage = () => {
                         value={newData.gender}
                         onChange={handleInputChange}
                       >
+                        <option value="">Pilih</option>
                         <option value="laki - laki">Laki - Laki</option>
                         <option value="perempuan">Perempuan</option>
                       </Select>
@@ -360,8 +364,8 @@ const SiswaPage = () => {
                     </div>
                   </div>
                   <div>
-                    {newData.nis == "" &&
-                    newData.firstName == "" &&
+                    {newData.nis == "" ||
+                    newData.firstName == "" ||
                     newData.gender == "" ? (
                       <Button color="light">Simpan</Button>
                     ) : (
@@ -422,7 +426,7 @@ const SiswaPage = () => {
                   </Table.Body>
                 </Table>
               </div>
-            ) : null}
+            ) : <div className="w-full text-black">Belum ada data</div>}
           </Card>
         </div>
       </Card>

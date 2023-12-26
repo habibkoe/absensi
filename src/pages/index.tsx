@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title>Absensi</title>
+        <title>Absensi : Login</title>
       </Head>
       <div className="w-full h-screen flex items-center justify-center">
         <Card className="w-80 p-3 bg-white">

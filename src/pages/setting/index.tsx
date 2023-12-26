@@ -24,24 +24,13 @@ const SettingPage = () => {
 
         <div className="w-full">
           <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
-            <Link href="/setting/siswa-kelas">
+            <Link href="/setting/periode">
               <Card className="w-full">
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Kelas <br /> Siswa
+                  Master <br /> Periode
                 </h5>
                 <p className="font-normal text-gray-700 dark:text-gray-400">
-                  Setting Kelas Siswa
-                </p>
-              </Card>
-            </Link>
-
-            <Link href="/setting/siswa">
-              <Card className="w-full">
-                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Master <br /> Siswa
-                </h5>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
-                  Setting Master Siswa
+                  Setting Tahun Ajaran
                 </p>
               </Card>
             </Link>
@@ -67,6 +56,28 @@ const SettingPage = () => {
                 </p>
               </Card>
             </Link>
+            <Link href="/setting/siswa">
+              <Card className="w-full">
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Master <br /> Siswa
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  Setting Master Siswa
+                </p>
+              </Card>
+            </Link>
+            <Link href="/setting/siswa-kelas">
+              <Card className="w-full">
+                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Master Kelas <br /> Siswa
+                </h5>
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  Setting Kelas Siswa
+                </p>
+              </Card>
+            </Link>
+
+            
           </div>
         </div>
       </Card>
