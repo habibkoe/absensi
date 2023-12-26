@@ -52,7 +52,7 @@ const EditProfilePage = () => {
       typeOfStudy: user.data.typeOfStudy,
       categoryTeacher: user.data.categoryTeacher,
       rating: user.data.rating,
-      username: user.data.firstName,
+      username: user.data.username,
       roleId: user.data.roleId,
     });
   };
@@ -188,7 +188,7 @@ const EditProfilePage = () => {
                     readOnly={true}
                     name="email"
                     placeholder="Your email here..."
-                    value={newData.email}
+                    defaultValue={newData.email}
                   />
                 </div>
                 <div>
@@ -201,7 +201,7 @@ const EditProfilePage = () => {
                     readOnly={true}
                     name="username"
                     placeholder="Your first name here..."
-                    value={newData.username}
+                    defaultValue={newData.username}
                   />
                 </div>
                 <div>
@@ -214,7 +214,7 @@ const EditProfilePage = () => {
                     required
                     name="roleId"
                     placeholder="Your first name here..."
-                    value={newData.roleId}
+                    defaultValue={newData.roleId}
                   />
                 </div>
               </div>
