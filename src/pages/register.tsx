@@ -1,11 +1,12 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Button, Card, Label, TextInput, Toast } from "flowbite-react";
 import GuestLayout from "@/components/GuestLayout";
 import { ZodIssue, z } from "zod";
 import { useState } from "react";
 import { postData } from "@/services/userService";
 import { useRouter } from "next/router";
+import { HiX } from "react-icons/hi";
 
 const registerSchema = z
   .object({
@@ -32,7 +33,7 @@ const RegisterPage = () => {
   const router = useRouter();
 
   const [errors, setErrors] = useState<ZodIssue[]>([]);
-
+  const [showToast, setShowToast] = useState(false);
   const [newData, setNewData] = useState<NewForm>(initialState);
 
   const handleInputChange = (
@@ -70,6 +71,7 @@ const RegisterPage = () => {
       if (store.data) {
         router.push("/");
       } else {
+        setShowToast(true);
         console.error("Failed to register user");
       }
     } else {
@@ -177,6 +179,15 @@ const RegisterPage = () => {
           </div>
         </Card>
       </div>
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiX className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">Tidak bisa simpan data</div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };
