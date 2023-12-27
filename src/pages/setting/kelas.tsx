@@ -8,9 +8,18 @@ import {
   postData,
 } from "@/services/classRoomService";
 import { ClassRooms } from "@prisma/client";
-import { Button, Card, Label, Select, Table, TextInput } from "flowbite-react";
+import {
+  Button,
+  Card,
+  Label,
+  Select,
+  Table,
+  TextInput,
+  Toast,
+} from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { HiCheck } from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -28,6 +37,8 @@ const KelasPage = () => {
   };
 
   const [showForm, setShowForm] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState("");
 
   const [currentId, setCurrentId] = useState(0);
   const [newData, setNewData] = useState<NewForm>(initialState);
@@ -97,7 +108,11 @@ const KelasPage = () => {
           setNewData(initialState);
           setCurrentId(0);
           getData();
+          setShowToast(true);
+          setShowToastMessage("Berhasil simpan data");
         } else {
+          setShowToast(true);
+          setShowToastMessage("Gagal simpan data");
           console.error("Failed to post data");
         }
 
@@ -297,6 +312,16 @@ const KelasPage = () => {
           </Card>
         </div>
       </Card>
+
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };

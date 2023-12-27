@@ -3,27 +3,31 @@ import BottomInfo from "@/components/Attribute/BottomInfo";
 import MainMenu from "@/components/MainMenu";
 import { editData, getOneData } from "@/services/userService";
 import { Users } from "@prisma/client";
-import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Button, Card, Label, TextInput, Toast } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { HiCheck } from "react-icons/hi";
 import { ZodIssue, z } from "zod";
 
 const formSchema = z.object({
-  firstName: z.string().min(3, "minimum 3"),
-  lastName: z.string().min(3),
-  email: z.string().min(3),
-  typeTeacher: z.string().min(8),
-  typeOfStudy: z.string().min(8),
-  categoryTeacher: z.string().min(8),
+  firstName: z.string().min(3, "Character minimum 3"),
+  lastName: z.string().min(3, "Character minimum 3"),
+  email: z.string().min(3, "Character minimum 3"),
+  typeTeacher: z.string().min(3, "Character minimum 3"),
+  typeOfStudy: z.string().min(3, "Character minimum 3"),
+  categoryTeacher: z.string().min(3, "Character minimum 3"),
   rating: z.number(),
-  username: z.string().min(3),
+  username: z.string().min(3, "Character minimum 3"),
   roleId: z.number(),
 });
 
 export type NewForm = z.infer<typeof formSchema>;
 
 const EditProfilePage = () => {
+  const router = useRouter();
+
   let initialState: NewForm = {
     firstName: "",
     lastName: "",
@@ -35,6 +39,9 @@ const EditProfilePage = () => {
     username: "",
     roleId: 0,
   };
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState("");
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
@@ -98,9 +105,15 @@ const EditProfilePage = () => {
 
       if (store.data) {
         setNewData(initialState);
+        setShowToast(true);
+        setShowToastMessage("Berhasil simpan data");
       } else {
+        setShowToast(true);
+        setShowToastMessage("Gagal simpan data");
         console.error("Failed to post data");
       }
+
+      getData()
     }
   };
 
@@ -196,7 +209,11 @@ const EditProfilePage = () => {
                     name="email"
                     placeholder="Your email here..."
                     defaultValue={newData.email}
-                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
+                    helperText={
+                      <BottomInfo>
+                        Data ini tidak bisa dirubah manual.
+                      </BottomInfo>
+                    }
                   />
                 </div>
                 <div>
@@ -210,7 +227,11 @@ const EditProfilePage = () => {
                     name="username"
                     placeholder="Your first name here..."
                     defaultValue={newData.username}
-                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
+                    helperText={
+                      <BottomInfo>
+                        Data ini tidak bisa dirubah manual.
+                      </BottomInfo>
+                    }
                   />
                 </div>
                 <div>
@@ -225,7 +246,11 @@ const EditProfilePage = () => {
                     placeholder="Your role id here..."
                     value={newData.roleId}
                     onChange={handleInputChange}
-                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
+                    helperText={
+                      <BottomInfo>
+                        Data ini tidak bisa dirubah manual.
+                      </BottomInfo>
+                    }
                   />
                 </div>
               </div>
@@ -251,7 +276,11 @@ const EditProfilePage = () => {
                     helperText={
                       getError("typeTeacher") != null ? (
                         <>{getError("typeTeacher")}</>
-                      ) : <BottomInfo>example : walikelas, guru mapel, kepsek</BottomInfo>
+                      ) : (
+                        <BottomInfo>
+                          example : walikelas, guru mapel, kepsek
+                        </BottomInfo>
+                      )
                     }
                   />
                 </div>
@@ -271,7 +300,11 @@ const EditProfilePage = () => {
                     helperText={
                       getError("typeOfStudy") != null ? (
                         <>{getError("typeOfStudy")}</>
-                      ) : <BottomInfo>example : penjas, ipa, matematika</BottomInfo>
+                      ) : (
+                        <BottomInfo>
+                          example : penjas, ipa, matematika
+                        </BottomInfo>
+                      )
                     }
                   />
                 </div>
@@ -293,7 +326,9 @@ const EditProfilePage = () => {
                     helperText={
                       getError("categoryTeacher") != null ? (
                         <>{getError("categoryTeacher")}</>
-                      ) : <BottomInfo>example : ipa, matematika, dll</BottomInfo>
+                      ) : (
+                        <BottomInfo>example : ipa, matematika, dll</BottomInfo>
+                      )
                     }
                   />
                 </div>
@@ -308,7 +343,11 @@ const EditProfilePage = () => {
                     name="rating"
                     placeholder="Your first name here..."
                     value={newData.rating}
-                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
+                    helperText={
+                      <BottomInfo>
+                        Data ini tidak bisa dirubah manual.
+                      </BottomInfo>
+                    }
                   />
                 </div>
               </div>
@@ -324,6 +363,15 @@ const EditProfilePage = () => {
           </form>
         </div>
       </Card>
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };

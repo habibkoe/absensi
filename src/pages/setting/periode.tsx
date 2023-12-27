@@ -9,9 +9,10 @@ import {
   postData,
 } from "@/services/periodeService";
 import { MataPelajarans, Periode } from "@prisma/client";
-import { Button, Card, Label, Table, TextInput } from "flowbite-react";
+import { Button, Card, Label, Table, TextInput, Toast } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { HiCheck } from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -29,6 +30,9 @@ const PeriodePage = () => {
   const [showForm, setShowForm] = useState(false);
 
   const [currentId, setCurrentId] = useState(0);
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState("");
 
   const [newData, setNewData] = useState<NewForm>(initialState);
   const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
@@ -99,10 +103,16 @@ const PeriodePage = () => {
         if (store.data) {
           setNewData(initialState);
           setCurrentId(0);
-          getData();
+
+          setShowToast(true);
+          setShowToastMessage("Berhasil simpan data");
         } else {
+          setShowToast(true);
+          setShowToastMessage("Gagal simpan data");
           console.error("Failed to post data");
         }
+
+        getData();
 
         setShowForm(false);
       }
@@ -223,7 +233,9 @@ const PeriodePage = () => {
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                           {data.name}
                         </Table.Cell>
-                        <Table.Cell>{data.periodeStart} - {data.periodeEnd}</Table.Cell>
+                        <Table.Cell>
+                          {data.periodeStart} - {data.periodeEnd}
+                        </Table.Cell>
                         <Table.Cell>
                           <div className="flex flex-wrap gap-4 w-full">
                             <a
@@ -251,6 +263,16 @@ const PeriodePage = () => {
           </Card>
         </div>
       </Card>
+
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };

@@ -94,17 +94,6 @@ const HomePage = () => {
         <title>Absensi : Login</title>
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center">
-        {showToast ? (
-          <Toast className="mb-10">
-            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-              <HiX className="h-5 w-5" />
-            </div>
-            <div className="ml-3 text-sm font-normal">
-              Wrong username or password
-            </div>
-            <Toast.Toggle onDismiss={() => setShowToast(false)} />
-          </Toast>
-        ) : null}
         <Card className="w-80 p-3 bg-white">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Login
@@ -156,6 +145,17 @@ const HomePage = () => {
           </div>
         </Card>
       </div>
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiX className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">
+            Wrong username or password
+          </div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };
