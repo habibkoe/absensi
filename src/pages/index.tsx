@@ -151,7 +151,7 @@ const HomePage = () => {
                   }
                 />
               </div>
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Login</Button>
             </form>
           </div>
         </Card>

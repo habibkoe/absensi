@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import BottomInfo from "@/components/Attribute/BottomInfo";
 import MainMenu from "@/components/MainMenu";
 import { editData, getOneData } from "@/services/userService";
 import { Users } from "@prisma/client";
@@ -43,6 +44,8 @@ const EditProfilePage = () => {
 
   const getData = async () => {
     let user = await getOneData(Number(session?.user?.id));
+
+    console.log("ini isinya apa ", user);
 
     setNewData({
       firstName: user.data.firstName,
@@ -120,8 +123,12 @@ const EditProfilePage = () => {
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Edit Profile
+              <div>Edit Profile</div>{" "}
+              <Button color="light" size="sm">
+                Back
+              </Button>
             </h5>
+
             <MainMenu />
           </div>
         </div>
@@ -189,6 +196,7 @@ const EditProfilePage = () => {
                     name="email"
                     placeholder="Your email here..."
                     defaultValue={newData.email}
+                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
                   />
                 </div>
                 <div>
@@ -202,6 +210,7 @@ const EditProfilePage = () => {
                     name="username"
                     placeholder="Your first name here..."
                     defaultValue={newData.username}
+                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
                   />
                 </div>
                 <div>
@@ -210,11 +219,13 @@ const EditProfilePage = () => {
                   </div>
                   <TextInput
                     id="roleId"
-                    type="text"
-                    required
+                    type="number"
+                    readOnly={true}
                     name="roleId"
-                    placeholder="Your first name here..."
-                    defaultValue={newData.roleId}
+                    placeholder="Your role id here..."
+                    value={newData.roleId}
+                    onChange={handleInputChange}
+                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
                   />
                 </div>
               </div>
@@ -240,7 +251,7 @@ const EditProfilePage = () => {
                     helperText={
                       getError("typeTeacher") != null ? (
                         <>{getError("typeTeacher")}</>
-                      ) : null
+                      ) : <BottomInfo>example : walikelas, guru mapel, kepsek</BottomInfo>
                     }
                   />
                 </div>
@@ -260,7 +271,7 @@ const EditProfilePage = () => {
                     helperText={
                       getError("typeOfStudy") != null ? (
                         <>{getError("typeOfStudy")}</>
-                      ) : null
+                      ) : <BottomInfo>example : penjas, ipa, matematika</BottomInfo>
                     }
                   />
                 </div>
@@ -282,7 +293,7 @@ const EditProfilePage = () => {
                     helperText={
                       getError("categoryTeacher") != null ? (
                         <>{getError("categoryTeacher")}</>
-                      ) : null
+                      ) : <BottomInfo>example : ipa, matematika, dll</BottomInfo>
                     }
                   />
                 </div>
@@ -297,11 +308,17 @@ const EditProfilePage = () => {
                     name="rating"
                     placeholder="Your first name here..."
                     value={newData.rating}
+                    helperText={<BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>}
                   />
                 </div>
               </div>
             </Card>
-            <Button outline gradientDuoTone="purpleToPink" size="sm">
+            <Button
+              type="submit"
+              outline
+              gradientDuoTone="purpleToPink"
+              size="sm"
+            >
               Update
             </Button>
           </form>
