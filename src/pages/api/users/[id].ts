@@ -38,7 +38,6 @@ export default async function handler(
       typeOfStudy,
       categoryTeacher,
       rating,
-      password,
       username,
     } = req.body;
 
@@ -54,7 +53,6 @@ export default async function handler(
         typeOfStudy: typeOfStudy,
         categoryTeacher: categoryTeacher,
         rating: rating,
-        password: password,
         username: username,
       },
     });
