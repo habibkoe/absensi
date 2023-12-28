@@ -34,7 +34,7 @@ const AppLayout = ({ children }: Props) => {
   }
 
   return authorized ? (
-    <div className="w-full h-screen p-5">{children}</div>
+    <div className="w-full h-screen p-1 md:p-5">{children}</div>
   ) : (
     <></>
   );

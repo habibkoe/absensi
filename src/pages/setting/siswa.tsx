@@ -164,7 +164,7 @@ const SiswaPage = () => {
         <title>Setting Siswa</title>
       </Head>
 
-      <Card className="w-3/6 p-3 bg-white mx-auto">
+      <Card className="w-full md:w-3/6 p-3 bg-white mx-auto">
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
