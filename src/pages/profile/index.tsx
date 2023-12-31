@@ -5,6 +5,7 @@ import { Users } from "@prisma/client";
 import { Button, Card } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -22,7 +23,7 @@ const ProfilePage = () => {
   };
 
   const editProfile = () => {
-    router.push('/profile/edit')
+    router.push("/profile/edit");
   };
 
   useEffect(() => {
@@ -79,14 +80,17 @@ const ProfilePage = () => {
                     Fitur absensi
                   </p>
                 </Card>
-                <Card href="#" className="w-full">
-                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Kelas
-                  </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
-                    Kelas didikan
-                  </p>
-                </Card>
+                <Link href="/profile/kelas">
+                  <Card className="w-full">
+                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      Kelas
+                    </h5>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                      Kelas didikan
+                    </p>
+                  </Card>
+                </Link>
+
                 <Card href="#" className="w-full">
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     History

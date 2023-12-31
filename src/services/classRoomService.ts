@@ -21,3 +21,4 @@ export const editData = async (id: any, data: any) => {
 export const deleteData = async (id: any) => {
   return await http.delete(`/class-rooms/${id}`);
 };
+

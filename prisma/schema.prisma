@@ -53,16 +53,16 @@ model MataPelajarans {
 }
 
 model UsersOnClassRooms {
-  user         Users      @relation(fields: [userId], references: [id])
-  userId       Int // relation scalar field (used in the `@relation` attribute above)
-  classRoom    ClassRooms @relation(fields: [classRoomId], references: [id])
-  classRoomId  Int // relation scalar field (used in the `@relation` attribute above)
-  assignedAt   DateTime   @default(now())
-  periodeStart Int
-  periodeEnd   Int
-  assignedBy   String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now())
+  user        Users      @relation(fields: [userId], references: [id])
+  userId      Int // relation scalar field (used in the `@relation` attribute above)
+  classRoom   ClassRooms @relation(fields: [classRoomId], references: [id])
+  classRoomId Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt  DateTime   @default(now())
+  periode     Periode?   @relation(fields: [periodeId], references: [id])
+  periodeId   Int?
+  assignedBy  String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
 
   @@id([userId, classRoomId])
 }
@@ -94,8 +94,9 @@ model Periode {
   name             String?
   periodeStart     Int
   periodeEnd       Int
-  classRoom        StudentsOnClassRooms[]
+  classRoom        StudentsOnClassRooms[] 
   classRoomStudent StudentsAndUserOnClassRooms[]
+  classRoomUser    UsersOnClassRooms[]
 }
 
 model StudentsOnClassRooms {

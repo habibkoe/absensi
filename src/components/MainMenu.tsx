@@ -7,7 +7,27 @@ import { signOut } from "next-auth/react";
 const MainMenu = () => {
   return (
     <div>
-      <Dropdown label="Main Menu" dismissOnClick={false} placement="left-start">
+      <Dropdown
+        label={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+            />
+          </svg>
+        }
+        dismissOnClick={false}
+        placement="left-start"
+        arrowIcon={false}
+      >
         {siteConfig.menu.length > 0
           ? siteConfig.menu.map((data, index) => (
               <Dropdown.Item key={data.id}>
@@ -24,4 +44,3 @@ const MainMenu = () => {
 };
 
 export default MainMenu;
-
