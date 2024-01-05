@@ -5,8 +5,18 @@ export const getAllData = async () => {
   return res.data;
 };
 
+// gunakan 3 parameter, 
+// [0] = classRoomId
+// [1] = periodeId
+// [2] = studentId
+
 export const getOneData = async (classRoomId: any, studentId: any) => {
-  const res = await http.get(`/student-rooms/${classRoomId}/${studentId}`);
+  const res = await http.get(`/student-rooms/${classRoomId}/0/${studentId}`);
+  return res.data;
+};
+
+export const getDataByClassAndPeriode = async (classRoomId: any, periodeId: any) => {
+  const res = await http.get(`/student-rooms/${classRoomId}/${periodeId}/0`);
   return res.data;
 };
 

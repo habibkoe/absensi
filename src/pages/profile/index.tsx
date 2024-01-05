@@ -72,14 +72,16 @@ const ProfilePage = () => {
             </div>
             <div>
               <div className="grid gap-4 md:grid-cols-2">
-                <Card href="#" className="w-full">
-                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Absensi
-                  </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
-                    Fitur absensi
-                  </p>
-                </Card>
+              <Link href="/absensi">
+                <Card className="w-full">
+                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      Absensi
+                    </h5>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                      Fitur absensi
+                    </p>
+                  </Card>
+              </Link>
                 <Link href="/profile/kelas">
                   <Card className="w-full">
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

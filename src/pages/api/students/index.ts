@@ -32,8 +32,8 @@ export default async function handler(
     const datas = await prisma.students.create({
       data: {
         nis: nis,
-        firstName: firstName,
-        lastName: lastName,
+        firstName: firstName.toUpperCase(),
+        lastName: lastName.toUpperCase(),
         email: email,
         gender: gender,
         dateOfBirth: dateOfBirth,

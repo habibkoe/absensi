@@ -50,8 +50,8 @@ export default async function handler(
       },
       data: {
         nis: nis,
-        firstName: firstName,
-        lastName: lastName,
+        firstName: firstName.toUpperCase(),
+        lastName: lastName.toUpperCase(),
         email: email,
         gender: gender,
         dateOfBirth: dateOfBirth,
