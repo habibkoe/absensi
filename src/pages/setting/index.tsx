@@ -1,11 +1,19 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
 import { Card } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 const SettingPage = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  if (Number(session?.user?.roleId) !== 1) {
+    router.push("/dashboard");
+  }
   return (
     <>
       <Head>
@@ -69,7 +77,8 @@ const SettingPage = () => {
             <Link href="/setting/siswa-kelas">
               <Card className="w-full">
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  Master Kelas <br /> Siswa
+                  Master <br />
+                  Kelas Siswa
                 </h5>
                 <p className="font-normal text-gray-700 dark:text-gray-400">
                   Setting Kelas Siswa

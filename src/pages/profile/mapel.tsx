@@ -186,7 +186,7 @@ const MapelProfilePage = () => {
               <div className="overflow-x-auto">
                 <Table hoverable>
                   <Table.Head>
-                    <Table.HeadCell>Nama Kelas</Table.HeadCell>
+                    <Table.HeadCell>Nama Mapel</Table.HeadCell>
                     <Table.HeadCell>
                       <span className="sr-only">Edit</span>
                     </Table.HeadCell>

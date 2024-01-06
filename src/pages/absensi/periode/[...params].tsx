@@ -1,17 +1,23 @@
 import AppLayout from "@/components/AppLayout";
+import SelectJamPelajaran from "@/components/DataComponents/SelectJamPelajaran";
 import SelectMapel from "@/components/DataComponents/SelectMapel";
+import SelectPertemuan from "@/components/DataComponents/SelectPertemuan";
+import SelectSemester from "@/components/DataComponents/SelectSemester";
+import SelectStatusAbsen from "@/components/DataComponents/SelectStatusAbsen";
 import MainMenu from "@/components/MainMenu";
 import { getOneData } from "@/services/classRoomService";
 import { getOneData as getOneDataPeriode } from "@/services/periodeService";
 import { getDataByClassAndPeriode } from "@/services/studentRoomService";
 import { ClassRooms, Periode } from "@prisma/client";
 import { Card, Table } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const AbsensiPeriodePage = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const { params } = router.query;
 
@@ -30,7 +36,6 @@ const AbsensiPeriodePage = () => {
 
       let periode = await getOneDataPeriode(Number(periodeId));
       setDataPeriode(periode.data);
-
     } catch (error) {
       console.error(error);
     }
@@ -71,52 +76,67 @@ const AbsensiPeriodePage = () => {
 
         {dataKelasSiswa !== null && dataKelasSiswa.length > 0 ? (
           <div className="w-full">
-            <div className="text-gray-900">Kelas: {dataKelas?.name}</div>
-            <div className="text-gray-900">Periode: {dataPeriode?.name}</div>
-            <div className="text-gray-900">Silahkan lakukan absensi online</div>
-            <div><SelectMapel /></div>
-            <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Siswa</Table.HeadCell>
-                    <Table.HeadCell>JK</Table.HeadCell>
-                    <Table.HeadCell>NIS</Table.HeadCell>
-                    <Table.HeadCell>Alamat</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataKelasSiswa.map((data, index) => (
-                      <Table.Row
-                        key={"as" + index}
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                      >
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                          {data.student.firstName} {data.student.lastName}
-                        </Table.Cell>
-                        <Table.Cell>{data.student.gender}</Table.Cell>
-                        <Table.Cell>{data.student.nis}</Table.Cell>
-                        <Table.Cell>{data.student.address}</Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Detail
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div>
+                <div className="text-gray-900">
+                  <b>Kelas:</b> <br />
+                  {dataKelas?.name}
+                </div>
+                <div className="text-gray-900">
+                  <b>Periode:</b> <br />
+                  {dataPeriode?.name}
+                </div>
               </div>
+              <div>
+                <div>
+                  <SelectMapel
+                    typeData={1}
+                    userId={Number(session?.user?.id)}
+                  />
+                </div>
+                <div>
+                  <SelectJamPelajaran />
+                </div>
+              </div>
+              <div>
+                <div>
+                  <SelectPertemuan />
+                </div>
+                <div>
+                  <SelectSemester />
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <Table hoverable>
+                <Table.Head>
+                  <Table.HeadCell>Nama Siswa</Table.HeadCell>
+                  <Table.HeadCell>JK</Table.HeadCell>
+                  <Table.HeadCell>NIS</Table.HeadCell>
+                  <Table.HeadCell>Alamat</Table.HeadCell>
+                  <Table.HeadCell>Status Kehadiran</Table.HeadCell>
+                </Table.Head>
+                <Table.Body className="divide-y">
+                  {dataKelasSiswa.map((data, index) => (
+                    <Table.Row
+                      key={"as" + index}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {data.student.firstName} {data.student.lastName}
+                      </Table.Cell>
+                      <Table.Cell>{data.student.gender}</Table.Cell>
+                      <Table.Cell>{data.student.nis}</Table.Cell>
+                      <Table.Cell>{data.student.address}</Table.Cell>
+                      <Table.Cell>
+                        <SelectStatusAbsen />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
           </div>
         ) : (
           <div>Data siswa belum ada</div>

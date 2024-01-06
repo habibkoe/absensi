@@ -6,11 +6,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const datas = await prisma.usersOnClassRooms.findMany({
+    const datas = await prisma.usersOnMapels.findMany({
       select: {
         userId: true,
-        classRoomId: true,
-        periode: true
+        mapelId: true,
       },
     });
 
@@ -21,14 +20,12 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "POST") {
-    const { userId, classRoomId, periodeId, assignedBy } = req.body;
+    const { userId, mapelId, assignedBy } = req.body;
 
-
-    const datas = await prisma.usersOnClassRooms.create({
+    const datas = await prisma.usersOnMapels.create({
       data: {
         userId: Number(userId),
-        classRoomId: Number(classRoomId),
-        periodeId: Number(periodeId),
+        mapelId: Number(mapelId),
         assignedBy: assignedBy,
       },
     });

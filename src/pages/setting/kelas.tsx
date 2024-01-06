@@ -91,6 +91,11 @@ const KelasPage = () => {
     });
   };
 
+  const cencelAdd = () => {
+    setNewData(initialState);
+    setShowForm(!showForm)
+  }
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -244,7 +249,7 @@ const KelasPage = () => {
                       </Select>
                     </div>
                   </div>
-                  <div>
+                  <div className="flex gap-4">
                     {newData.name == "" ||
                     newData.location == "" ||
                     newData.studentTotal == 0 ? (
@@ -258,6 +263,7 @@ const KelasPage = () => {
                         Simpan
                       </Button>
                     )}
+                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
                   </div>
                 </form>
               </div>

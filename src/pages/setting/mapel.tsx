@@ -74,6 +74,12 @@ const MapelPage = () => {
     });
   };
 
+  const cencelAdd = () => {
+    setNewData(initialState);
+    setShowForm(!showForm)
+  }
+
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -187,7 +193,7 @@ const MapelPage = () => {
                       />
                     </div>
                   </div>
-                  <div>
+                  <div className="flex gap-4">
                     {newData.name == "" || newData.code == "" ? (
                       <Button color="light">Simpan</Button>
                     ) : (
@@ -199,6 +205,7 @@ const MapelPage = () => {
                         Simpan
                       </Button>
                     )}
+                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
                   </div>
                 </form>
               </div>

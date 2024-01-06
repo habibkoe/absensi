@@ -83,6 +83,11 @@ const PeriodePage = () => {
     });
   };
 
+  const cencelAdd = () => {
+    setNewData(initialState);
+    setShowForm(!showForm)
+  }
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -196,7 +201,7 @@ const PeriodePage = () => {
                       />
                     </div>
                   </div>
-                  <div>
+                  <div className="flex gap-4">
                     {newData.name == "" ||
                     newData.periodeStart == 0 ||
                     newData.periodeEnd == 0 ? (
@@ -210,6 +215,7 @@ const PeriodePage = () => {
                         Simpan
                       </Button>
                     )}
+                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
                   </div>
                 </form>
               </div>

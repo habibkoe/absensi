@@ -1,10 +1,59 @@
 import { Dropdown } from "flowbite-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { siteConfig } from "@/libs/config";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const MainMenu = () => {
+  const { data: session } = useSession();
+
+  let initMenu: any[] = [];
+
+  if (Number(session?.user?.roleId) == 1) {
+    initMenu = [
+      {
+        id: 1,
+        name: "Profile",
+        url: "/profile",
+      },
+      {
+        id: 2,
+        name: "Dashboard",
+        url: "/dashboard",
+      },
+      {
+        id: 3,
+        name: "Absensi",
+        url: "/absensi",
+      },
+      {
+        id: 4,
+        name: "Settings",
+        url: "/setting",
+      },
+    ];
+  } else {
+    initMenu = [
+      {
+        id: 1,
+        name: "Profile",
+        url: "/profile",
+      },
+      {
+        id: 2,
+        name: "Dashboard",
+        url: "/dashboard",
+      },
+      {
+        id: 3,
+        name: "Absensi",
+        url: "/absensi",
+      },
+    ];
+  }
+
+  const [menus, setMenus] = useState<any[]>(initMenu);
+
   return (
     <div>
       <Dropdown
@@ -28,8 +77,8 @@ const MainMenu = () => {
         placement="left-start"
         arrowIcon={false}
       >
-        {siteConfig.menu.length > 0
-          ? siteConfig.menu.map((data, index) => (
+        {menus.length > 0
+          ? menus.map((data, index) => (
               <Dropdown.Item key={data.id}>
                 <Link href={data.url} className="w-full text-left h-full">
                   {data.name}

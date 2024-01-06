@@ -143,6 +143,9 @@ model Absensi {
   studentId    Int
   mapel        MataPelajarans @relation(fields: [mapelId], references: [id])
   mapelId      Int
+  pertemuan    Int
+  jamPelajaran Int
+  semester     Int
   absensiType  String // Sakit, bolos, alpa, terlambat
   infoTambahan Boolean
   absensiDate  DateTime
