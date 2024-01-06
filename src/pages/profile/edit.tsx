@@ -178,7 +178,6 @@ const EditProfilePage = () => {
                   <TextInput
                     id="lastName"
                     type="text"
-                    required
                     name="lastName"
                     placeholder="Your last name here..."
                     value={newData.lastName}
