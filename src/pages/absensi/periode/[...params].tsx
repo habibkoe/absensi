@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import SelectMapel from "@/components/DataComponents/SelectMapel";
 import MainMenu from "@/components/MainMenu";
 import { getOneData } from "@/services/classRoomService";
 import { getOneData as getOneDataPeriode } from "@/services/periodeService";
@@ -20,6 +21,7 @@ const AbsensiPeriodePage = () => {
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
   const [dataPeriode, setDataPeriode] = useState<Periode>();
   const [dataKelasSiswa, setDataKelasSiswa] = useState<any[]>([]);
+  const [dataMapel, setDataMapel] = useState<any[]>([]);
 
   const getParentData = async () => {
     try {
@@ -28,6 +30,7 @@ const AbsensiPeriodePage = () => {
 
       let periode = await getOneDataPeriode(Number(periodeId));
       setDataPeriode(periode.data);
+
     } catch (error) {
       console.error(error);
     }
@@ -71,6 +74,7 @@ const AbsensiPeriodePage = () => {
             <div className="text-gray-900">Kelas: {dataKelas?.name}</div>
             <div className="text-gray-900">Periode: {dataPeriode?.name}</div>
             <div className="text-gray-900">Silahkan lakukan absensi online</div>
+            <div><SelectMapel /></div>
             <div className="overflow-x-auto">
                 <Table hoverable>
                   <Table.Head>

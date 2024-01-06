@@ -1,6 +1,5 @@
 import AppLayout from "@/components/AppLayout";
-import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
-import SelectPeriode from "@/components/DataComponents/SelectPeriode";
+import SelectMapel from "@/components/DataComponents/SelectMapel";
 import MainMenu from "@/components/MainMenu";
 import {
   deleteData,
@@ -8,13 +7,8 @@ import {
   getByUserData,
   getOneData,
   postData,
-} from "@/services/userRoomService";
-import {
-  Button,
-  Card,
-  Table,
-  Toast,
-} from "flowbite-react";
+} from "@/services/userMapelService";
+import { Button, Card, Table, Toast } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -22,37 +16,34 @@ import { HiCheck } from "react-icons/hi";
 
 export interface NewForm {
   userId: number;
-  classRoomId: number;
-  periodeId: number;
+  mapelId: number;
   assignedBy: string;
 }
 
-const KelasDidikanPage = () => {
+const MapelProfilePage = () => {
   const { data: session } = useSession();
 
   let initialState: NewForm = {
     userId: Number(session?.user?.id),
-    classRoomId: 0,
-    periodeId: 0,
+    mapelId: 0,
     assignedBy: String(session?.user?.username),
   };
 
-  const [currentId, setCurrentId] = useState(0);
-
+  const [dataMapels, setDataMapels] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessage, setShowToastMessage] = useState("");
-
-  const [dataKelas, setDataKelas] = useState<any[]>([]);
 
   const [newData, setNewData] = useState<NewForm>(initialState);
+  const [currentId, setCurrentId] = useState(0);
+
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState("");
 
   const getData = async () => {
     try {
       let datas = await getByUserData(Number(session?.user?.id));
 
       console.log("ada nggak ni ", datas);
-      setDataKelas(datas.data);
+      setDataMapels(datas.data);
     } catch (error) {
       console.error(error);
     }
@@ -63,8 +54,7 @@ const KelasDidikanPage = () => {
       let datas = await getOneData(id, Number(session?.user?.id));
       setNewData({
         userId: datas.data.userId,
-        classRoomId: datas.data.classRoomId,
-        periodeId: datas.data.periodeId,
+        mapelId: datas.data.mapelId,
         assignedBy: datas.data.assignedBy,
       });
 
@@ -102,7 +92,7 @@ const KelasDidikanPage = () => {
     try {
       let store = null;
 
-      if (newData.classRoomId !== 0) {
+      if (newData.mapelId !== 0) {
         if (currentId == 0) {
           store = await postData(JSON.stringify(newData));
         } else {
@@ -139,14 +129,14 @@ const KelasDidikanPage = () => {
   return (
     <>
       <Head>
-        <title>Setting Kelas</title>
+        <title>Setting Mapel</title>
       </Head>
 
       <Card className="w-full md:w-3/6 p-3 bg-white mx-auto">
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Setting Kelas
+              Setting Mapel
             </h5>
             <MainMenu />
           </div>
@@ -169,20 +159,14 @@ const KelasDidikanPage = () => {
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                     <div>
-                      <SelectClassRoom
-                        value={newData.classRoomId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectPeriode
-                        value={newData.periodeId}
+                      <SelectMapel
+                        value={newData.mapelId}
                         handleChange={handleInputChange}
                       />
                     </div>
                   </div>
                   <div>
-                    {newData.classRoomId == 0 ? (
+                    {newData.mapelId == 0 ? (
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
@@ -198,7 +182,7 @@ const KelasDidikanPage = () => {
               </div>
             ) : null}
 
-            {dataKelas !== null && dataKelas.length > 0 ? (
+            {dataMapels !== null && dataMapels.length > 0 ? (
               <div className="overflow-x-auto">
                 <Table hoverable>
                   <Table.Head>
@@ -208,22 +192,22 @@ const KelasDidikanPage = () => {
                     </Table.HeadCell>
                   </Table.Head>
                   <Table.Body className="divide-y">
-                    {dataKelas.map((data, index) => (
+                    {dataMapels.map((data, index) => (
                       <Table.Row
                         className="bg-white dark:border-gray-700 dark:bg-gray-800"
                         key={index}
                       >
-                        <Table.Cell>{data.classRoom.name}</Table.Cell>
+                        <Table.Cell>{data.mapel.name}</Table.Cell>
                         <Table.Cell>
                           <div className="flex flex-wrap gap-4 w-full">
                             <a
-                              onClick={() => hapusData(data.classRoomId)}
+                              onClick={() => hapusData(data.mapelId)}
                               className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
                             >
                               Hapus
                             </a>
                             <a
-                              onClick={() => ubahData(data.classRoomId)}
+                              onClick={() => ubahData(data.mapelId)}
                               className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
                             >
                               Edit
@@ -255,8 +239,8 @@ const KelasDidikanPage = () => {
   );
 };
 
-KelasDidikanPage.getLayout = function getLayout(content: any) {
+MapelProfilePage.getLayout = function getLayout(content: any) {
   return <AppLayout>{content}</AppLayout>;
 };
 
-export default KelasDidikanPage;
+export default MapelProfilePage;

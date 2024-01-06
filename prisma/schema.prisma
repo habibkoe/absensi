@@ -26,6 +26,7 @@ model Users {
   classRoom        UsersOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
   absensi          Absensi[]
+  mapel            UsersOnMapels[]
   createdAt        DateTime                      @default(now())
   updatedAt        DateTime                      @default(now())
 
@@ -47,12 +48,26 @@ model ClassRooms {
 }
 
 model MataPelajarans {
-  id        Int       @id @default(autoincrement())
+  id        Int             @id @default(autoincrement())
   name      String
   code      String
   absensi   Absensi[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  mapel     UsersOnMapels[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now())
+}
+
+model UsersOnMapels {
+  user       Users          @relation(fields: [userId], references: [id])
+  userId     Int // relation scalar field (used in the `@relation` attribute above)
+  mapel      MataPelajarans @relation(fields: [mapelId], references: [id])
+  mapelId    Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime       @default(now())
+  assignedBy String
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @default(now())
+
+  @@id([userId, mapelId])
 }
 
 model UsersOnClassRooms {
