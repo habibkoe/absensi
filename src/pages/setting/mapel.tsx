@@ -11,6 +11,7 @@ import { MataPelajarans } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { HiOutlinePlus } from "react-icons/hi";
 
 export interface NewForm {
   code: string;
@@ -18,7 +19,6 @@ export interface NewForm {
 }
 
 const MapelPage = () => {
-
   let initialState: NewForm = {
     code: "",
     name: "",
@@ -76,9 +76,8 @@ const MapelPage = () => {
 
   const cencelAdd = () => {
     setNewData(initialState);
-    setShowForm(!showForm)
-  }
-
+    setShowForm(!showForm);
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,20 +130,18 @@ const MapelPage = () => {
           <Card className="w-full">
             {!showForm ? (
               <Button
+                outline
                 gradientDuoTone="purpleToPink"
                 className="w-fit"
                 onClick={() => setShowForm(!showForm)}
               >
-                Add +
+                Add <HiOutlinePlus />
               </Button>
             ) : null}
 
             {showForm ? (
               <div className="border rounded-lg p-5">
-                <form
-                  onSubmit={handleFormSubmit}
-                  className="space-y-4"
-                >
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                     <div>
                       <div className="mb-2 block">
@@ -198,6 +195,7 @@ const MapelPage = () => {
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
+                        outline
                         type="submit"
                         gradientDuoTone="purpleToPink"
                         className="w-fit"
@@ -205,7 +203,9 @@ const MapelPage = () => {
                         Simpan
                       </Button>
                     )}
-                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
+                    <Button color="light" onClick={cencelAdd}>
+                      Cancel
+                    </Button>
                   </div>
                 </form>
               </div>

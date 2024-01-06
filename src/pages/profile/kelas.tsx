@@ -9,16 +9,11 @@ import {
   getOneData,
   postData,
 } from "@/services/userRoomService";
-import {
-  Button,
-  Card,
-  Table,
-  Toast,
-} from "flowbite-react";
+import { Button, Card, Table, Toast } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiCheck } from "react-icons/hi";
+import { HiCheck, HiOutlinePlus } from "react-icons/hi";
 
 export interface NewForm {
   userId: number;
@@ -156,11 +151,12 @@ const KelasDidikanPage = () => {
           <Card className="w-full">
             {!showForm ? (
               <Button
+                outline
                 gradientDuoTone="purpleToPink"
                 className="w-fit"
                 onClick={() => setShowForm(!showForm)}
               >
-                Add +
+                Add <HiOutlinePlus />
               </Button>
             ) : null}
 

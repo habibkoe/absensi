@@ -1,6 +1,12 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
-import { deleteData, getAllData, getOneData, postData, editData } from "@/services/studentService";
+import {
+  deleteData,
+  getAllData,
+  getOneData,
+  postData,
+  editData,
+} from "@/services/studentService";
 import { Students } from "@prisma/client";
 import { format } from "date-fns";
 import {
@@ -14,6 +20,7 @@ import {
 } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { HiOutlinePlus } from "react-icons/hi";
 
 export interface NewForm {
   nis: string;
@@ -120,13 +127,13 @@ const SiswaPage = () => {
 
   const cencelAdd = () => {
     setNewData(initialState);
-    setShowForm(!showForm)
-  }
+    setShowForm(!showForm);
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("apa ini ya ", newData)
+    console.log("apa ini ya ", newData);
     try {
       let store = null;
 
@@ -136,9 +143,8 @@ const SiswaPage = () => {
         newData.gender !== "" &&
         String(newData.dateOfBirth) !== ""
       ) {
-
-        console.log("apa ini ya inside ", newData)
-        console.log("apa ini ya inside ", currentId)
+        console.log("apa ini ya inside ", newData);
+        console.log("apa ini ya inside ", currentId);
         if (currentId == 0) {
           store = await postData(JSON.stringify(newData));
         } else {
@@ -183,11 +189,12 @@ const SiswaPage = () => {
           <Card className="w-full">
             {!showForm ? (
               <Button
+                outline
                 gradientDuoTone="purpleToPink"
                 className="w-fit"
                 onClick={() => setShowForm(!showForm)}
               >
-                Add +
+                Add <HiOutlinePlus />
               </Button>
             ) : null}
 
@@ -375,6 +382,7 @@ const SiswaPage = () => {
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
+                        outline
                         type="submit"
                         gradientDuoTone="purpleToPink"
                         className="w-fit"
@@ -382,7 +390,9 @@ const SiswaPage = () => {
                         Simpan
                       </Button>
                     )}
-                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
+                    <Button color="light" onClick={cencelAdd}>
+                      Cancel
+                    </Button>
                   </div>
                 </form>
               </div>
@@ -432,7 +442,9 @@ const SiswaPage = () => {
                   </Table.Body>
                 </Table>
               </div>
-            ) : <div className="w-full text-red-500">Belum ada data</div>}
+            ) : (
+              <div className="w-full text-red-500">Belum ada data</div>
+            )}
           </Card>
         </div>
       </Card>

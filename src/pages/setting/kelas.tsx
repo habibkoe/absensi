@@ -19,7 +19,7 @@ import {
 } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiCheck } from "react-icons/hi";
+import { HiCheck, HiOutlinePlus } from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -93,8 +93,8 @@ const KelasPage = () => {
 
   const cencelAdd = () => {
     setNewData(initialState);
-    setShowForm(!showForm)
-  }
+    setShowForm(!showForm);
+  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,11 +151,12 @@ const KelasPage = () => {
           <Card className="w-full">
             {!showForm ? (
               <Button
+                outline
                 gradientDuoTone="purpleToPink"
                 className="w-fit"
                 onClick={() => setShowForm(!showForm)}
               >
-                Add +
+                Add <HiOutlinePlus />
               </Button>
             ) : null}
 
@@ -256,6 +257,7 @@ const KelasPage = () => {
                       <Button color="light">Simpan</Button>
                     ) : (
                       <Button
+                        outline
                         type="submit"
                         gradientDuoTone="purpleToPink"
                         className="w-fit"
@@ -263,7 +265,9 @@ const KelasPage = () => {
                         Simpan
                       </Button>
                     )}
-                    <Button color="light" onClick={cencelAdd}>Cancel</Button>
+                    <Button color="light" onClick={cencelAdd}>
+                      Cancel
+                    </Button>
                   </div>
                 </form>
               </div>

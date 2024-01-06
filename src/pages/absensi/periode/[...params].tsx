@@ -10,11 +10,12 @@ import { getOneData as getOneDataPeriode } from "@/services/periodeService";
 import { getOneData as getOneDataUser } from "@/services/userService";
 import { getDataByClassAndPeriode } from "@/services/studentRoomService";
 import { ClassRooms, Periode, Users } from "@prisma/client";
-import { Card, Table } from "flowbite-react";
+import { Card, Datepicker, Label, Table } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 const AbsensiPeriodePage = () => {
   const router = useRouter();
@@ -43,6 +44,23 @@ const AbsensiPeriodePage = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const datePickerHandler = (params: any) => {
+    console.log("masuk sini nggak ", params);
+
+    let newDate = format(new Date(params), "dd/MM/yyyy");
+
+    console.log("masuk sini nggak new date ", newDate);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+
   };
 
   const getData = async () => {
@@ -108,7 +126,18 @@ const AbsensiPeriodePage = () => {
               </div>
               <div>
                 <div>
-                  <SelectPertemuan />
+                  <div className="mb-2 block">
+                    <Label htmlFor="absensiDate" value="Tanggal Absensi" />
+                  </div>
+                  <Datepicker
+                    name="absensiDate"
+                    language="ID"
+                    value=""
+                    showTodayButton={false}
+                    showClearButton={true}
+                    onSelectedDateChanged={(date) => datePickerHandler(date)}
+                    color="gray"
+                  />
                 </div>
                 <div>
                   <SelectSemester />
@@ -119,10 +148,10 @@ const AbsensiPeriodePage = () => {
             <div className="overflow-x-auto">
               <Table hoverable>
                 <Table.Head>
+                <Table.HeadCell>NIS</Table.HeadCell>
                   <Table.HeadCell>Nama Siswa</Table.HeadCell>
                   <Table.HeadCell>JK</Table.HeadCell>
-                  <Table.HeadCell>NIS</Table.HeadCell>
-                  <Table.HeadCell>Alamat</Table.HeadCell>
+                  
                   <Table.HeadCell>Status Kehadiran</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
@@ -131,12 +160,12 @@ const AbsensiPeriodePage = () => {
                       key={"as" + index}
                       className="bg-white dark:border-gray-700 dark:bg-gray-800"
                     >
+                      <Table.Cell>{data.student.nis}</Table.Cell>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                         {data.student.firstName} {data.student.lastName}
                       </Table.Cell>
                       <Table.Cell>{data.student.gender}</Table.Cell>
-                      <Table.Cell>{data.student.nis}</Table.Cell>
-                      <Table.Cell>{data.student.address}</Table.Cell>
+                      
                       <Table.Cell>
                         <SelectStatusAbsen />
                       </Table.Cell>
