@@ -25,6 +25,7 @@ model Users {
   roleId           Int?
   classRoom        UsersOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
+  absensi          Absensi[]
   createdAt        DateTime                      @default(now())
   updatedAt        DateTime                      @default(now())
 
@@ -42,14 +43,16 @@ model ClassRooms {
   user             UsersOnClassRooms[]
   students         StudentsOnClassRooms[]
   studentClassRoom StudentsAndUserOnClassRooms[]
+  absensi          Absensi[]
 }
 
 model MataPelajarans {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   code      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  absensi   Absensi[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
 }
 
 model UsersOnClassRooms {
@@ -85,6 +88,7 @@ model Students {
   updatedAt        DateTime                      @default(now())
   classRoom        StudentsOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
+  absensi          Absensi[]
 
   @@index([id])
 }
@@ -94,7 +98,7 @@ model Periode {
   name             String?
   periodeStart     Int
   periodeEnd       Int
-  classRoom        StudentsOnClassRooms[] 
+  classRoom        StudentsOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
   classRoomUser    UsersOnClassRooms[]
 }
@@ -115,16 +119,20 @@ model StudentsOnClassRooms {
 }
 
 model Absensi {
-  id           Int      @id @default(autoincrement())
-  teacherId    Int
+  id           Int            @id @default(autoincrement())
+  user         Users          @relation(fields: [userId], references: [id])
+  userId       Int // relation scalar field (used in the `@relation` attribute above)
+  classRoom    ClassRooms     @relation(fields: [classRoomId], references: [id])
   classRoomId  Int
+  student      Students       @relation(fields: [studentId], references: [id])
   studentId    Int
+  mapel        MataPelajarans @relation(fields: [mapelId], references: [id])
   mapelId      Int
   absensiType  String // Sakit, bolos, alpa, terlambat
   infoTambahan Boolean
   absensiDate  DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
 
   @@index([id])
 }
