@@ -7,8 +7,9 @@ import SelectStatusAbsen from "@/components/DataComponents/SelectStatusAbsen";
 import MainMenu from "@/components/MainMenu";
 import { getOneData } from "@/services/classRoomService";
 import { getOneData as getOneDataPeriode } from "@/services/periodeService";
+import { getOneData as getOneDataUser } from "@/services/userService";
 import { getDataByClassAndPeriode } from "@/services/studentRoomService";
-import { ClassRooms, Periode } from "@prisma/client";
+import { ClassRooms, Periode, Users } from "@prisma/client";
 import { Card, Table } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -26,8 +27,8 @@ const AbsensiPeriodePage = () => {
 
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
   const [dataPeriode, setDataPeriode] = useState<Periode>();
+  const [dataUser, setDataUser] = useState<Users>();
   const [dataKelasSiswa, setDataKelasSiswa] = useState<any[]>([]);
-  const [dataMapel, setDataMapel] = useState<any[]>([]);
 
   const getParentData = async () => {
     try {
@@ -36,6 +37,9 @@ const AbsensiPeriodePage = () => {
 
       let periode = await getOneDataPeriode(Number(periodeId));
       setDataPeriode(periode.data);
+
+      let guru = await getOneDataUser(Number(session?.user?.id));
+      setDataUser(guru.data);
     } catch (error) {
       console.error(error);
     }
@@ -79,12 +83,16 @@ const AbsensiPeriodePage = () => {
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
                 <div className="text-gray-900">
-                  <b>Kelas:</b> <br />
+                  <span className="font-medium text-sm">Kelas</span> <br />
                   {dataKelas?.name}
                 </div>
                 <div className="text-gray-900">
-                  <b>Periode:</b> <br />
+                  <span className="font-medium text-sm">Periode</span> <br />
                   {dataPeriode?.name}
+                </div>
+                <div className="text-gray-900">
+                  <span className="font-medium text-sm">Guru</span> <br />
+                  {dataUser?.firstName} {dataUser?.lastName}
                 </div>
               </div>
               <div>
@@ -139,7 +147,7 @@ const AbsensiPeriodePage = () => {
             </div>
           </div>
         ) : (
-          <div>Data siswa belum ada</div>
+          <div className="text-red-500">Data siswa belum ada</div>
         )}
       </Card>
     </>

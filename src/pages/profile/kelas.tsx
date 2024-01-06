@@ -203,6 +203,7 @@ const KelasDidikanPage = () => {
                 <Table hoverable>
                   <Table.Head>
                     <Table.HeadCell>Nama Kelas</Table.HeadCell>
+                    <Table.HeadCell>Ajaran</Table.HeadCell>
                     <Table.HeadCell>
                       <span className="sr-only">Edit</span>
                     </Table.HeadCell>
@@ -214,6 +215,7 @@ const KelasDidikanPage = () => {
                         key={index}
                       >
                         <Table.Cell>{data.classRoom.name}</Table.Cell>
+                        <Table.Cell>{data.periode.name}</Table.Cell>
                         <Table.Cell>
                           <div className="flex flex-wrap gap-4 w-full">
                             <a
@@ -236,7 +238,7 @@ const KelasDidikanPage = () => {
                 </Table>
               </div>
             ) : (
-              <div className="w-full text-black">Belum ada data</div>
+              <div className="w-full text-red-500">Belum ada data</div>
             )}
           </Card>
         </div>

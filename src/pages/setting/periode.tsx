@@ -264,7 +264,7 @@ const PeriodePage = () => {
                 </Table>
               </div>
             ) : (
-              <div className="w-full text-black">Belum ada data</div>
+              <div className="w-full text-red-500">Belum ada data</div>
             )}
           </Card>
         </div>

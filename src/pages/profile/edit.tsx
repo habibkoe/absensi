@@ -13,7 +13,7 @@ import { ZodIssue, z } from "zod";
 
 const formSchema = z.object({
   firstName: z.string().min(3, "Character minimum 3"),
-  lastName: z.string().min(3, "Character minimum 3"),
+  lastName: z.string(),
   email: z.string().min(3, "Character minimum 3"),
   typeTeacher: z.string().min(3, "Character minimum 3"),
   typeOfStudy: z.string().min(3, "Character minimum 3"),

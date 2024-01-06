@@ -61,7 +61,7 @@ const AbsensiPage = () => {
             </div>
           </div>
         ) : (
-          <div>Kelas belm di setting, silahkan setting pada menu profile</div>
+          <div className="text-red-500">Kelas belum di setting, silahkan setting pada menu profile</div>
         )}
       </Card>
     </>

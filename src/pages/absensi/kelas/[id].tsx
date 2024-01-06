@@ -75,7 +75,7 @@ const AbsensiKelasPage = () => {
             </div>
           </div>
         ) : (
-          <div>Periode belm di setting, silahkan setting pada menu setting</div>
+          <div className="text-red-500">Periode belm di setting, silahkan setting pada menu setting</div>
         )}
       </Card>
     </>

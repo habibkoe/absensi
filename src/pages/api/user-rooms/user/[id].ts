@@ -14,7 +14,8 @@ export default async function handler(
         userId: Number(dataId),
       },
       include: {
-        classRoom: true
+        classRoom: true,
+        periode: true
       }
     });
 
