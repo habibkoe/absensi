@@ -7,6 +7,7 @@ import { useState } from "react";
 import { postData } from "@/services/userService";
 import { useRouter } from "next/router";
 import { HiX } from "react-icons/hi";
+import Link from "next/link";
 
 const registerSchema = z
   .object({
@@ -174,8 +175,11 @@ const RegisterPage = () => {
                   }
                 />
               </div>
-              <Button type="submit">Register</Button>
+              <Button type="submit" outline gradientDuoTone="pinkToOrange">Register</Button>
             </form>
+            <div className="w-full text-center">
+              <Link href="/" className="text-blue-500 text-xs">login</Link>
+            </div>
           </div>
         </Card>
       </div>

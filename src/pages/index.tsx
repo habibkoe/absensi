@@ -14,6 +14,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { HiX } from "react-icons/hi";
+import Link from "next/link";
 
 const loginSchema = z.object({
   username: z.string().min(3, "minimum 3"),
@@ -140,8 +141,13 @@ const HomePage = () => {
                   }
                 />
               </div>
-              <Button type="submit">Login</Button>
+              <Button outline gradientDuoTone="pinkToOrange" type="submit">
+                Login
+              </Button>
             </form>
+            <div className="w-full text-center">
+              <Link href="/register" className="text-blue-500 text-xs">register disini</Link>
+            </div>
           </div>
         </Card>
       </div>

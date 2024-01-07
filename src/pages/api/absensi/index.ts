@@ -6,37 +6,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const {
-      userId,
-      mapelId,
-      classRoomId,
-      studentId,
-      pertemuan,
-      jamPelajaran,
-      semester,
-      absensiType,
-      infoTambahan,
-      absensiDate,
-    } = req.body;
+    
 
-    const datas = await prisma.absensi.create({
-      data: {
-        userId: Number(userId),
-        mapelId: Number(mapelId),
-        classRoomId: Number(classRoomId),
-        studentId: Number(studentId),
-        pertemuan: Number(pertemuan),
-        jamPelajaran: Number(jamPelajaran),
-        semester: Number(semester),
-        absensiType: absensiType,
-        infoTambahan: infoTambahan,
-        absensiDate: absensiDate,
-      },
+    console.log("ini apa ya ", req.body)
+    const datas = await prisma.absensi.createMany({
+      data: req.body,
+      skipDuplicates: true,
     });
     return res.status(200).json({
       status: 200,
       success: true,
-      message: "create data success",
+      message: "create data success absensi",
       data: datas,
     });
   }

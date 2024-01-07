@@ -1,7 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import SelectJamPelajaran from "@/components/DataComponents/SelectJamPelajaran";
 import SelectMapel from "@/components/DataComponents/SelectMapel";
-import SelectPertemuan from "@/components/DataComponents/SelectPertemuan";
 import SelectSemester from "@/components/DataComponents/SelectSemester";
 import SelectStatusAbsen from "@/components/DataComponents/SelectStatusAbsen";
 import MainMenu from "@/components/MainMenu";
@@ -10,16 +9,45 @@ import { getOneData as getOneDataPeriode } from "@/services/periodeService";
 import { getOneData as getOneDataUser } from "@/services/userService";
 import { getDataByClassAndPeriode } from "@/services/studentRoomService";
 import { ClassRooms, Periode, Users } from "@prisma/client";
-import { Card, Datepicker, Label, Table } from "flowbite-react";
+import { Button, Card, Datepicker, Label, Table, Toast } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { postData } from "@/services/absensiService";
+import { HiCheck } from "react-icons/hi";
+
+export interface NewForm {
+  userId: number;
+  classRoomId: number;
+  studentId: number;
+  mapelId: number;
+  jamPelajaran: number;
+  semester: number;
+  absensiType: string;
+  infoTambahan: boolean;
+  absensiDate: any;
+  pertemuan: number;
+}
+
 
 const AbsensiPeriodePage = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  let initialState: NewForm = {
+    userId: 0,
+    classRoomId: 0,
+    studentId: 0,
+    mapelId: 0,
+    jamPelajaran: 0,
+    semester: 0,
+    absensiType: "",
+    infoTambahan: false,
+    absensiDate: undefined,
+    pertemuan: 0,
+  };
 
   const { params } = router.query;
 
@@ -27,30 +55,25 @@ const AbsensiPeriodePage = () => {
   let periodeId = params ? params[1] : null;
 
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
+  const [dataMapel, setDataMapel] = useState<any>();
+  const [dataDate, setDataDate] = useState<any>();
+  const [dataJamPelajaran, setJamPelajaran] = useState<any>();
+  const [dataSemester, setSemester] = useState<any>();
   const [dataPeriode, setDataPeriode] = useState<Periode>();
   const [dataUser, setDataUser] = useState<Users>();
   const [dataKelasSiswa, setDataKelasSiswa] = useState<any[]>([]);
+  const [dataAbsensi, setDataAbsensi] = useState<any[]>([]);
 
-  const getParentData = async () => {
-    try {
-      let kelas = await getOneData(Number(kelasId));
-      setDataKelas(kelas.data);
-
-      let periode = await getOneDataPeriode(Number(periodeId));
-      setDataPeriode(periode.data);
-
-      let guru = await getOneDataUser(Number(session?.user?.id));
-      setDataUser(guru.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [currentId, setCurrentId] = useState(0);
+  const [showToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState("");
 
   const datePickerHandler = (params: any) => {
     console.log("masuk sini nggak ", params);
 
     let newDate = format(new Date(params), "dd/MM/yyyy");
 
+    setDataDate(newDate);
     console.log("masuk sini nggak new date ", newDate);
   };
 
@@ -60,7 +83,26 @@ const AbsensiPeriodePage = () => {
     >
   ) => {
     const { name, value } = e.target;
+    const { indexdata } = e.target.dataset;
 
+    if (name == "mapelId") {
+      setDataMapel(Number(value));
+    }
+
+    if (name == "jamPelajaran") {
+      setJamPelajaran(Number(value));
+    }
+
+    if (name == "semester") {
+      setSemester(Number(value));
+    }
+
+    if (name == "absensiType") {
+      setDataAbsensi((prevFriends) => [
+        ...prevFriends,
+        { id: indexdata, status: value },
+      ]);
+    }
   };
 
   const getData = async () => {
@@ -70,15 +112,64 @@ const AbsensiPeriodePage = () => {
         Number(periodeId)
       );
 
-      console.log("ada nggak ni ", datas);
       setDataKelasSiswa(datas.data);
+
+      let kelas = await getOneData(Number(kelasId));
+      setDataKelas(kelas.data);
+
+      let periode = await getOneDataPeriode(Number(periodeId));
+      setDataPeriode(periode.data);
+
+      let guru = await getOneDataUser(Number(session?.user?.id));
+      setDataUser(guru.data);
+
+      console.log("ada nggak ni ", datas);
     } catch (error) {
       console.error(error);
     }
   };
 
+
+  const saveData =async () => {
+
+    console.log("ini isinya apa ", dataAbsensi)
+    
+    if(dataAbsensi.length > 0) {
+
+      let arrData : NewForm[] = []
+
+      dataAbsensi.map((data, index) => {
+        arrData.push({
+          userId: Number(session?.user?.id),
+          classRoomId: Number(kelasId),
+          studentId: Number(data.id),
+          mapelId: Number(kelasId),
+          jamPelajaran: dataJamPelajaran,
+          semester: dataSemester,
+          absensiType: data.status,
+          infoTambahan: false,
+          absensiDate: new Date(format(new Date(dataDate), "yyyy-dd-MM HH:mm:ss")),
+          pertemuan: 0
+        })
+      })
+
+      console.log("check data ", JSON.stringify(arrData))
+
+      let store = await postData(JSON.stringify(arrData));
+
+      if (store.data) {
+        setCurrentId(0);
+        getData();
+        setShowToast(true);
+        setShowToastMessage("Berhasil simpan data");
+      } else {
+        setShowToast(true);
+        setShowToastMessage("Gagal simpan data");
+        console.error("Failed to post data");
+      }
+    }
+  }
   useEffect(() => {
-    getParentData();
     getData();
   }, []);
   return (
@@ -116,12 +207,17 @@ const AbsensiPeriodePage = () => {
               <div>
                 <div>
                   <SelectMapel
+                    value={dataMapel}
                     typeData={1}
+                    handleChange={handleInputChange}
                     userId={Number(session?.user?.id)}
                   />
                 </div>
                 <div>
-                  <SelectJamPelajaran />
+                  <SelectJamPelajaran
+                    value={dataJamPelajaran}
+                    handleChange={handleInputChange}
+                  />
                 </div>
               </div>
               <div>
@@ -132,7 +228,7 @@ const AbsensiPeriodePage = () => {
                   <Datepicker
                     name="absensiDate"
                     language="ID"
-                    value=""
+                    value={dataDate}
                     showTodayButton={false}
                     showClearButton={true}
                     onSelectedDateChanged={(date) => datePickerHandler(date)}
@@ -140,7 +236,10 @@ const AbsensiPeriodePage = () => {
                   />
                 </div>
                 <div>
-                  <SelectSemester />
+                  <SelectSemester
+                    value={dataSemester}
+                    handleChange={handleInputChange}
+                  />
                 </div>
               </div>
             </div>
@@ -148,10 +247,10 @@ const AbsensiPeriodePage = () => {
             <div className="overflow-x-auto">
               <Table hoverable>
                 <Table.Head>
-                <Table.HeadCell>NIS</Table.HeadCell>
+                  <Table.HeadCell>NIS</Table.HeadCell>
                   <Table.HeadCell>Nama Siswa</Table.HeadCell>
                   <Table.HeadCell>JK</Table.HeadCell>
-                  
+
                   <Table.HeadCell>Status Kehadiran</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
@@ -165,20 +264,36 @@ const AbsensiPeriodePage = () => {
                         {data.student.firstName} {data.student.lastName}
                       </Table.Cell>
                       <Table.Cell>{data.student.gender}</Table.Cell>
-                      
+
                       <Table.Cell>
-                        <SelectStatusAbsen />
+                        <SelectStatusAbsen
+                          indexData={data.student.id}
+                          value={data.absensiType}
+                          handleChange={handleInputChange}
+                        />
                       </Table.Cell>
                     </Table.Row>
                   ))}
                 </Table.Body>
               </Table>
+              <Button onClick={saveData} outline gradientDuoTone="purpleToPink">
+                Submit
+              </Button>
             </div>
           </div>
         ) : (
           <div className="text-red-500">Data siswa belum ada</div>
         )}
       </Card>
+      {showToast ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+            <HiCheck className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
+          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+        </Toast>
+      ) : null}
     </>
   );
 };

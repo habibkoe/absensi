@@ -6,6 +6,7 @@ interface Props {
   value?: string | number;
   placeholder?: string;
   name?: any;
+  indexData?: number;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -30,9 +31,11 @@ const SelectStatusAbsen = (props: Props) => {
       <Select
         id="absensiType"
         name="absensiType"
+        data-indexdata={props.indexData}
         defaultValue={props.value}
         onChange={props.handleChange}
       >
+        <option value="">Pilih</option>
         {arrAbsensi.map((data, index) => (
           <option value={data.name} key={data.id}>
             {data.name}
