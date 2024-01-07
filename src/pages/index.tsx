@@ -13,7 +13,7 @@ import { ZodIssue, z } from "zod";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { HiX } from "react-icons/hi";
+import { HiOutlineLockClosed, HiOutlineUser, HiX } from "react-icons/hi";
 import Link from "next/link";
 
 const loginSchema = z.object({
@@ -95,19 +95,27 @@ const HomePage = () => {
         <title>Absensi : Login</title>
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center">
-        <Card className="w-80 p-3 bg-white">
-          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Login
+        <div className="md:mx-auto md:w-96 w-full px-8">
+          <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
+            Log in to your account
           </h5>
-          <div className="w-full">
+          <span className="text-gray-400">
+            Welcome back! Please enter your details.
+          </span>
+          <div className="w-full mt-4">
             <form onSubmit={login} className="flex max-w-md flex-col gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="username" value="Username" />
+                  <Label
+                    className="text-white"
+                    htmlFor="username"
+                    value="Username"
+                  />
                 </div>
                 <TextInput
                   id="username"
                   type="text"
+                  icon={HiOutlineUser}
                   placeholder="your username here..."
                   required
                   name="username"
@@ -123,13 +131,18 @@ const HomePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="password1" value="Password" />
+                  <Label
+                    htmlFor="password1"
+                    value="Password"
+                    className="text-white"
+                  />
                 </div>
                 <TextInput
                   id="password1"
                   type="password"
                   required
                   name="password"
+                  icon={HiOutlineLockClosed}
                   placeholder="Your password here..."
                   value={newData.password}
                   onChange={handleInputChange}
@@ -141,15 +154,21 @@ const HomePage = () => {
                   }
                 />
               </div>
-              <Button outline gradientDuoTone="pinkToOrange" type="submit">
-                Login
+              <div className="w-full text-right">
+                <span className="text-white text-sm">Forgot password</span>
+              </div>
+              <Button gradientDuoTone="pinkToOrange" type="submit">
+                Log In
               </Button>
             </form>
-            <div className="w-full text-center">
-              <Link href="/register" className="text-blue-500 text-xs">register disini</Link>
-            </div>
           </div>
-        </Card>
+        </div>
+        <div className="w-full text-center bottom-0 text-xs mt-5 text-gray-400">
+          {`Don't have an account? `}
+          <Link href="/register" className="text-blue-500 text-xs">
+            Sign Up
+          </Link>
+        </div>
       </div>
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">

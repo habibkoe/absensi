@@ -6,7 +6,12 @@ import { ZodIssue, z } from "zod";
 import { useState } from "react";
 import { postData } from "@/services/userService";
 import { useRouter } from "next/router";
-import { HiX } from "react-icons/hi";
+import {
+  HiMail,
+  HiOutlineLockClosed,
+  HiOutlineUser,
+  HiX,
+} from "react-icons/hi";
 import Link from "next/link";
 
 const registerSchema = z
@@ -90,21 +95,28 @@ const RegisterPage = () => {
       <Head>
         <title>Absensi : Register</title>
       </Head>
-      <div className="w-full h-screen flex items-center justify-center">
-        <Card className="w-80 p-3 bg-white">
-          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Register
+      <div className="w-full h-screen flex flex-col text-gray-400 items-center justify-center">
+        <div className="mx-auto md:w-72 w-full px-8">
+          <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
+            Create an account
           </h5>
-          <div className="w-full">
-            <form onSubmit={register} className="flex max-w-md flex-col gap-4">
+          <span className="text-gray-400">
+            Welcome! Please enter your details.
+          </span>
+          <div className="w-full mt-4">
+            <form
+              onSubmit={register}
+              className="flex md:max-w-md flex-col gap-4"
+            >
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email" value="Your email" />
+                  <Label htmlFor="email" className="text-white" value="Email" />
                 </div>
                 <TextInput
                   id="email"
                   type="email"
                   name="email"
+                  icon={HiMail}
                   value={newData.email}
                   placeholder="name@flowbite.com"
                   required
@@ -117,12 +129,17 @@ const RegisterPage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="username" value="Username" />
+                  <Label
+                    htmlFor="username"
+                    className="text-white"
+                    value="Username"
+                  />
                 </div>
                 <TextInput
                   id="username"
                   type="text"
                   name="username"
+                  icon={HiOutlineUser}
                   placeholder="your username here..."
                   required
                   value={newData.username}
@@ -137,12 +154,17 @@ const RegisterPage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="password" value="Your password" />
+                  <Label
+                    htmlFor="password"
+                    className="text-white"
+                    value="Password"
+                  />
                 </div>
                 <TextInput
                   id="password"
                   type="password"
                   name="password"
+                  icon={HiOutlineLockClosed}
                   required
                   value={newData.password}
                   onChange={handleInputChange}
@@ -156,12 +178,17 @@ const RegisterPage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="confirmPassword" value="Confirm password" />
+                  <Label
+                    htmlFor="confirmPassword"
+                    className="text-white"
+                    value="Confirm Password"
+                  />
                 </div>
                 <TextInput
                   id="confirmPassword"
                   type="password"
                   name="confirmPassword"
+                  icon={HiOutlineLockClosed}
                   required
                   value={newData.confirmPassword}
                   onChange={handleInputChange}
@@ -175,13 +202,23 @@ const RegisterPage = () => {
                   }
                 />
               </div>
-              <Button type="submit" outline gradientDuoTone="pinkToOrange">Register</Button>
+              <div className="w-full text-left">
+                <span className="text-white text-sm">
+                  Make sure password correct
+                </span>
+              </div>
+              <Button type="submit" gradientDuoTone="pinkToOrange">
+                Sign Up
+              </Button>
             </form>
-            <div className="w-full text-center">
-              <Link href="/" className="text-blue-500 text-xs">login</Link>
-            </div>
           </div>
-        </Card>
+        </div>
+        <div className="w-full text-center bottom-0 text-xs mt-5 text-gray-400">
+          {`Already have an account? `}
+          <Link href="/" className="text-blue-500 text-xs">
+            Log In
+          </Link>
+        </div>
       </div>
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
