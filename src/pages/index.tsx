@@ -15,6 +15,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { HiOutlineLockClosed, HiOutlineUser, HiX } from "react-icons/hi";
 import Link from "next/link";
+import { siteConfig } from "@/libs/config";
 
 const loginSchema = z.object({
   username: z.string().min(3, "minimum 3"),
@@ -92,15 +93,15 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <title>Absensi : Login</title>
+        <title>{`${siteConfig.title} : Masuk`}</title>
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <div className="md:mx-auto md:w-96 w-full px-8">
           <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
-            Log in to your account
+            Masuk ke akun anda
           </h5>
           <span className="text-gray-400">
-            Welcome back! Please enter your details.
+            Selamat datang! Isi data diri anda.
           </span>
           <div className="w-full mt-4">
             <form onSubmit={login} className="flex max-w-md flex-col gap-4">
@@ -116,7 +117,7 @@ const HomePage = () => {
                   id="username"
                   type="text"
                   icon={HiOutlineUser}
-                  placeholder="your username here..."
+                  placeholder="Usernama anda disini..."
                   required
                   name="username"
                   value={newData.username}
@@ -143,7 +144,7 @@ const HomePage = () => {
                   required
                   name="password"
                   icon={HiOutlineLockClosed}
-                  placeholder="Your password here..."
+                  placeholder="Password anda disini..."
                   value={newData.password}
                   onChange={handleInputChange}
                   color={getError("password") != null ? "failure" : "gray"}
@@ -155,18 +156,18 @@ const HomePage = () => {
                 />
               </div>
               <div className="w-full text-right">
-                <span className="text-white text-sm">Forgot password</span>
+                <span className="text-white text-sm">Lupa password</span>
               </div>
               <Button gradientDuoTone="pinkToOrange" type="submit">
-                Log In
+                Masuk
               </Button>
             </form>
           </div>
         </div>
         <div className="w-full text-center bottom-0 text-xs mt-5 text-gray-400">
-          {`Don't have an account? `}
+          {`Belum punya akun? `}
           <Link href="/register" className="text-blue-500 text-xs">
-            Sign Up
+            Daftar
           </Link>
         </div>
       </div>
@@ -176,7 +177,7 @@ const HomePage = () => {
             <HiX className="h-5 w-5" />
           </div>
           <div className="ml-3 text-sm font-normal">
-            Wrong username or password
+            Salah username atau password
           </div>
           <Toast.Toggle onDismiss={() => setShowToast(false)} />
         </Toast>

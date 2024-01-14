@@ -4,6 +4,7 @@ import SelectPeriode from "@/components/DataComponents/SelectPeriode";
 import SelectStudent from "@/components/DataComponents/SelectStudent";
 import SelectTahun from "@/components/DataComponents/SelectTahun";
 import MainMenu from "@/components/MainMenu";
+import { siteConfig } from "@/libs/config";
 import {
   deleteData,
   editData,
@@ -139,20 +140,10 @@ const SiswaKelasPage = () => {
   return (
     <>
       <Head>
-        <title>Setting Kelas Siswa</title>
+        <title>{`${siteConfig.title} : Setting Kelas Siswa`}</title>
       </Head>
 
-      <Card className="w-full md:w-3/6 p-3 bg-white mx-auto">
-        <div className="w-full">
-          <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Setting Kelas Siswa
-            </h5>
-            <MainMenu />
-          </div>
-        </div>
-
-        <div className="w-full">
+      <div className="w-full">
           <Card className="w-full">
             {!showForm ? (
               <Button
@@ -263,13 +254,12 @@ const SiswaKelasPage = () => {
             )}
           </Card>
         </div>
-      </Card>
     </>
   );
 };
 
 SiswaKelasPage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Setting Kelas Siswa">{content}</AppLayout>;
 };
 
 export default SiswaKelasPage;

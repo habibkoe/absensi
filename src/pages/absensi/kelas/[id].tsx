@@ -1,5 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
+import { siteConfig } from "@/libs/config";
 import { getOneData } from "@/services/classRoomService";
 import { getAllData } from "@/services/periodeService";
 import { ClassRooms, Periode } from "@prisma/client";
@@ -42,48 +43,46 @@ const AbsensiKelasPage = () => {
   return (
     <>
       <Head>
-        <title>Absensi Kelas</title>
+        <title>{`${siteConfig.title} : Absensi Kelas`}</title>
       </Head>
 
-      <Card className="w-full md:w-3/6  p-3 bg-white mx-auto">
+      {dataPeriode !== null && dataPeriode.length > 0 ? (
         <div className="w-full">
-          <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Absensi Kelas
-            </h5>
-            <MainMenu />
+          <div className="text-gray-900">
+            Anda telah memilih kelas: {dataKelas?.name}
+          </div>
+          <div className="text-gray-900">
+            Silahkan pilih periode tahun ajaran untuk melakukan absensi
+          </div>
+          <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
+            {dataPeriode.map((data, index) => (
+              <Link
+                href={`/absensi/periode/${kelasId}/${data.id}`}
+                key={data.id}
+              >
+                <Card className="w-full">
+                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {data.name}
+                  </h5>
+                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                    TA {data.periodeStart} - {data.periodeEnd}
+                  </p>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
-
-        {dataPeriode !== null && dataPeriode.length > 0 ? (
-          <div className="w-full">
-            <div className="text-gray-900">Anda telah memilih kelas: {dataKelas?.name}</div>
-            <div className="text-gray-900">Silahkan pilih periode tahun ajaran untuk melakukan absensi</div>
-            <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
-              {dataPeriode.map((data, index) => (
-                <Link href={`/absensi/periode/${kelasId}/${data.id}`} key={data.id}>
-                  <Card className="w-full">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {data.name}
-                    </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
-                      TA {data.periodeStart} - {data.periodeEnd}
-                    </p>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="text-red-500">Periode belm di setting, silahkan setting pada menu setting</div>
-        )}
-      </Card>
+      ) : (
+        <div className="text-red-500">
+          Periode belm di setting, silahkan setting pada menu setting
+        </div>
+      )}
     </>
   );
 };
 
 AbsensiKelasPage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Absensi Kelas">{content}</AppLayout>;
 };
 
 export default AbsensiKelasPage;

@@ -32,22 +32,12 @@ const AbsensiPage = () => {
         <title>Absensi</title>
       </Head>
 
-      <Card className="w-full md:w-3/6  p-3 bg-white mx-auto">
+      {dataKelas !== null && dataKelas.length > 0 ? (
         <div className="w-full">
-          <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Absensi
-            </h5>
-            <MainMenu />
-          </div>
-        </div>
-
-        {dataKelas !== null && dataKelas.length > 0 ? (
-          <div className="w-full">
-            <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
-              {dataKelas.map((data, index) => (
-                <Link href={`/absensi/kelas/${data.classRoom.id}`} key={index}>
-                 <Card className="w-full">
+          <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
+            {dataKelas.map((data, index) => (
+              <Link href={`/absensi/kelas/${data.classRoom.id}`} key={index}>
+                <Card className="w-full">
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {data.classRoom.name}
                   </h5>
@@ -55,21 +45,21 @@ const AbsensiPage = () => {
                     Info terkait {data.classRoom.name}
                   </p>
                 </Card>
-                </Link>
-               
-              ))}
-            </div>
+              </Link>
+            ))}
           </div>
-        ) : (
-          <div className="text-red-500">Kelas belum di setting, silahkan setting pada menu profile</div>
-        )}
-      </Card>
+        </div>
+      ) : (
+        <div className="text-red-500">
+          Kelas belum di setting, silahkan setting pada menu profile
+        </div>
+      )}
     </>
   );
 };
 
 AbsensiPage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Absensi">{content}</AppLayout>;
 };
 
 export default AbsensiPage;

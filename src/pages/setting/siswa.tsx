@@ -1,5 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import MainMenu from "@/components/MainMenu";
+import { siteConfig } from "@/libs/config";
 import {
   deleteData,
   getAllData,
@@ -172,288 +173,275 @@ const SiswaPage = () => {
   return (
     <>
       <Head>
-        <title>Setting Siswa</title>
+        <title>{`${siteConfig.title} : Setting Siswa`}</title>
       </Head>
 
-      <Card className="w-full md:w-3/6 p-3 bg-white mx-auto">
-        <div className="w-full">
-          <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Setting Siswa
-            </h5>
-            <MainMenu />
-          </div>
-        </div>
+      <div className="w-full">
+        <Card className="w-full">
+          {!showForm ? (
+            <Button
+              outline
+              gradientDuoTone="purpleToPink"
+              className="w-fit"
+              onClick={() => setShowForm(!showForm)}
+            >
+              Add <HiOutlinePlus />
+            </Button>
+          ) : null}
 
-        <div className="w-full">
-          <Card className="w-full">
-            {!showForm ? (
-              <Button
-                outline
-                gradientDuoTone="purpleToPink"
-                className="w-fit"
-                onClick={() => setShowForm(!showForm)}
-              >
-                Add <HiOutlinePlus />
-              </Button>
-            ) : null}
-
-            {showForm ? (
-              <div className="border rounded-lg p-5">
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="nis" value="NIS" />
-                      </div>
-                      <TextInput
-                        id="nis"
-                        name="nis"
-                        type="text"
-                        placeholder="Nis siswa..."
-                        required
-                        color={newData.nis == "" ? "failure" : "gray"}
-                        value={newData.nis}
-                        helperText={
-                          newData.nis == "" ? (
-                            <>
-                              <span className="font-medium">Oops!</span> Harus
-                              diisi
-                            </>
-                          ) : null
-                        }
-                        onChange={handleInputChange}
-                      />
+          {showForm ? (
+            <div className="border rounded-lg p-5">
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="nis" value="NIS" />
                     </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="firstName" value="Nama awal" />
-                      </div>
-                      <TextInput
-                        id="firstName"
-                        name="firstName"
-                        type="text"
-                        placeholder="nama awal..."
-                        required
-                        color={newData.firstName == "" ? "failure" : "gray"}
-                        value={newData.firstName}
-                        helperText={
-                          newData.firstName == "" ? (
-                            <>
-                              <span className="font-medium">Oops!</span> Harus
-                              diisi
-                            </>
-                          ) : null
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="lastName" value="Nama Ahir" />
-                      </div>
-                      <TextInput
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        placeholder="nama ahir..."
-                        value={newData.lastName}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="email" value="Email" />
-                      </div>
-                      <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        placeholder="email siswa..."
-                        value={newData.email}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="gender" value="Gender" />
-                      </div>
-                      <Select
-                        id="gender"
-                        name="gender"
-                        required
-                        value={newData.gender}
-                        onChange={handleInputChange}
-                      >
-                        <option value="">Pilih</option>
-                        <option value="laki - laki">Laki - Laki</option>
-                        <option value="perempuan">Perempuan</option>
-                      </Select>
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="email1" value="DOB" />
-                      </div>
-                      <Datepicker
-                        name="dateOfBirth"
-                        language="ID"
-                        value={newData.dateOfBirth}
-                        showTodayButton={false}
-                        showClearButton={true}
-                        onSelectedDateChanged={(date) =>
-                          datePickerHandler(date)
-                        }
-                        color="gray"
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="address" value="Alamat" />
-                      </div>
-                      <TextInput
-                        id="address"
-                        type="text"
-                        name="address"
-                        placeholder="Alamat siswa..."
-                        value={newData.address}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="parent" value="Orang Tua" />
-                      </div>
-                      <TextInput
-                        id="parent"
-                        type="text"
-                        name="parent"
-                        placeholder="Nama orang tua siswa..."
-                        value={newData.parent}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="rating" value="Rating" />
-                      </div>
-                      <TextInput
-                        id="rating"
-                        type="text"
-                        name="rating"
-                        placeholder="Rating siswa..."
-                        value={newData.rating}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label
-                          htmlFor="favoriteLearn"
-                          value="Pelajaran Paforite"
-                        />
-                      </div>
-                      <TextInput
-                        id="favoriteLearn"
-                        type="text"
-                        name="favoriteLearn"
-                        placeholder="pelajaran paforit siswa..."
-                        value={newData.favoriteLearn}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="Hobby" value="Hobby" />
-                      </div>
-                      <TextInput
-                        id="Hobby"
-                        type="text"
-                        name="Hobby"
-                        placeholder="Hobi siswa..."
-                        value={newData.Hobby}
-                        onChange={handleInputChange}
-                      />
-                    </div>
+                    <TextInput
+                      id="nis"
+                      name="nis"
+                      type="text"
+                      placeholder="Nis siswa..."
+                      required
+                      color={newData.nis == "" ? "failure" : "gray"}
+                      value={newData.nis}
+                      helperText={
+                        newData.nis == "" ? (
+                          <>
+                            <span className="font-medium">Oops!</span> Harus
+                            diisi
+                          </>
+                        ) : null
+                      }
+                      onChange={handleInputChange}
+                    />
                   </div>
-                  <div className="flex gap-4">
-                    {newData.nis == "" ||
-                    newData.firstName == "" ||
-                    newData.gender == "" ? (
-                      <Button color="light">Simpan</Button>
-                    ) : (
-                      <Button
-                        outline
-                        type="submit"
-                        gradientDuoTone="purpleToPink"
-                        className="w-fit"
-                      >
-                        Simpan
-                      </Button>
-                    )}
-                    <Button color="light" onClick={cencelAdd}>
-                      Cancel
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="firstName" value="Nama awal" />
+                    </div>
+                    <TextInput
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      placeholder="nama awal..."
+                      required
+                      color={newData.firstName == "" ? "failure" : "gray"}
+                      value={newData.firstName}
+                      helperText={
+                        newData.firstName == "" ? (
+                          <>
+                            <span className="font-medium">Oops!</span> Harus
+                            diisi
+                          </>
+                        ) : null
+                      }
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="lastName" value="Nama Ahir" />
+                    </div>
+                    <TextInput
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      placeholder="nama ahir..."
+                      value={newData.lastName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="email" value="Email" />
+                    </div>
+                    <TextInput
+                      id="email"
+                      type="email"
+                      name="email"
+                      placeholder="email siswa..."
+                      value={newData.email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="gender" value="Gender" />
+                    </div>
+                    <Select
+                      id="gender"
+                      name="gender"
+                      required
+                      value={newData.gender}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Pilih</option>
+                      <option value="laki - laki">Laki - Laki</option>
+                      <option value="perempuan">Perempuan</option>
+                    </Select>
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="email1" value="DOB" />
+                    </div>
+                    <Datepicker
+                      name="dateOfBirth"
+                      language="ID"
+                      value={newData.dateOfBirth}
+                      showTodayButton={false}
+                      showClearButton={true}
+                      onSelectedDateChanged={(date) => datePickerHandler(date)}
+                      color="gray"
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="address" value="Alamat" />
+                    </div>
+                    <TextInput
+                      id="address"
+                      type="text"
+                      name="address"
+                      placeholder="Alamat siswa..."
+                      value={newData.address}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="parent" value="Orang Tua" />
+                    </div>
+                    <TextInput
+                      id="parent"
+                      type="text"
+                      name="parent"
+                      placeholder="Nama orang tua siswa..."
+                      value={newData.parent}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="rating" value="Rating" />
+                    </div>
+                    <TextInput
+                      id="rating"
+                      type="text"
+                      name="rating"
+                      placeholder="Rating siswa..."
+                      value={newData.rating}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label
+                        htmlFor="favoriteLearn"
+                        value="Pelajaran Paforite"
+                      />
+                    </div>
+                    <TextInput
+                      id="favoriteLearn"
+                      type="text"
+                      name="favoriteLearn"
+                      placeholder="pelajaran paforit siswa..."
+                      value={newData.favoriteLearn}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 block">
+                      <Label htmlFor="Hobby" value="Hobby" />
+                    </div>
+                    <TextInput
+                      id="Hobby"
+                      type="text"
+                      name="Hobby"
+                      placeholder="Hobi siswa..."
+                      value={newData.Hobby}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  {newData.nis == "" ||
+                  newData.firstName == "" ||
+                  newData.gender == "" ? (
+                    <Button color="light">Simpan</Button>
+                  ) : (
+                    <Button
+                      outline
+                      type="submit"
+                      gradientDuoTone="purpleToPink"
+                      className="w-fit"
+                    >
+                      Simpan
                     </Button>
-                  </div>
-                </form>
-              </div>
-            ) : null}
-            {dataSiswa !== null && dataSiswa.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Siswa</Table.HeadCell>
-                    <Table.HeadCell>NIS</Table.HeadCell>
-                    <Table.HeadCell>JK</Table.HeadCell>
-                    <Table.HeadCell>Alamat</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataSiswa.map((data, index) => (
-                      <Table.Row
-                        key={data.id}
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                      >
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                          {data.firstName} {data.lastName}
-                        </Table.Cell>
-                        <Table.Cell>{data.nis}</Table.Cell>
-                        <Table.Cell>{data.gender}</Table.Cell>
-                        <Table.Cell>{data.address}</Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              onClick={() => hapusData(data.id)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              onClick={() => ubahData(data.id)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Edit
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-full text-red-500">Belum ada data</div>
-            )}
-          </Card>
-        </div>
-      </Card>
+                  )}
+                  <Button color="light" onClick={cencelAdd}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </div>
+          ) : null}
+          {dataSiswa !== null && dataSiswa.length > 0 ? (
+            <div className="overflow-x-auto">
+              <Table hoverable>
+                <Table.Head>
+                  <Table.HeadCell>Nama Siswa</Table.HeadCell>
+                  <Table.HeadCell>NIS</Table.HeadCell>
+                  <Table.HeadCell>JK</Table.HeadCell>
+                  <Table.HeadCell>Alamat</Table.HeadCell>
+                  <Table.HeadCell>
+                    <span className="sr-only">Edit</span>
+                  </Table.HeadCell>
+                </Table.Head>
+                <Table.Body className="divide-y">
+                  {dataSiswa.map((data, index) => (
+                    <Table.Row
+                      key={data.id}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {data.firstName} {data.lastName}
+                      </Table.Cell>
+                      <Table.Cell>{data.nis}</Table.Cell>
+                      <Table.Cell>{data.gender}</Table.Cell>
+                      <Table.Cell>{data.address}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex flex-wrap gap-4 w-full">
+                          <a
+                            onClick={() => hapusData(data.id)}
+                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          >
+                            Hapus
+                          </a>
+                          <a
+                            onClick={() => ubahData(data.id)}
+                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          >
+                            Edit
+                          </a>
+                        </div>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
+          ) : (
+            <div className="w-full text-red-500">Belum ada data</div>
+          )}
+        </Card>
+      </div>
     </>
   );
 };
 
 SiswaPage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Setting Siswa">{content}</AppLayout>;
 };
 
 export default SiswaPage;

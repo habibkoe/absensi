@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  title: "Absensi",
+  title: "Absensi Online",
   description: "Aplikasi absensi online",
   creator: "Anonym",
   copyright: "Anonym",

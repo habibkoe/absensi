@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import SelectMapel from "@/components/DataComponents/SelectMapel";
 import MainMenu from "@/components/MainMenu";
+import { siteConfig } from "@/libs/config";
 import {
   deleteData,
   editData,
@@ -129,103 +130,92 @@ const MapelProfilePage = () => {
   return (
     <>
       <Head>
-        <title>Setting Mapel</title>
+        <title>{`${siteConfig.title} : Setting Mapel`}</title>
       </Head>
 
-      <Card className="w-full md:w-3/6 p-3 bg-white mx-auto">
-        <div className="w-full">
-          <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Setting Mapel
-            </h5>
-            <MainMenu />
-          </div>
-        </div>
+      <div className="w-full">
+        <Card className="w-full">
+          {!showForm ? (
+            <Button
+              outline
+              gradientDuoTone="purpleToPink"
+              className="w-fit"
+              onClick={() => setShowForm(!showForm)}
+            >
+              Add <HiOutlinePlus />
+            </Button>
+          ) : null}
 
-        <div className="w-full">
-          <Card className="w-full">
-            {!showForm ? (
-              <Button
-                outline
-                gradientDuoTone="purpleToPink"
-                className="w-fit"
-                onClick={() => setShowForm(!showForm)}
-              >
-                Add <HiOutlinePlus />
-              </Button>
-            ) : null}
-
-            {showForm ? (
-              <div className="border rounded-lg p-5 ">
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    <div>
-                      <SelectMapel
-                        value={newData.mapelId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
+          {showForm ? (
+            <div className="border rounded-lg p-5 ">
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                   <div>
-                    {newData.mapelId == 0 ? (
-                      <Button color="light">Simpan</Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        gradientDuoTone="purpleToPink"
-                        className="w-fit"
-                      >
-                        Simpan
-                      </Button>
-                    )}
+                    <SelectMapel
+                      value={newData.mapelId}
+                      handleChange={handleInputChange}
+                    />
                   </div>
-                </form>
-              </div>
-            ) : null}
+                </div>
+                <div>
+                  {newData.mapelId == 0 ? (
+                    <Button color="light">Simpan</Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      gradientDuoTone="purpleToPink"
+                      className="w-fit"
+                    >
+                      Simpan
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </div>
+          ) : null}
 
-            {dataMapels !== null && dataMapels.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Mapel</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataMapels.map((data, index) => (
-                      <Table.Row
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                        key={index}
-                      >
-                        <Table.Cell>{data.mapel.name}</Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              onClick={() => hapusData(data.mapelId)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              onClick={() => ubahData(data.mapelId)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Edit
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-full text-red-500">Belum ada data</div>
-            )}
-          </Card>
-        </div>
-      </Card>
+          {dataMapels !== null && dataMapels.length > 0 ? (
+            <div className="overflow-x-auto">
+              <Table hoverable>
+                <Table.Head>
+                  <Table.HeadCell>Nama Mapel</Table.HeadCell>
+                  <Table.HeadCell>
+                    <span className="sr-only">Edit</span>
+                  </Table.HeadCell>
+                </Table.Head>
+                <Table.Body className="divide-y">
+                  {dataMapels.map((data, index) => (
+                    <Table.Row
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                      key={index}
+                    >
+                      <Table.Cell>{data.mapel.name}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex flex-wrap gap-4 w-full">
+                          <a
+                            onClick={() => hapusData(data.mapelId)}
+                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          >
+                            Hapus
+                          </a>
+                          <a
+                            onClick={() => ubahData(data.mapelId)}
+                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          >
+                            Edit
+                          </a>
+                        </div>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
+          ) : (
+            <div className="w-full text-red-500">Belum ada data</div>
+          )}
+        </Card>
+      </div>
 
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
@@ -241,7 +231,7 @@ const MapelProfilePage = () => {
 };
 
 MapelProfilePage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Setting Mapel">{content}</AppLayout>;
 };
 
 export default MapelProfilePage;

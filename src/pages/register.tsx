@@ -13,6 +13,7 @@ import {
   HiX,
 } from "react-icons/hi";
 import Link from "next/link";
+import { siteConfig } from "@/libs/config";
 
 const registerSchema = z
   .object({
@@ -93,21 +94,18 @@ const RegisterPage = () => {
   return (
     <>
       <Head>
-        <title>Absensi : Register</title>
+        <title>{`${siteConfig.title} : Daftar`}</title>
       </Head>
-      <div className="w-full h-screen flex flex-col text-gray-400 items-center justify-center">
-        <div className="mx-auto md:w-72 w-full px-8">
+      <div className="w-full h-screen flex flex-col items-center justify-center">
+        <div className="md:mx-auto md:w-96 w-full px-8">
           <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
-            Create an account
+            Buat akun
           </h5>
           <span className="text-gray-400">
-            Welcome! Please enter your details.
+            Selamat datang! Isi data diri anda.
           </span>
           <div className="w-full mt-4">
-            <form
-              onSubmit={register}
-              className="flex md:max-w-md flex-col gap-4"
-            >
+            <form onSubmit={register} className="flex max-w-md flex-col gap-4">
               <div>
                 <div className="mb-2 block">
                   <Label htmlFor="email" className="text-white" value="Email" />
@@ -118,7 +116,7 @@ const RegisterPage = () => {
                   name="email"
                   icon={HiMail}
                   value={newData.email}
-                  placeholder="name@flowbite.com"
+                  placeholder="email@goabsensi.com"
                   required
                   onChange={handleInputChange}
                   color={getError("email") != null ? "failure" : "gray"}
@@ -140,7 +138,7 @@ const RegisterPage = () => {
                   type="text"
                   name="username"
                   icon={HiOutlineUser}
-                  placeholder="your username here..."
+                  placeholder="Username anda disini..."
                   required
                   value={newData.username}
                   onChange={handleInputChange}
@@ -166,6 +164,7 @@ const RegisterPage = () => {
                   name="password"
                   icon={HiOutlineLockClosed}
                   required
+                  placeholder="Password anda disini..."
                   value={newData.password}
                   onChange={handleInputChange}
                   color={getError("password") != null ? "failure" : "gray"}
@@ -190,6 +189,7 @@ const RegisterPage = () => {
                   name="confirmPassword"
                   icon={HiOutlineLockClosed}
                   required
+                  placeholder="Confirm password anda..."
                   value={newData.confirmPassword}
                   onChange={handleInputChange}
                   color={
@@ -204,19 +204,19 @@ const RegisterPage = () => {
               </div>
               <div className="w-full text-left">
                 <span className="text-white text-sm">
-                  Make sure password correct
+                  Pastikan password sesuai
                 </span>
               </div>
               <Button type="submit" gradientDuoTone="pinkToOrange">
-                Sign Up
+                Daftar
               </Button>
             </form>
           </div>
         </div>
         <div className="w-full text-center bottom-0 text-xs mt-5 text-gray-400">
-          {`Already have an account? `}
+          {`Sudah punya akun? `}
           <Link href="/" className="text-blue-500 text-xs">
-            Log In
+            Masuk
           </Link>
         </div>
       </div>
