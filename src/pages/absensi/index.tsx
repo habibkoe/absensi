@@ -37,11 +37,11 @@ const AbsensiPage = () => {
           <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
             {dataKelas.map((data, index) => (
               <Link href={`/absensi/kelas/${data.classRoom.id}`} key={index}>
-                <Card className="w-full">
-                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                  <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                     {data.classRoom.name}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className="font-normal text-[#DADCE1]">
                     Info terkait {data.classRoom.name}
                   </p>
                 </Card>

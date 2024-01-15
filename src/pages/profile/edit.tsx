@@ -353,7 +353,7 @@ const EditProfilePage = () => {
 };
 
 EditProfilePage.getLayout = function getLayout(content: any) {
-  return <AppLayout>{content}</AppLayout>;
+  return <AppLayout headMenu="Edit Profile">{content}</AppLayout>;
 };
 
 export default EditProfilePage;

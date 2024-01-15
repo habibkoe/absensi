@@ -60,11 +60,11 @@ const AbsensiKelasPage = () => {
                 href={`/absensi/periode/${kelasId}/${data.id}`}
                 key={data.id}
               >
-                <Card className="w-full">
-                  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                  <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                     {data.name}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className="font-normal text-[#DADCE1]">
                     TA {data.periodeStart} - {data.periodeEnd}
                   </p>
                 </Card>

@@ -38,10 +38,10 @@ const AppLayout = ({ children, headMenu }: Props) => {
 
   return authorized ? (
     <div className="w-full h-screen p-1 md:p-5">
-      <Card className="w-full md:w-3/6  p-3 bg-white mx-auto">
+      <Card className="w-full md:w-3/6 bg-[#242526] mx-auto border-[#242526]">
         <div className="w-full">
           <div className="flex justify-between">
-            <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1] dark:text-white">
               {headMenu}
             </h5>
             <MainMenu />

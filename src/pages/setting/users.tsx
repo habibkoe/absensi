@@ -52,50 +52,48 @@ const UserPage = () => {
       </Head>
 
       <div className="w-full">
-        <Card className="w-full">
-          {dataUsers !== null && dataUsers.length > 0 ? (
-            <div className="overflow-x-auto">
-              <Table hoverable>
-                <Table.Head>
-                  <Table.HeadCell>Nama Users</Table.HeadCell>
-                  <Table.HeadCell>Email</Table.HeadCell>
-                  <Table.HeadCell>Username</Table.HeadCell>
-                  <Table.HeadCell>Role</Table.HeadCell>
-                  <Table.HeadCell>
-                    <span className="sr-only">Edit</span>
-                  </Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                  {dataUsers.map((data, index) => (
-                    <Table.Row
-                      key={data.id}
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {data.firstName} {data.lastName}
-                      </Table.Cell>
-                      <Table.Cell>{data.email}</Table.Cell>
-                      <Table.Cell>{data.username}</Table.Cell>
-                      <Table.Cell>{roleName(Number(data.roleId))}</Table.Cell>
-                      <Table.Cell>
-                        <div className="flex flex-wrap gap-4 w-full">
-                          <a
-                            onClick={() => hapusData(data.id)}
-                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                          >
-                            Hapus
-                          </a>
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-            </div>
-          ) : (
-            <div className="w-full text-red-500">Belum ada data</div>
-          )}
-        </Card>
+        {dataUsers !== null && dataUsers.length > 0 ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Nama Users</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Email</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Username</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Role</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dataUsers.map((data, index) => (
+                  <Table.Row
+                    key={data.id}
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300">
+                      {data.firstName} {data.lastName}
+                    </Table.Cell>
+                    <Table.Cell>{data.email}</Table.Cell>
+                    <Table.Cell>{data.username}</Table.Cell>
+                    <Table.Cell>{roleName(Number(data.roleId))}</Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                          onClick={() => hapusData(data.id)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Hapus
+                        </a>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <div className="w-full text-red-500">Belum ada data</div>
+        )}
       </div>
     </>
   );

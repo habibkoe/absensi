@@ -137,132 +137,129 @@ const PeriodePage = () => {
       </Head>
 
       <div className="w-full">
-          <Card className="w-full">
-            {!showForm ? (
-              <Button
-                outline
-                gradientDuoTone="purpleToPink"
-                className="w-fit"
-                onClick={() => setShowForm(!showForm)}
-              >
-                Add <HiOutlinePlus />
-              </Button>
-            ) : null}
+        {!showForm ? (
+          <Button
+            outline
+            gradientDuoTone="purpleToPink"
+            className="w-fit mb-4"
+            onClick={() => setShowForm(!showForm)}
+          >
+            Add <HiOutlinePlus />
+          </Button>
+        ) : null}
 
-            {showForm ? (
-              <div className="border rounded-lg p-5">
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    <div>
-                      <div className="mb-2 block">
-                        <Label htmlFor="name" value="Nama Periode" />
+        {showForm ? (
+          <div className="border rounded-lg p-5 mb-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="name" value="Nama Periode" />
+                  </div>
+                  <TextInput
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="nama periode..."
+                    required
+                    color={newData.name == "" ? "failure" : "gray"}
+                    value={newData.name}
+                    helperText={
+                      newData.name == "" ? (
+                        <>
+                          <span className="font-medium">Oops!</span> Harus diisi
+                        </>
+                      ) : null
+                    }
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <SelectTahun
+                    label="Tahun Mulai Ajaran"
+                    name="periodeStart"
+                    value={newData.periodeStart}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <SelectTahun
+                    label="Tahun Selesai Ajaran"
+                    name="periodeEnd"
+                    value={newData.periodeEnd}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                {newData.name == "" ||
+                newData.periodeStart == 0 ||
+                newData.periodeEnd == 0 ? (
+                  <Button color="light">Simpan</Button>
+                ) : (
+                  <Button
+                    outline
+                    type="submit"
+                    gradientDuoTone="purpleToPink"
+                    className="w-fit"
+                  >
+                    Simpan
+                  </Button>
+                )}
+                <Button color="light" onClick={cencelAdd}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
+        ) : null}
+        {dataPeriode !== null && dataPeriode.length > 0 ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>Nama Tahun Ajaran</Table.HeadCell>
+                <Table.HeadCell>Tahun Ajaran</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dataPeriode.map((data, index) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={data.id}
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {data.name}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {data.periodeStart} - {data.periodeEnd}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                          onClick={() => hapusData(data.id)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Hapus
+                        </a>
+                        <a
+                          onClick={() => ubahData(data.id)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Edit
+                        </a>
                       </div>
-                      <TextInput
-                        id="name"
-                        name="name"
-                        type="text"
-                        placeholder="nama periode..."
-                        required
-                        color={newData.name == "" ? "failure" : "gray"}
-                        value={newData.name}
-                        helperText={
-                          newData.name == "" ? (
-                            <>
-                              <span className="font-medium">Oops!</span> Harus
-                              diisi
-                            </>
-                          ) : null
-                        }
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectTahun
-                        label="Tahun Mulai Ajaran"
-                        name="periodeStart"
-                        value={newData.periodeStart}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectTahun
-                        label="Tahun Selesai Ajaran"
-                        name="periodeEnd"
-                        value={newData.periodeEnd}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-4">
-                    {newData.name == "" ||
-                    newData.periodeStart == 0 ||
-                    newData.periodeEnd == 0 ? (
-                      <Button color="light">Simpan</Button>
-                    ) : (
-                      <Button
-                        outline
-                        type="submit"
-                        gradientDuoTone="purpleToPink"
-                        className="w-fit"
-                      >
-                        Simpan
-                      </Button>
-                    )}
-                    <Button color="light" onClick={cencelAdd}>
-                      Cancel
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            ) : null}
-            {dataPeriode !== null && dataPeriode.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Tahun Ajaran</Table.HeadCell>
-                    <Table.HeadCell>Tahun Ajaran</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataPeriode.map((data, index) => (
-                      <Table.Row
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                        key={data.id}
-                      >
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                          {data.name}
-                        </Table.Cell>
-                        <Table.Cell>
-                          {data.periodeStart} - {data.periodeEnd}
-                        </Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              onClick={() => hapusData(data.id)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              onClick={() => ubahData(data.id)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Edit
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-full text-red-500">Belum ada data</div>
-            )}
-          </Card>
-        </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <div className="w-full text-red-500">Belum ada data</div>
+        )}
+      </div>
 
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">

@@ -42,14 +42,14 @@ const ProfilePage = () => {
       <div className="w-full">
           <div className="grid gap-4 md:grid-cols-2 sm:grid-cols-1">
             <div>
-              <Card href="#" className="w-full text-center">
+              <Card href="#" className="w-full text-center hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
                 <div className="border rounded-full p-5 w-40 h-40 mx-auto">
                   test
                 </div>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
+                <p className="font-normal text-[#DADCE1]">
                   Email: {userData?.email}
                 </p>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
+                <p className="font-normal text-[#DADCE1]">
                   Username: {userData?.username}
                 </p>
                 <Button
@@ -65,42 +65,42 @@ const ProfilePage = () => {
             <div>
               <div className="grid gap-4 md:grid-cols-2">
                 <Link href="/profile/kelas">
-                  <Card className="w-full">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                       Kelas
                     </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                    <p className="font-normal text-[#DADCE1]">
                       Kelas didikan
                     </p>
                   </Card>
                 </Link>
                 <Link href="/profile/mapel">
-                  <Card className="w-full">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                       Mapel
                     </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                    <p className="font-normal text-[#DADCE1]">
                       Info mapel yang diampu
                     </p>
                   </Card>
                 </Link>
                 <Link href="/absensi">
-                  <Card className="w-full">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                       Absensi
                     </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                    <p className="font-normal text-[#DADCE1]">
                       Fitur absensi
                     </p>
                   </Card>
                 </Link>
 
                 <Link href="/absensi/report">
-                  <Card className="w-full">
-                    <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
                       Report
                     </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                    <p className="font-normal text-[#DADCE1]">
                       Report Absensi
                     </p>
                   </Card>

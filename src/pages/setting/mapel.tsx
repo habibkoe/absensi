@@ -118,134 +118,130 @@ const MapelPage = () => {
       </Head>
 
       <div className="w-full">
-        <Card className="w-full">
-          {!showForm ? (
-            <Button
-              outline
-              gradientDuoTone="purpleToPink"
-              className="w-fit"
-              onClick={() => setShowForm(!showForm)}
-            >
-              Add <HiOutlinePlus />
-            </Button>
-          ) : null}
+        {!showForm ? (
+          <Button
+            outline
+            gradientDuoTone="purpleToPink"
+            className="w-fit mb-4"
+            onClick={() => setShowForm(!showForm)}
+          >
+            Add <HiOutlinePlus />
+          </Button>
+        ) : null}
 
-          {showForm ? (
-            <div className="border rounded-lg p-5">
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="name" value="Nama Mapel" />
-                    </div>
-                    <TextInput
-                      id="name"
-                      name="name"
-                      type="text"
-                      placeholder="nama mapel..."
-                      required
-                      color={newData.name == "" ? "failure" : "gray"}
-                      value={newData.name}
-                      helperText={
-                        newData.name == "" ? (
-                          <>
-                            <span className="font-medium">Oops!</span> Harus
-                            diisi
-                          </>
-                        ) : null
-                      }
-                      onChange={handleInputChange}
-                    />
+        {showForm ? (
+          <div className="border rounded-lg p-5 mb-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="name" value="Nama Mapel" />
                   </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="code" value="Code Mapel" />
-                    </div>
-                    <TextInput
-                      id="code"
-                      name="code"
-                      type="text"
-                      color={newData.code == "" ? "failure" : "gray"}
-                      placeholder="code mapel..."
-                      value={newData.code}
-                      helperText={
-                        newData.code == "" ? (
-                          <>
-                            <span className="font-medium">Oops!</span> Harus
-                            diisi
-                          </>
-                        ) : null
-                      }
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
+                  <TextInput
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="nama mapel..."
+                    required
+                    color={newData.name == "" ? "failure" : "gray"}
+                    value={newData.name}
+                    helperText={
+                      newData.name == "" ? (
+                        <>
+                          <span className="font-medium">Oops!</span> Harus diisi
+                        </>
+                      ) : null
+                    }
+                    onChange={handleInputChange}
+                  />
                 </div>
-                <div className="flex gap-4">
-                  {newData.name == "" || newData.code == "" ? (
-                    <Button color="light">Simpan</Button>
-                  ) : (
-                    <Button
-                      outline
-                      type="submit"
-                      gradientDuoTone="purpleToPink"
-                      className="w-fit"
-                    >
-                      Simpan
-                    </Button>
-                  )}
-                  <Button color="light" onClick={cencelAdd}>
-                    Cancel
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="code" value="Code Mapel" />
+                  </div>
+                  <TextInput
+                    id="code"
+                    name="code"
+                    type="text"
+                    color={newData.code == "" ? "failure" : "gray"}
+                    placeholder="code mapel..."
+                    value={newData.code}
+                    helperText={
+                      newData.code == "" ? (
+                        <>
+                          <span className="font-medium">Oops!</span> Harus diisi
+                        </>
+                      ) : null
+                    }
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                {newData.name == "" || newData.code == "" ? (
+                  <Button color="light">Simpan</Button>
+                ) : (
+                  <Button
+                    outline
+                    type="submit"
+                    gradientDuoTone="purpleToPink"
+                    className="w-fit"
+                  >
+                    Simpan
                   </Button>
-                </div>
-              </form>
-            </div>
-          ) : null}
-          {dataMapel !== null && dataMapel.length > 0 ? (
-            <div className="overflow-x-auto">
-              <Table hoverable>
-                <Table.Head>
-                  <Table.HeadCell>Nama Mapel</Table.HeadCell>
-                  <Table.HeadCell>Code</Table.HeadCell>
-                  <Table.HeadCell>
-                    <span className="sr-only">Edit</span>
-                  </Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                  {dataMapel.map((data, index) => (
-                    <Table.Row
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                      key={data.id}
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {data.name}
-                      </Table.Cell>
-                      <Table.Cell>{data.code}</Table.Cell>
-                      <Table.Cell>
-                        <div className="flex flex-wrap gap-4 w-full">
-                          <a
-                            onClick={() => hapusData(data.id)}
-                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                          >
-                            Hapus
-                          </a>
-                          <a
-                            onClick={() => ubahData(data.id)}
-                            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                          >
-                            Edit
-                          </a>
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-            </div>
-          ) : (
-            <div className="w-full text-red-500">Belum ada data</div>
-          )}
-        </Card>
+                )}
+                <Button color="light" onClick={cencelAdd}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
+        ) : null}
+        {dataMapel !== null && dataMapel.length > 0 ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>Nama Mapel</Table.HeadCell>
+                <Table.HeadCell>Code</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dataMapel.map((data, index) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={data.id}
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {data.name}
+                    </Table.Cell>
+                    <Table.Cell>{data.code}</Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                          onClick={() => hapusData(data.id)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Hapus
+                        </a>
+                        <a
+                          onClick={() => ubahData(data.id)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Edit
+                        </a>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <div className="w-full text-red-500">Belum ada data</div>
+        )}
       </div>
     </>
   );

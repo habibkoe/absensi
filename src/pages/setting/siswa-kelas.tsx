@@ -144,116 +144,114 @@ const SiswaKelasPage = () => {
       </Head>
 
       <div className="w-full">
-          <Card className="w-full">
-            {!showForm ? (
-              <Button
-                outline
-                gradientDuoTone="purpleToPink"
-                className="w-fit"
-                onClick={() => setShowForm(!showForm)}
-              >
-                Add <HiOutlinePlus />
-              </Button>
-            ) : null}
+        {!showForm ? (
+          <Button
+            outline
+            gradientDuoTone="purpleToPink"
+            className="w-fit mb-4"
+            onClick={() => setShowForm(!showForm)}
+          >
+            Add <HiOutlinePlus />
+          </Button>
+        ) : null}
 
-            {showForm ? (
-              <div className="border rounded-lg p-5">
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    <div>
-                      <SelectClassRoom
-                        value={newData.classRoomId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectStudent
-                        value={newData.studentId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectPeriode
-                        value={newData.periodeId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-4">
-                    {newData.classRoomId == 0 || newData.studentId == 0 ? (
-                      <Button color="light">Simpan</Button>
-                    ) : (
-                      <Button
-                        outline
-                        type="submit"
-                        gradientDuoTone="purpleToPink"
-                        className="w-fit"
-                      >
-                        Simpan
-                      </Button>
-                    )}
-                    <Button color="light" onClick={cencelAdd}>
-                      Cancel
-                    </Button>
-                  </div>
-                </form>
+        {showForm ? (
+          <div className="border rounded-lg p-5">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                <div>
+                  <SelectClassRoom
+                    value={newData.classRoomId}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <SelectStudent
+                    value={newData.studentId}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <SelectPeriode
+                    value={newData.periodeId}
+                    handleChange={handleInputChange}
+                  />
+                </div>
               </div>
-            ) : null}
+              <div className="flex gap-4">
+                {newData.classRoomId == 0 || newData.studentId == 0 ? (
+                  <Button color="light">Simpan</Button>
+                ) : (
+                  <Button
+                    outline
+                    type="submit"
+                    gradientDuoTone="purpleToPink"
+                    className="w-fit"
+                  >
+                    Simpan
+                  </Button>
+                )}
+                <Button color="light" onClick={cencelAdd}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
+        ) : null}
 
-            {dataKelasSiswa !== null && dataKelasSiswa.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Kelas</Table.HeadCell>
-                    <Table.HeadCell>Lokasi</Table.HeadCell>
-                    <Table.HeadCell>Total Siswa</Table.HeadCell>
-                    <Table.HeadCell>Daya Tampung Per Angkatan</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataKelasSiswa.map((data, index) => (
-                      <Table.Row
-                        key={"as" + index}
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                      >
-                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                          {data.name}
-                        </Table.Cell>
-                        <Table.Cell>Lantai dasar</Table.Cell>
-                        <Table.Cell>{data._count.students}</Table.Cell>
-                        <Table.Cell>{data.studentTotal}</Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              onClick={() =>
-                                hapusData(data.classRoomId, data.studentId)
-                              }
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              onClick={() =>
-                                ubahData(data.classRoomId, data.studentId)
-                              }
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Detail
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-full text-red-500">Belum ada data</div>
-            )}
-          </Card>
-        </div>
+        {dataKelasSiswa !== null && dataKelasSiswa.length > 0 ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>Nama Kelas</Table.HeadCell>
+                <Table.HeadCell>Lokasi</Table.HeadCell>
+                <Table.HeadCell>Total Siswa</Table.HeadCell>
+                <Table.HeadCell>Daya Tampung Per Angkatan</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dataKelasSiswa.map((data, index) => (
+                  <Table.Row
+                    key={"as" + index}
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {data.name}
+                    </Table.Cell>
+                    <Table.Cell>Lantai dasar</Table.Cell>
+                    <Table.Cell>{data._count.students}</Table.Cell>
+                    <Table.Cell>{data.studentTotal}</Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                          onClick={() =>
+                            hapusData(data.classRoomId, data.studentId)
+                          }
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Hapus
+                        </a>
+                        <a
+                          onClick={() =>
+                            ubahData(data.classRoomId, data.studentId)
+                          }
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Detail
+                        </a>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <div className="w-full text-red-500">Belum ada data</div>
+        )}
+      </div>
     </>
   );
 };

@@ -139,96 +139,94 @@ const KelasDidikanPage = () => {
       </Head>
 
       <div className="w-full">
-          <Card className="w-full">
-            {!showForm ? (
-              <Button
-                outline
-                gradientDuoTone="purpleToPink"
-                className="w-fit"
-                onClick={() => setShowForm(!showForm)}
-              >
-                Add <HiOutlinePlus />
-              </Button>
-            ) : null}
+        {!showForm ? (
+          <Button
+            outline
+            gradientDuoTone="purpleToPink"
+            className="w-fit mb-4"
+            onClick={() => setShowForm(!showForm)}
+          >
+            Add <HiOutlinePlus />
+          </Button>
+        ) : null}
 
-            {showForm ? (
-              <div className="border rounded-lg p-5 ">
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    <div>
-                      <SelectClassRoom
-                        value={newData.classRoomId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                    <div>
-                      <SelectPeriode
-                        value={newData.periodeId}
-                        handleChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    {newData.classRoomId == 0 ? (
-                      <Button color="light">Simpan</Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        gradientDuoTone="purpleToPink"
-                        className="w-fit"
-                      >
-                        Simpan
-                      </Button>
-                    )}
-                  </div>
-                </form>
+        {showForm ? (
+          <div className="border rounded-lg p-5 mb-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                <div>
+                  <SelectClassRoom
+                    value={newData.classRoomId}
+                    handleChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <SelectPeriode
+                    value={newData.periodeId}
+                    handleChange={handleInputChange}
+                  />
+                </div>
               </div>
-            ) : null}
+              <div>
+                {newData.classRoomId == 0 ? (
+                  <Button color="light">Simpan</Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    gradientDuoTone="purpleToPink"
+                    className="w-fit"
+                  >
+                    Simpan
+                  </Button>
+                )}
+              </div>
+            </form>
+          </div>
+        ) : null}
 
-            {dataKelas !== null && dataKelas.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table hoverable>
-                  <Table.Head>
-                    <Table.HeadCell>Nama Kelas</Table.HeadCell>
-                    <Table.HeadCell>Ajaran</Table.HeadCell>
-                    <Table.HeadCell>
-                      <span className="sr-only">Edit</span>
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    {dataKelas.map((data, index) => (
-                      <Table.Row
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                        key={index}
-                      >
-                        <Table.Cell>{data.classRoom.name}</Table.Cell>
-                        <Table.Cell>{data.periode.name}</Table.Cell>
-                        <Table.Cell>
-                          <div className="flex flex-wrap gap-4 w-full">
-                            <a
-                              onClick={() => hapusData(data.classRoomId)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Hapus
-                            </a>
-                            <a
-                              onClick={() => ubahData(data.classRoomId)}
-                              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                            >
-                              Edit
-                            </a>
-                          </div>
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              </div>
-            ) : (
-              <div className="w-full text-red-500">Belum ada data</div>
-            )}
-          </Card>
-        </div>
+        {dataKelas !== null && dataKelas.length > 0 ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>Nama Kelas</Table.HeadCell>
+                <Table.HeadCell>Ajaran</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {dataKelas.map((data, index) => (
+                  <Table.Row
+                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    key={index}
+                  >
+                    <Table.Cell>{data.classRoom.name}</Table.Cell>
+                    <Table.Cell>{data.periode.name}</Table.Cell>
+                    <Table.Cell>
+                      <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                          onClick={() => hapusData(data.classRoomId)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Hapus
+                        </a>
+                        <a
+                          onClick={() => ubahData(data.classRoomId)}
+                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                        >
+                          Edit
+                        </a>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <div className="w-full text-red-500">Belum ada data</div>
+        )}
+      </div>
 
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
