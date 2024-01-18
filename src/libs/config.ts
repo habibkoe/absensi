@@ -1,11 +1,11 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  title: "Absensi Online",
+  title: "Go Absensi",
   description: "Aplikasi absensi online",
   creator: "Anonym",
   copyright: "Anonym",
-  siteName: "Absensi",
+  siteName: "Go Absensi",
   keywords: "Absensi, Online Register, Absen Online",
   menu: [
     {
