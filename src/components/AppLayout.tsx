@@ -37,7 +37,7 @@ const AppLayout = ({ children, headMenu }: Props) => {
   }
 
   return authorized ? (
-    <div className="w-full h-screen p-1 md:p-5">
+    <div className="w-full h-screen p-1 md:p-5 bg-black">
       <Card className="w-full md:w-3/6 bg-[#242526] mx-auto border-[#242526]">
         <div className="w-full">
           <div className="flex justify-between">
