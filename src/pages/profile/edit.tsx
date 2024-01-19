@@ -4,7 +4,15 @@ import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { editData, getOneData } from "@/services/userService";
 import { Users } from "@prisma/client";
-import { Button, Card, Label, TextInput, Toast } from "flowbite-react";
+import {
+  Button,
+  Card,
+  CustomFlowbiteTheme,
+  Flowbite,
+  Label,
+  TextInput,
+  Toast,
+} from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
@@ -136,17 +144,22 @@ const EditProfilePage = () => {
       <div className="w-full">
         <form onSubmit={handleFormSubmit} className="space-y-4">
           {/* Basic */}
-          <Card>
-            <div className="w-full text-gray-900 font-bold">Basic</div>
+          <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
+            <div className="w-full text-gray-300 font-bold">Basic</div>
             <div className="grid grid-cols-2 gap-4 w-full">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="firstName" value="Nama Awal" />
+                  <Label
+                    htmlFor="firstName"
+                    className="text-gray-300"
+                    value="Nama Awal"
+                  />
                 </div>
                 <TextInput
                   id="firstName"
                   type="text"
                   required
+                  className="!bg-[#3A3B3C]"
                   name="firstName"
                   placeholder="Your first name here..."
                   value={newData.firstName}
@@ -161,7 +174,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="lastName" value="Nama Akhir" />
+                  <Label
+                    htmlFor="lastName"
+                    className="text-gray-300"
+                    value="Nama Akhir"
+                  />
                 </div>
                 <TextInput
                   id="lastName"
@@ -182,12 +199,16 @@ const EditProfilePage = () => {
           </Card>
 
           {/* Account */}
-          <Card>
-            <div className="w-full text-gray-900 font-bold">Akun</div>
+          <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
+            <div className="w-full text-gray-300 font-bold">Akun</div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email" value="Email" />
+                  <Label
+                    htmlFor="email"
+                    className="text-gray-300"
+                    value="Email"
+                  />
                 </div>
                 <TextInput
                   id="email"
@@ -203,7 +224,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="username" value="Username" />
+                  <Label
+                    htmlFor="username"
+                    className="text-gray-300"
+                    value="Username"
+                  />
                 </div>
                 <TextInput
                   id="username"
@@ -219,7 +244,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="roleId" value="Role" />
+                  <Label
+                    htmlFor="roleId"
+                    className="text-gray-300"
+                    value="Role"
+                  />
                 </div>
                 <TextInput
                   id="roleId"
@@ -238,12 +267,16 @@ const EditProfilePage = () => {
           </Card>
 
           {/* Study */}
-          <Card>
-            <div className="w-full text-gray-900 font-bold">Profesi</div>
+          <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
+            <div className="w-full text-gray-300 font-bold">Profesi</div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="typeTeacher" value="Tipe Guru" />
+                  <Label
+                    htmlFor="typeTeacher"
+                    className="text-gray-300"
+                    value="Tipe Guru"
+                  />
                 </div>
                 <TextInput
                   id="typeTeacher"
@@ -267,7 +300,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="typeOfStudy" value="Tipe pelajaran" />
+                  <Label
+                    htmlFor="typeOfStudy"
+                    className="text-gray-300"
+                    value="Tipe pelajaran"
+                  />
                 </div>
                 <TextInput
                   id="typeOfStudy"
@@ -289,7 +326,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="categoryTeacher" value="Kategori guru" />
+                  <Label
+                    htmlFor="categoryTeacher"
+                    className="text-gray-300"
+                    value="Kategori guru"
+                  />
                 </div>
                 <TextInput
                   id="categoryTeacher"
@@ -313,7 +354,11 @@ const EditProfilePage = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="rating" value="Rating" />
+                  <Label
+                    htmlFor="rating"
+                    className="text-gray-300"
+                    value="Rating"
+                  />
                 </div>
                 <TextInput
                   id="rating"
@@ -329,12 +374,7 @@ const EditProfilePage = () => {
               </div>
             </div>
           </Card>
-          <Button
-            type="submit"
-            outline
-            gradientDuoTone="pinkToOrange"
-            size="sm"
-          >
+          <Button type="submit" gradientDuoTone="pinkToOrange" size="sm">
             Update
           </Button>
         </form>
@@ -351,6 +391,7 @@ const EditProfilePage = () => {
     </>
   );
 };
+
 
 EditProfilePage.getLayout = function getLayout(content: any) {
   return <AppLayout headMenu="Edit Profile">{content}</AppLayout>;

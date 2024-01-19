@@ -150,7 +150,7 @@ const KelasDidikanPage = () => {
         ) : null}
 
         {showForm ? (
-          <div className="border rounded-lg p-5 mb-4">
+          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>

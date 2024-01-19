@@ -36,6 +36,7 @@ const SelectClassRoom = (props: Props) => {
         id="classRoomId"
         name="classRoomId"
         required
+        color="gray"
         defaultValue={props.value}
         onChange={props.handleChange}
       >
