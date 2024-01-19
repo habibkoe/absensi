@@ -24,7 +24,7 @@ const SelectStatusAbsen = (props: Props) => {
     <>
       {props.label ? (
         <div className="mb-2 block">
-          <Label htmlFor="absensiType" value="Status Absensi" />
+          <Label htmlFor="absensiType" className="text-gray-300" value="Status Absensi" />
         </div>
       ) : null}
 

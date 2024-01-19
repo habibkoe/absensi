@@ -30,7 +30,7 @@ const SelectPeriode = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="periodeId" value="Tahun Ajaran" />
+        <Label htmlFor="periodeId" className="text-gray-300" value="Tahun Ajaran" />
       </div>
       <Select
         id="periodeId"

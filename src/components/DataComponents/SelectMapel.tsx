@@ -40,7 +40,7 @@ const SelectMapel = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="mapelId" value="Mata Pelajaran" />
+        <Label htmlFor="mapelId" className="text-gray-300" value="Mata Pelajaran" />
       </div>
       {props.typeData && props.typeData == 1 ? (
         <Select

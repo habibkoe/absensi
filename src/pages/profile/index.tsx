@@ -54,8 +54,7 @@ const ProfilePage = () => {
                 </p>
                 <Button
                   onClick={editProfile}
-                  outline
-                  gradientDuoTone="purpleToPink"
+                  gradientDuoTone="pinkToOrange"
                   size="sm"
                 >
                   Update

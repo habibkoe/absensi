@@ -120,8 +120,7 @@ const MapelPage = () => {
       <div className="w-full">
         {!showForm ? (
           <Button
-            outline
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="pinkToOrange"
             className="w-fit mb-4"
             onClick={() => setShowForm(!showForm)}
           >
@@ -130,12 +129,12 @@ const MapelPage = () => {
         ) : null}
 
         {showForm ? (
-          <div className="border rounded-lg p-5 mb-4">
+          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="name" value="Nama Mapel" />
+                    <Label htmlFor="name" className="text-gray-300" value="Nama Mapel" />
                   </div>
                   <TextInput
                     id="name"
@@ -157,7 +156,7 @@ const MapelPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="code" value="Code Mapel" />
+                    <Label htmlFor="code" className="text-gray-300" value="Code Mapel" />
                   </div>
                   <TextInput
                     id="code"
@@ -185,7 +184,7 @@ const MapelPage = () => {
                   <Button
                     outline
                     type="submit"
-                    gradientDuoTone="purpleToPink"
+                    gradientDuoTone="pinkToOrange"
                     className="w-fit"
                   >
                     Simpan
@@ -201,20 +200,24 @@ const MapelPage = () => {
         {dataMapel !== null && dataMapel.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>Nama Mapel</Table.HeadCell>
-                <Table.HeadCell>Code</Table.HeadCell>
-                <Table.HeadCell>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Nama Mapel
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Code
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {dataMapel.map((data, index) => (
                   <Table.Row
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
                       {data.name}
                     </Table.Cell>
                     <Table.Cell>{data.code}</Table.Cell>

@@ -141,8 +141,7 @@ const KelasPage = () => {
       <div className="w-full">
         {!showForm ? (
           <Button
-            outline
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="pinkToOrange"
             className="w-fit mb-4"
             onClick={() => setShowForm(!showForm)}
           >
@@ -151,12 +150,12 @@ const KelasPage = () => {
         ) : null}
 
         {showForm ? (
-          <div className="border rounded-lg p-5 mb-4">
+          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="name" value="Nama kelas" />
+                    <Label htmlFor="name" className="text-gray-300" value="Nama kelas" />
                   </div>
                   <TextInput
                     id="name"
@@ -178,7 +177,7 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="location" value="Lokasi" />
+                    <Label htmlFor="location" className="text-gray-300" value="Lokasi" />
                   </div>
                   <TextInput
                     id="location"
@@ -200,7 +199,7 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="studentTotal" value="Daya Tampung" />
+                    <Label htmlFor="studentTotal" className="text-gray-300" value="Daya Tampung" />
                   </div>
                   <TextInput
                     id="studentTotal"
@@ -222,7 +221,7 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="levelClass" value="Level" />
+                    <Label htmlFor="levelClass" className="text-gray-300" value="Level" />
                   </div>
                   <Select
                     id="levelClass"
@@ -246,7 +245,7 @@ const KelasPage = () => {
                   <Button
                     outline
                     type="submit"
-                    gradientDuoTone="purpleToPink"
+                    gradientDuoTone="pinkToOrange"
                     className="w-fit"
                   >
                     Simpan
@@ -263,21 +262,21 @@ const KelasPage = () => {
         {dataKelas !== null && dataKelas.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>Nama Kelas</Table.HeadCell>
-                <Table.HeadCell>Lokasi</Table.HeadCell>
-                <Table.HeadCell>Daya Tampung</Table.HeadCell>
-                <Table.HeadCell>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Nama Kelas</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Lokasi</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Daya Tampung</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {dataKelas.map((data, index) => (
                   <Table.Row
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                  className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
                       {data.name}
                     </Table.Cell>
                     <Table.Cell>{data.location}</Table.Cell>

@@ -180,15 +180,15 @@ const AbsensiPeriodePage = () => {
         <div className="w-full">
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div>
-              <div className="text-gray-900">
+              <div className="text-gray-300">
                 <span className="font-medium text-sm">Kelas</span> <br />
                 {dataKelas?.name}
               </div>
-              <div className="text-gray-900">
+              <div className="text-gray-300">
                 <span className="font-medium text-sm">Periode</span> <br />
                 {dataPeriode?.name}
               </div>
-              <div className="text-gray-900">
+              <div className="text-gray-300">
                 <span className="font-medium text-sm">Guru</span> <br />
                 {dataUser?.firstName} {dataUser?.lastName}
               </div>
@@ -212,7 +212,7 @@ const AbsensiPeriodePage = () => {
             <div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="absensiDate" value="Tanggal Absensi" />
+                  <Label htmlFor="absensiDate" className="text-gray-300" value="Tanggal Absensi" />
                 </div>
                 <Datepicker
                   name="absensiDate"
@@ -235,21 +235,31 @@ const AbsensiPeriodePage = () => {
 
           <div className="overflow-x-auto">
             <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>NIS</Table.HeadCell>
-                <Table.HeadCell>Nama Siswa</Table.HeadCell>
-                <Table.HeadCell>JK</Table.HeadCell>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  NIS
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Nama Siswa
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  JK
+                </Table.HeadCell>
 
-                <Table.HeadCell>Status Kehadiran</Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Status Kehadiran
+                </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {dataKelasSiswa.map((data, index) => (
                   <Table.Row
                     key={"as" + index}
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
-                    <Table.Cell>{data.student.nis}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                      {data.student.nis}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
                       {data.student.firstName} {data.student.lastName}
                     </Table.Cell>
                     <Table.Cell>{data.student.gender}</Table.Cell>
@@ -265,7 +275,7 @@ const AbsensiPeriodePage = () => {
                 ))}
               </Table.Body>
             </Table>
-            <Button onClick={saveData} outline gradientDuoTone="purpleToPink">
+            <Button onClick={saveData} gradientDuoTone="pinkToOrange">
               Submit
             </Button>
           </div>

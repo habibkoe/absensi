@@ -179,8 +179,7 @@ const SiswaPage = () => {
       <div className="w-full">
         {!showForm ? (
           <Button
-            outline
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="pinkToOrange"
             className="w-fit mb-4"
             onClick={() => setShowForm(!showForm)}
           >
@@ -189,12 +188,12 @@ const SiswaPage = () => {
         ) : null}
 
         {showForm ? (
-          <div className="border rounded-lg p-5">
+          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="nis" value="NIS" />
+                    <Label htmlFor="nis" className="text-gray-300" value="NIS" />
                   </div>
                   <TextInput
                     id="nis"
@@ -216,7 +215,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="firstName" value="Nama awal" />
+                    <Label htmlFor="firstName" className="text-gray-300" value="Nama awal" />
                   </div>
                   <TextInput
                     id="firstName"
@@ -238,7 +237,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="lastName" value="Nama Ahir" />
+                    <Label htmlFor="lastName" className="text-gray-300" value="Nama Ahir" />
                   </div>
                   <TextInput
                     id="lastName"
@@ -251,7 +250,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="email" value="Email" />
+                    <Label htmlFor="email" className="text-gray-300" value="Email" />
                   </div>
                   <TextInput
                     id="email"
@@ -264,7 +263,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="gender" value="Gender" />
+                    <Label htmlFor="gender" className="text-gray-300" value="Gender" />
                   </div>
                   <Select
                     id="gender"
@@ -280,7 +279,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="email1" value="DOB" />
+                    <Label htmlFor="email1" className="text-gray-300" value="DOB" />
                   </div>
                   <Datepicker
                     name="dateOfBirth"
@@ -294,7 +293,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="address" value="Alamat" />
+                    <Label htmlFor="address" className="text-gray-300" value="Alamat" />
                   </div>
                   <TextInput
                     id="address"
@@ -307,7 +306,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="parent" value="Orang Tua" />
+                    <Label htmlFor="parent" className="text-gray-300" value="Orang Tua" />
                   </div>
                   <TextInput
                     id="parent"
@@ -320,7 +319,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="rating" value="Rating" />
+                    <Label htmlFor="rating" className="text-gray-300" value="Rating" />
                   </div>
                   <TextInput
                     id="rating"
@@ -333,7 +332,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="favoriteLearn" value="Pelajaran Paforite" />
+                    <Label htmlFor="favoriteLearn" className="text-gray-300" value="Pelajaran Paforite" />
                   </div>
                   <TextInput
                     id="favoriteLearn"
@@ -346,7 +345,7 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="Hobby" value="Hobby" />
+                    <Label htmlFor="Hobby" className="text-gray-300" value="Hobby" />
                   </div>
                   <TextInput
                     id="Hobby"
@@ -367,7 +366,7 @@ const SiswaPage = () => {
                   <Button
                     outline
                     type="submit"
-                    gradientDuoTone="purpleToPink"
+                    gradientDuoTone="pinkToOrange"
                     className="w-fit"
                   >
                     Simpan
@@ -383,12 +382,20 @@ const SiswaPage = () => {
         {dataSiswa !== null && dataSiswa.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>Nama Siswa</Table.HeadCell>
-                <Table.HeadCell>NIS</Table.HeadCell>
-                <Table.HeadCell>JK</Table.HeadCell>
-                <Table.HeadCell>Alamat</Table.HeadCell>
-                <Table.HeadCell>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Nama Siswa
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  NIS
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  JK
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Alamat
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -396,9 +403,9 @@ const SiswaPage = () => {
                 {dataSiswa.map((data, index) => (
                   <Table.Row
                     key={data.id}
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
                       {data.firstName} {data.lastName}
                     </Table.Cell>
                     <Table.Cell>{data.nis}</Table.Cell>

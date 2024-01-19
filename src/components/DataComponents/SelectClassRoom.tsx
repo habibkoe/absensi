@@ -30,7 +30,7 @@ const SelectClassRoom = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="classRoomId" value="Ruang Kelas" />
+        <Label htmlFor="classRoomId" className="text-gray-300" value="Ruang Kelas" />
       </div>
       <Select
         id="classRoomId"

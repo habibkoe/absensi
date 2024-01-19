@@ -24,7 +24,7 @@ const SelectTahun = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor={props.name} value={props.label} />
+        <Label htmlFor={props.name} className="text-gray-300" value={props.label} />
       </div>
       <Select
         id={props.name}

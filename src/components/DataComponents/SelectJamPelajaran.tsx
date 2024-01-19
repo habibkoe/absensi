@@ -23,7 +23,7 @@ const SelectJamPelajaran = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="jamPelajaran" value="Jam Pelajaran" />
+        <Label htmlFor="jamPelajaran" className="text-gray-300" value="Jam Pelajaran" />
       </div>
       <Select
         id="jamPelajaran"

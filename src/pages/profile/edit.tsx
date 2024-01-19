@@ -332,7 +332,7 @@ const EditProfilePage = () => {
           <Button
             type="submit"
             outline
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="pinkToOrange"
             size="sm"
           >
             Update

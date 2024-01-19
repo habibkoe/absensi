@@ -21,7 +21,7 @@ const SelectPertemuan = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="pertemuan" value="Pertemuan" />
+        <Label htmlFor="pertemuan" className="text-gray-300" value="Pertemuan" />
       </div>
       <Select
         id="pertemuan"

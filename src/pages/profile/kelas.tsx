@@ -141,8 +141,7 @@ const KelasDidikanPage = () => {
       <div className="w-full">
         {!showForm ? (
           <Button
-            outline
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="pinkToOrange"
             className="w-fit mb-4"
             onClick={() => setShowForm(!showForm)}
           >
@@ -173,7 +172,7 @@ const KelasDidikanPage = () => {
                 ) : (
                   <Button
                     type="submit"
-                    gradientDuoTone="purpleToPink"
+                    gradientDuoTone="pinkToOrange"
                     className="w-fit"
                   >
                     Simpan
@@ -187,20 +186,26 @@ const KelasDidikanPage = () => {
         {dataKelas !== null && dataKelas.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>Nama Kelas</Table.HeadCell>
-                <Table.HeadCell>Ajaran</Table.HeadCell>
-                <Table.HeadCell>
+              <Table.Head className="border-b border-[#242526]">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Nama Kelas
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                  Ajaran
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {dataKelas.map((data, index) => (
                   <Table.Row
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={index}
                   >
-                    <Table.Cell>{data.classRoom.name}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                      {data.classRoom.name}
+                    </Table.Cell>
                     <Table.Cell>{data.periode.name}</Table.Cell>
                     <Table.Cell>
                       <div className="flex flex-wrap gap-4 w-full">

@@ -30,7 +30,7 @@ const SelectStudent = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="studentId" value="Siswa" />
+        <Label htmlFor="studentId" className="text-gray-300" value="Siswa" />
       </div>
       <Select
         id="studentId"

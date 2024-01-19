@@ -3,6 +3,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect } from "react";
 import MainMenu from "./MainMenu";
+import MobileNavbar from "./MobileNavbar";
+import MainNavbar from "./MainNavbar";
 
 interface Props {
   children?: ReactNode;
@@ -37,19 +39,22 @@ const AppLayout = ({ children, headMenu }: Props) => {
   }
 
   return authorized ? (
-    <div className="w-full h-screen p-1 md:p-5 bg-black">
+    <>
+    <MainNavbar />
+    <div className="w-full h-screen px-1 pt-16 md:px-5 bg-black">
       <Card className="w-full md:w-3/6 bg-[#242526] mx-auto border-[#242526]">
         <div className="w-full">
           <div className="flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1] dark:text-white">
               {headMenu}
             </h5>
-            <MainMenu />
           </div>
         </div>
         {children}
       </Card>
     </div>
+    </>
+    
   ) : (
     <></>
   );

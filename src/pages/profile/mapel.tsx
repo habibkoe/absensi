@@ -137,8 +137,7 @@ const MapelProfilePage = () => {
         <Card className="w-full">
           {!showForm ? (
             <Button
-              outline
-              gradientDuoTone="purpleToPink"
+              gradientDuoTone="pinkToOrange"
               className="w-fit"
               onClick={() => setShowForm(!showForm)}
             >
@@ -163,7 +162,7 @@ const MapelProfilePage = () => {
                   ) : (
                     <Button
                       type="submit"
-                      gradientDuoTone="purpleToPink"
+                      gradientDuoTone="pinkToOrange"
                       className="w-fit"
                     >
                       Simpan
