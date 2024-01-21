@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import CardMenu from "@/components/Attribute/CardMenu";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { getOneData } from "@/services/classRoomService";
@@ -48,27 +49,21 @@ const AbsensiKelasPage = () => {
 
       {dataPeriode !== null && dataPeriode.length > 0 ? (
         <div className="w-full">
-          <div className="text-gray-900">
+          <div className="text-gray-300">
             Anda telah memilih kelas: {dataKelas?.name}
           </div>
-          <div className="text-gray-900">
+          <div className="text-gray-300">
             Silahkan pilih periode tahun ajaran untuk melakukan absensi
           </div>
-          <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
             {dataPeriode.map((data, index) => (
-              <Link
+              <CardMenu
                 href={`/absensi/periode/${kelasId}/${data.id}`}
-                key={data.id}
+                key={index}
+                subTitle={`TA ${data.periodeStart} - ${data.periodeEnd}`}
               >
-                <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                  <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                    {data.name}
-                  </h5>
-                  <p className="font-normal text-[#DADCE1]">
-                    TA {data.periodeStart} - {data.periodeEnd}
-                  </p>
-                </Card>
-              </Link>
+                {data.name}
+              </CardMenu>
             ))}
           </div>
         </div>

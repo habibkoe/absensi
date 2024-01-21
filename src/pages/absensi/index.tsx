@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import CardMenu from "@/components/Attribute/CardMenu";
 import MainMenu from "@/components/MainMenu";
 import { getByUserData } from "@/services/userRoomService";
 import { Card } from "flowbite-react";
@@ -34,18 +35,15 @@ const AbsensiPage = () => {
 
       {dataKelas !== null && dataKelas.length > 0 ? (
         <div className="w-full">
-          <div className="grid gap-8 md:grid-cols-4 sm:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
             {dataKelas.map((data, index) => (
-              <Link href={`/absensi/kelas/${data.classRoom.id}`} key={index}>
-                <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                  <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                    {data.classRoom.name}
-                  </h5>
-                  <p className="font-normal text-[#DADCE1]">
-                    Info terkait {data.classRoom.name}
-                  </p>
-                </Card>
-              </Link>
+              <CardMenu
+                href={`/absensi/kelas/${data.classRoom.id}`}
+                key={index}
+                subTitle={`Info terkait ${data.classRoom.name}`}
+              >
+                {data.classRoom.name}
+              </CardMenu>
             ))}
           </div>
         </div>

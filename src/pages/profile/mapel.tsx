@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import SelectMapel from "@/components/DataComponents/SelectMapel";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
@@ -13,7 +15,12 @@ import { Button, Card, Table, Toast } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiCheck, HiOutlinePlus } from "react-icons/hi";
+import {
+  HiCheck,
+  HiOutlinePencil,
+  HiOutlinePlus,
+  HiOutlineTrash,
+} from "react-icons/hi";
 
 export interface NewForm {
   userId: number;
@@ -135,13 +142,9 @@ const MapelProfilePage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data mapel
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -176,10 +179,10 @@ const MapelProfilePage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Nama Mapel
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Mapel
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -190,22 +193,24 @@ const MapelProfilePage = () => {
                     key={index}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.mapel.name}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.mapel.name}
+                      </span>
                     </Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.mapelId)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => ubahData(data.mapelId)}
+                          title="Edit data"
                         >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() => ubahData(data.mapelId)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() => hapusData(data.mapelId)}
+                          title="Hapus data"
                         >
-                          Edit
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>

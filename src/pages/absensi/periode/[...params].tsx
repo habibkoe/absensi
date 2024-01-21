@@ -212,7 +212,11 @@ const AbsensiPeriodePage = () => {
             <div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="absensiDate" className="text-gray-300" value="Tanggal Absensi" />
+                  <Label
+                    htmlFor="absensiDate"
+                    className="text-gray-300"
+                    value="Tanggal Absensi"
+                  />
                 </div>
                 <Datepicker
                   name="absensiDate"
@@ -234,20 +238,14 @@ const AbsensiPeriodePage = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <Table hoverable>
+            <Table hoverable className="mb-4">
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  NIS
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Nama Siswa
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  JK
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-9/12">
+                  Data Siswa
                 </Table.HeadCell>
 
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Status Kehadiran
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-3/12">
+                  Kehadiran
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
@@ -257,12 +255,18 @@ const AbsensiPeriodePage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.student.nis}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.student.firstName} {data.student.lastName}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Nis: {data.student.nis}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Jenis kelamin: {data.student.gender}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.student.firstName} {data.student.lastName}
-                    </Table.Cell>
-                    <Table.Cell>{data.student.gender}</Table.Cell>
 
                     <Table.Cell>
                       <SelectStatusAbsen

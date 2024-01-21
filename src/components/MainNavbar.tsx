@@ -78,8 +78,8 @@ const MainNavbar = () => {
           height={30}
           alt="Go Absensi"
         />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Absensi
+        <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
+          Go Absensi
         </span>
       </Navbar.Brand>
       <Navbar.Toggle />

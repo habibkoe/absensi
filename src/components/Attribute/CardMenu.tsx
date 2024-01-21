@@ -11,7 +11,7 @@ interface Props {
 const CardMenu = (props: Props) => {
   return (
     <Link href={props.href}>
-      <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
+      <Card className="w-full md:h-36 hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
         <h5 className="text-2xl font-semibold tracking-tight text-[#DADCE1]">
           {props.children}
         </h5>
