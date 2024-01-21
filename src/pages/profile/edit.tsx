@@ -146,7 +146,7 @@ const EditProfilePage = () => {
           {/* Basic */}
           <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
             <div className="w-full text-gray-300 font-bold">Basic</div>
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid md:grid-cols-2 gap-4 w-full">
               <div>
                 <div className="mb-2 block">
                   <Label
@@ -201,7 +201,7 @@ const EditProfilePage = () => {
           {/* Account */}
           <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
             <div className="w-full text-gray-300 font-bold">Akun</div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <div className="mb-2 block">
                   <Label
@@ -269,7 +269,7 @@ const EditProfilePage = () => {
           {/* Study */}
           <Card className="bg-[#3A3B3C] border-[#3A3B3C]">
             <div className="w-full text-gray-300 font-bold">Profesi</div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <div className="mb-2 block">
                   <Label

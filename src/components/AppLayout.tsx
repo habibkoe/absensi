@@ -37,7 +37,9 @@ const AppLayout = ({ children, headMenu }: Props) => {
   if (loading) {
     return (
       <div className="w-full h-screen px-1 pt-16 md:px-5 bg-black flex justify-center items-center">
-        <div className="bg-gray-700 text-white font-bold rounded-lg p-2">Loading app...</div>
+        <div className="bg-gray-700 text-white font-bold rounded-lg p-2">
+          Loading app...
+        </div>
       </div>
     );
   }
@@ -111,6 +113,24 @@ const customTheme: CustomFlowbiteTheme = {
     },
   },
   navbar: {
+    root: {
+      base: "bg-white px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4 z-50",
+      rounded: {
+        on: "rounded",
+        off: "",
+      },
+      bordered: {
+        on: "border",
+        off: "",
+      },
+      inner: {
+        base: "mx-auto flex flex-wrap items-center justify-between",
+        fluid: {
+          on: "",
+          off: "container",
+        },
+      },
+    },
     collapse: {
       list: "mt-4 flex flex-col md:mt-0 md:flex-row md:space-x-2 md:text-sm md:font-medium",
     },

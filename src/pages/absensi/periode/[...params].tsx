@@ -178,7 +178,7 @@ const AbsensiPeriodePage = () => {
       </Head>
       {dataKelasSiswa !== null && dataKelasSiswa.length > 0 ? (
         <div className="w-full">
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="grid md:grid-cols-3 gap-4 mb-4">
             <div>
               <div className="text-gray-300">
                 <span className="font-medium text-sm">Kelas</span> <br />
@@ -240,11 +240,11 @@ const AbsensiPeriodePage = () => {
           <div className="overflow-x-auto">
             <Table hoverable className="mb-4">
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-9/12">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 md:w-9/12 w-6/12">
                   Data Siswa
                 </Table.HeadCell>
 
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-3/12">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 md:w-3/12 w-6/12">
                   Kehadiran
                 </Table.HeadCell>
               </Table.Head>

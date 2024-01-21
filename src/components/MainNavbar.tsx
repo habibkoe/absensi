@@ -70,7 +70,7 @@ const MainNavbar = () => {
 
   return (
     <Navbar className="bg-[#242526] border-b border-[#414344] fixed w-full py-1.5">
-      <Navbar.Brand href="/" className="flex gap-4">
+      <Navbar.Brand href="/dashboard" className="flex gap-4">
         <Image
           src="/images/icons/icon-72x72.png"
           className="h-8"
