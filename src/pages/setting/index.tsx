@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import CardMenu from "@/components/Attribute/CardMenu";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { Card } from "flowbite-react";
@@ -23,69 +24,24 @@ const SettingPage = () => {
 
       <div className="w-full">
         <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
-          <Link href="/setting/periode">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br /> Periode
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Tahun Ajaran
-              </p>
-            </Card>
-          </Link>
-
-          <Link href="/setting/kelas">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br /> Kelas
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Master Kelas
-              </p>
-            </Card>
-          </Link>
-
-          <Link href="/setting/mapel">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br /> Mata Pelajaran
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Master Pelajaran
-              </p>
-            </Card>
-          </Link>
-          <Link href="/setting/siswa">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br /> Siswa
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Master Siswa
-              </p>
-            </Card>
-          </Link>
-          <Link href="/setting/siswa-kelas">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br />
-                Kelas Siswa
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Kelas Siswa
-              </p>
-            </Card>
-          </Link>
-          <Link href="/setting/users">
-            <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-              <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
-                Master <br /> Users
-              </h5>
-              <p className="font-normal text-[#DADCE1]">
-                Setting Users
-              </p>
-            </Card>
-          </Link>
+          <CardMenu href="/setting/periode" subTitle="Setting tahun ajaran">
+            Master <br /> Periode
+          </CardMenu>
+          <CardMenu href="/setting/kelas" subTitle="Setting master kelas">
+            Master <br /> Kelas
+          </CardMenu>
+          <CardMenu href="/setting/mapel" subTitle="Setting mata pelajaran">
+            Master <br /> Mata Pelajaran
+          </CardMenu>
+          <CardMenu href="/setting/siswa" subTitle="Setting master siswa">
+            Master <br /> Siswa
+          </CardMenu>
+          <CardMenu href="/setting/siswa-kelas" subTitle="Setting kelas siswa">
+            Master <br /> Kelas Siswa
+          </CardMenu>
+          <CardMenu href="/setting/users" subTitle="Setting users">
+            Master <br /> Users
+          </CardMenu>
         </div>
       </div>
     </>

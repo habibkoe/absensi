@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import SelectTahun from "@/components/DataComponents/SelectTahun";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
@@ -13,7 +15,12 @@ import { MataPelajarans, Periode } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput, Toast } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiCheck, HiOutlinePlus } from "react-icons/hi";
+import {
+  HiCheck,
+  HiOutlinePencil,
+  HiOutlinePlus,
+  HiOutlineTrash,
+} from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -138,13 +145,9 @@ const PeriodePage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data periode
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -153,7 +156,11 @@ const PeriodePage = () => {
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="name" className="text-gray-300" value="Nama Periode" />
+                    <Label
+                      htmlFor="name"
+                      className="text-gray-300"
+                      value="Nama Periode"
+                    />
                   </div>
                   <TextInput
                     id="name"
@@ -197,7 +204,6 @@ const PeriodePage = () => {
                   <Button color="light">Simpan</Button>
                 ) : (
                   <Button
-                    outline
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
@@ -216,13 +222,10 @@ const PeriodePage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
                   Nama Tahun Ajaran
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Tahun Ajaran
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -232,26 +235,29 @@ const PeriodePage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.name}
+                    <Table.Cell className="whitespace-nowrap font-medium">
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.name}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Periode: {data.periodeStart} - {data.periodeEnd}
+                      </span>
                     </Table.Cell>
                     <Table.Cell>
-                      {data.periodeStart} - {data.periodeEnd}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => ubahData(data.id)}
+                          title="Edit data"
                         >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() => ubahData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() => hapusData(data.id)}
+                          title="Hapus data"
                         >
-                          Edit
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>

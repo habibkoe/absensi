@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
 import SelectPeriode from "@/components/DataComponents/SelectPeriode";
 import SelectStudent from "@/components/DataComponents/SelectStudent";
@@ -16,7 +18,7 @@ import { ClassRooms, StudentsOnClassRooms } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiOutlinePlus } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 
 export interface NewForm {
   studentId: number;
@@ -145,13 +147,9 @@ const SiswaKelasPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data mapel
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -182,7 +180,6 @@ const SiswaKelasPage = () => {
                   <Button color="light">Simpan</Button>
                 ) : (
                   <Button
-                    outline
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
@@ -202,19 +199,10 @@ const SiswaKelasPage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Nama Kelas
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Kelas
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Lokasi
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Total Siswa
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Daya Tampung Per Angkatan
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -225,29 +213,40 @@ const SiswaKelasPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.name}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.name}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Lokasi: {data.location}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Jml siswa: {data._count.students}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Daya tampung: {data.studentTotal}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell>Lantai dasar</Table.Cell>
-                    <Table.Cell>{data._count.students}</Table.Cell>
-                    <Table.Cell>{data.studentTotal}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() =>
-                            hapusData(data.classRoomId, data.studentId)
-                          }
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
-                        >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() =>
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() =>
                             ubahData(data.classRoomId, data.studentId)
                           }
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          title="Detail data"
                         >
-                          Detail
-                        </a>
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() =>
+                            hapusData(data.classRoomId, data.studentId)
+                          }
+                          title="Hapus data"
+                        >
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>

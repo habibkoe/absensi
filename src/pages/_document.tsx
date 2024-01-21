@@ -30,10 +30,10 @@ export default function Document() {
         <meta property="og:image:width" content="192" />
         <meta property="og:image:height" content="192" />
         <meta property="og:description" content={siteConfig.description} />
-        <meta
+        {/* <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
-        />
+        /> */}
         <meta name="theme-color" content="#000" />
         <link
           rel="icon"

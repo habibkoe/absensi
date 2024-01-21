@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import {
+  HiFingerPrint,
   HiLogout,
   HiOutlineCog,
   HiOutlineUser,
@@ -33,7 +34,7 @@ const MainNavbar = () => {
         id: 3,
         name: "Absensi",
         url: "/absensi",
-        icon: null,
+        icon: <HiFingerPrint />,
       },
       {
         id: 4,
@@ -60,7 +61,7 @@ const MainNavbar = () => {
         id: 3,
         name: "Absensi",
         url: "/absensi",
-        icon: null,
+        icon: <HiFingerPrint />,
       },
     ];
   }
@@ -88,19 +89,20 @@ const MainNavbar = () => {
               <Link
                 href={data.url}
                 key={index}
-                className="text-gray-300 md:text-xl md:rounded-full md:bg-[#3A3B3C] md:py-1 md:px-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f]"
+                className="text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
                 title={data.name}
               >
-                {data.icon !== null ? data.icon : data.name}
+                {data.icon !== null ? data.icon : data.name}{" "}
+                <span className="md:hidden">{data.name}</span>
               </Link>
             ))
           : null}
         <button
           onClick={() => signOut()}
-          className="cursor-pointer text-gray-300 md:text-xl md:rounded-full md:bg-[#3A3B3C] md:py-1 md:px-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f]"
+          className="cursor-pointer text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
           title="Sign Out"
         >
-          <HiLogout />
+          <HiLogout /> <span className="md:hidden">Sign Out</span>
         </button>
       </Navbar.Collapse>
     </Navbar>

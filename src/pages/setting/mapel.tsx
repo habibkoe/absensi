@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
@@ -12,7 +14,7 @@ import { MataPelajarans } from "@prisma/client";
 import { Button, Card, Label, Table, TextInput } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiOutlinePlus } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 
 export interface NewForm {
   code: string;
@@ -119,13 +121,9 @@ const MapelPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data mapel
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -134,7 +132,11 @@ const MapelPage = () => {
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="name" className="text-gray-300" value="Nama Mapel" />
+                    <Label
+                      htmlFor="name"
+                      className="text-gray-300"
+                      value="Nama Mapel"
+                    />
                   </div>
                   <TextInput
                     id="name"
@@ -156,7 +158,11 @@ const MapelPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="code" className="text-gray-300" value="Code Mapel" />
+                    <Label
+                      htmlFor="code"
+                      className="text-gray-300"
+                      value="Code Mapel"
+                    />
                   </div>
                   <TextInput
                     id="code"
@@ -182,7 +188,6 @@ const MapelPage = () => {
                   <Button color="light">Simpan</Button>
                 ) : (
                   <Button
-                    outline
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
@@ -201,13 +206,10 @@ const MapelPage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Nama Mapel
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Mapel
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Code
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -218,23 +220,28 @@ const MapelPage = () => {
                     key={data.id}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.name}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.name}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Code: {data.code}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell>{data.code}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => ubahData(data.id)}
+                          title="Edit data"
                         >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() => ubahData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() => hapusData(data.id)}
+                          title="Hapus data"
                         >
-                          Edit
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>

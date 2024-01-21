@@ -65,7 +65,7 @@ const ProfilePage = () => {
               <div className="grid gap-4 md:grid-cols-2">
                 <Link href="/profile/kelas">
                   <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
+                    <h5 className="text-2xl font-semibold tracking-tight text-[#DADCE1]">
                       Kelas
                     </h5>
                     <p className="font-normal text-[#DADCE1]">
@@ -75,7 +75,7 @@ const ProfilePage = () => {
                 </Link>
                 <Link href="/profile/mapel">
                   <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
+                    <h5 className="text-2xl font-semibold tracking-tight text-[#DADCE1]">
                       Mapel
                     </h5>
                     <p className="font-normal text-[#DADCE1]">
@@ -85,7 +85,7 @@ const ProfilePage = () => {
                 </Link>
                 <Link href="/absensi">
                   <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
+                    <h5 className="text-2xl font-semibold tracking-tight text-[#DADCE1]">
                       Absensi
                     </h5>
                     <p className="font-normal text-[#DADCE1]">
@@ -96,7 +96,7 @@ const ProfilePage = () => {
 
                 <Link href="/absensi/report">
                   <Card className="w-full hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]">
-                    <h5 className="text-2xl font-bold tracking-tight text-[#DADCE1]">
+                    <h5 className="text-2xl font-semibold tracking-tight text-[#DADCE1]">
                       Report
                     </h5>
                     <p className="font-normal text-[#DADCE1]">

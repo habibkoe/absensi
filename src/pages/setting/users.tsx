@@ -1,4 +1,5 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { deleteData, getAllData, getOneData } from "@/services/userService";
@@ -6,6 +7,7 @@ import { Users } from "@prisma/client";
 import { Card, Table } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const UserPage = () => {
   const [dataUsers, setDataUsers] = useState<Users[]>([]);
@@ -56,11 +58,10 @@ const UserPage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Nama Users</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Email</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Username</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Role</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Users
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -71,19 +72,30 @@ const UserPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300">
-                      {data.firstName} {data.lastName}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.firstName} {data.lastName}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Email: {data.email}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Username: {data.username}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Role: {roleName(Number(data.roleId))}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell>{data.email}</Table.Cell>
-                    <Table.Cell>{data.username}</Table.Cell>
-                    <Table.Cell>{roleName(Number(data.roleId))}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => hapusData(data.id)}
+                          title="Hapus data"
                         >
-                          Hapus
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>

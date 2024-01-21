@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
@@ -20,7 +22,12 @@ import {
 } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiCheck, HiOutlinePlus } from "react-icons/hi";
+import {
+  HiCheck,
+  HiOutlinePencil,
+  HiOutlinePlus,
+  HiOutlineTrash,
+} from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -39,7 +46,10 @@ const KelasPage = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [showToastMessage, setShowToastMessage] = useState("");
+  const [showToastMessage, setShowToastMessage] = useState<any>({
+    type: 0,
+    message: "",
+  });
 
   const [currentId, setCurrentId] = useState(0);
   const [newData, setNewData] = useState<NewForm>(initialState);
@@ -115,10 +125,16 @@ const KelasPage = () => {
           setCurrentId(0);
           getData();
           setShowToast(true);
-          setShowToastMessage("Berhasil simpan data");
+          setShowToastMessage({
+            type: 1,
+            message: "Berhasil simpan data",
+          });
         } else {
           setShowToast(true);
-          setShowToastMessage("Gagal simpan data");
+          setShowToastMessage({
+            type: 2,
+            message: "Gagal simpan data",
+          });
           console.error("Failed to post data");
         }
 
@@ -140,13 +156,9 @@ const KelasPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data kelas
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -155,7 +167,11 @@ const KelasPage = () => {
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="name" className="text-gray-300" value="Nama kelas" />
+                    <Label
+                      htmlFor="name"
+                      className="text-gray-300"
+                      value="Nama kelas"
+                    />
                   </div>
                   <TextInput
                     id="name"
@@ -177,7 +193,11 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="location" className="text-gray-300" value="Lokasi" />
+                    <Label
+                      htmlFor="location"
+                      className="text-gray-300"
+                      value="Lokasi"
+                    />
                   </div>
                   <TextInput
                     id="location"
@@ -199,7 +219,11 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="studentTotal" className="text-gray-300" value="Daya Tampung" />
+                    <Label
+                      htmlFor="studentTotal"
+                      className="text-gray-300"
+                      value="Daya Tampung"
+                    />
                   </div>
                   <TextInput
                     id="studentTotal"
@@ -221,7 +245,11 @@ const KelasPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="levelClass" className="text-gray-300" value="Level" />
+                    <Label
+                      htmlFor="levelClass"
+                      className="text-gray-300"
+                      value="Level"
+                    />
                   </div>
                   <Select
                     id="levelClass"
@@ -243,7 +271,6 @@ const KelasPage = () => {
                   <Button color="light">Simpan</Button>
                 ) : (
                   <Button
-                    outline
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
@@ -251,7 +278,7 @@ const KelasPage = () => {
                     Simpan
                   </Button>
                 )}
-                <Button color="light" onClick={cencelAdd}>
+                <Button color="gray" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -263,38 +290,46 @@ const KelasPage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Nama Kelas</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Lokasi</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">Daya Tampung</Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Kelas
+                </Table.HeadCell>
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
                 {dataKelas.map((data, index) => (
                   <Table.Row
-                  className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.name}
+                    <Table.Cell className="whitespace-nowrap font-medium">
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.name}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Lokasi: {data.location}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Daya Tampung: {data.studentTotal}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell>{data.location}</Table.Cell>
-                    <Table.Cell>{data.studentTotal}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => ubahData(data.id)}
+                          title="Edit data"
                         >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() => ubahData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() => hapusData(data.id)}
+                          title="Hapus data"
                         >
-                          Edit
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>
@@ -309,10 +344,18 @@ const KelasPage = () => {
 
       {showToast ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+          <div
+            className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg  ${
+              showToastMessage.type == 1
+                ? "text-green-500 dark:bg-green-800 bg-green-100"
+                : "text-red-500 dark:bg-red-800 bg-red-100"
+            }  dark:text-red-200`}
+          >
             <HiCheck className="h-5 w-5" />
           </div>
-          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
+          <div className="ml-3 text-sm font-normal">
+            {showToastMessage.message}
+          </div>
           <Toast.Toggle onDismiss={() => setShowToast(false)} />
         </Toast>
       ) : null}

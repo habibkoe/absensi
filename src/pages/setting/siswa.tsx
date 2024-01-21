@@ -1,4 +1,6 @@
 import AppLayout from "@/components/AppLayout";
+import ActionButton from "@/components/Attribute/ActionButton";
+import AddButton from "@/components/Attribute/AddButton";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
@@ -21,7 +23,7 @@ import {
 } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiOutlinePlus } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 
 export interface NewForm {
   nis: string;
@@ -178,13 +180,9 @@ const SiswaPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <Button
-            gradientDuoTone="pinkToOrange"
-            className="w-fit mb-4"
-            onClick={() => setShowForm(!showForm)}
-          >
-            Add <HiOutlinePlus />
-          </Button>
+          <AddButton handleClick={() => setShowForm(!showForm)}>
+            Tambah data siswa
+          </AddButton>
         ) : null}
 
         {showForm ? (
@@ -193,7 +191,11 @@ const SiswaPage = () => {
               <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="nis" className="text-gray-300" value="NIS" />
+                    <Label
+                      htmlFor="nis"
+                      className="text-gray-300"
+                      value="NIS"
+                    />
                   </div>
                   <TextInput
                     id="nis"
@@ -215,7 +217,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="firstName" className="text-gray-300" value="Nama awal" />
+                    <Label
+                      htmlFor="firstName"
+                      className="text-gray-300"
+                      value="Nama awal"
+                    />
                   </div>
                   <TextInput
                     id="firstName"
@@ -237,7 +243,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="lastName" className="text-gray-300" value="Nama Ahir" />
+                    <Label
+                      htmlFor="lastName"
+                      className="text-gray-300"
+                      value="Nama Ahir"
+                    />
                   </div>
                   <TextInput
                     id="lastName"
@@ -250,7 +260,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="email" className="text-gray-300" value="Email" />
+                    <Label
+                      htmlFor="email"
+                      className="text-gray-300"
+                      value="Email"
+                    />
                   </div>
                   <TextInput
                     id="email"
@@ -263,7 +277,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="gender" className="text-gray-300" value="Gender" />
+                    <Label
+                      htmlFor="gender"
+                      className="text-gray-300"
+                      value="Gender"
+                    />
                   </div>
                   <Select
                     id="gender"
@@ -279,7 +297,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="email1" className="text-gray-300" value="DOB" />
+                    <Label
+                      htmlFor="email1"
+                      className="text-gray-300"
+                      value="DOB"
+                    />
                   </div>
                   <Datepicker
                     name="dateOfBirth"
@@ -293,7 +315,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="address" className="text-gray-300" value="Alamat" />
+                    <Label
+                      htmlFor="address"
+                      className="text-gray-300"
+                      value="Alamat"
+                    />
                   </div>
                   <TextInput
                     id="address"
@@ -306,7 +332,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="parent" className="text-gray-300" value="Orang Tua" />
+                    <Label
+                      htmlFor="parent"
+                      className="text-gray-300"
+                      value="Orang Tua"
+                    />
                   </div>
                   <TextInput
                     id="parent"
@@ -319,7 +349,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="rating" className="text-gray-300" value="Rating" />
+                    <Label
+                      htmlFor="rating"
+                      className="text-gray-300"
+                      value="Rating"
+                    />
                   </div>
                   <TextInput
                     id="rating"
@@ -332,7 +366,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="favoriteLearn" className="text-gray-300" value="Pelajaran Paforite" />
+                    <Label
+                      htmlFor="favoriteLearn"
+                      className="text-gray-300"
+                      value="Pelajaran Paforite"
+                    />
                   </div>
                   <TextInput
                     id="favoriteLearn"
@@ -345,7 +383,11 @@ const SiswaPage = () => {
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="Hobby" className="text-gray-300" value="Hobby" />
+                    <Label
+                      htmlFor="Hobby"
+                      className="text-gray-300"
+                      value="Hobby"
+                    />
                   </div>
                   <TextInput
                     id="Hobby"
@@ -364,7 +406,6 @@ const SiswaPage = () => {
                   <Button color="light">Simpan</Button>
                 ) : (
                   <Button
-                    outline
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
@@ -383,19 +424,10 @@ const SiswaPage = () => {
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Nama Siswa
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
+                  Data Siswa
                 </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  NIS
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  JK
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
-                  Alamat
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300">
+                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
@@ -406,25 +438,36 @@ const SiswaPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
-                      {data.firstName} {data.lastName}
+                      <span className="text-base text-gray-300 dark:text-white">
+                        {data.firstName} {data.lastName}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Nis: {data.nis}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Jenis kelamin: {data.gender}
+                      </span>
+                      <br />
+                      <span className="text-xs text-gray-400 dark:text-white">
+                        Alamat: {data.address}
+                      </span>
                     </Table.Cell>
-                    <Table.Cell>{data.nis}</Table.Cell>
-                    <Table.Cell>{data.gender}</Table.Cell>
-                    <Table.Cell>{data.address}</Table.Cell>
                     <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full">
-                        <a
-                          onClick={() => hapusData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                        <ActionButton
+                          handleClick={() => ubahData(data.id)}
+                          title="Edit data"
                         >
-                          Hapus
-                        </a>
-                        <a
-                          onClick={() => ubahData(data.id)}
-                          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 cursor-pointer"
+                          <HiOutlinePencil />
+                        </ActionButton>
+                        <ActionButton
+                          handleClick={() => hapusData(data.id)}
+                          title="Hapus data"
                         >
-                          Edit
-                        </a>
+                          <HiOutlineTrash />
+                        </ActionButton>
                       </div>
                     </Table.Cell>
                   </Table.Row>
