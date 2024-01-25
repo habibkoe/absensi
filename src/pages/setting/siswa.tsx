@@ -1,7 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
-import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
   deleteData,
@@ -14,7 +13,6 @@ import { Students } from "@prisma/client";
 import { format } from "date-fns";
 import {
   Button,
-  Card,
   Datepicker,
   Label,
   Select,
@@ -23,7 +21,7 @@ import {
 } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 
 export interface NewForm {
   nis: string;

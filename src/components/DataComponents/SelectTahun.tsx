@@ -6,6 +6,7 @@ interface Props {
   value?: string | number;
   placeholder?: string;
   name?: any;
+  color?:any;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -31,6 +32,7 @@ const SelectTahun = (props: Props) => {
         name={props.name}
         defaultValue={props.value}
         onChange={props.handleChange}
+        color={props.color}
       >
         <option value="">Pilih</option>
         {arrYears.map((data, index) => (

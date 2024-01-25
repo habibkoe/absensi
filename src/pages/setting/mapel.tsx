@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import ToastSave from "@/components/Attribute/ToastSave";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
@@ -11,7 +12,7 @@ import {
   postData,
 } from "@/services/mapelService";
 import { MataPelajarans } from "@prisma/client";
-import { Button, Card, Label, Table, TextInput } from "flowbite-react";
+import { Button, Card, Label, Table, TextInput, Toast } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
@@ -30,6 +31,11 @@ const MapelPage = () => {
   const [showForm, setShowForm] = useState(false);
 
   const [currentId, setCurrentId] = useState(0);
+
+  const [showToastMessage, setShowToastMessage] = useState<any>({
+    type: 0,
+    message: "",
+  });
 
   const [newData, setNewData] = useState<NewForm>(initialState);
   const [dataMapel, setDataMapel] = useState<MataPelajarans[]>([]);
@@ -82,10 +88,20 @@ const MapelPage = () => {
     setShowForm(!showForm);
   };
 
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setSaveLoading(true);
       let store = null;
 
       if (newData.code !== "" && newData.name !== "") {
@@ -99,11 +115,23 @@ const MapelPage = () => {
           setNewData(initialState);
           setCurrentId(0);
           getData();
+
+          setShowToastMessage({
+            type: 1,
+            message: "Berhasil simpan data",
+          });
+
         } else {
+          setShowToastMessage({
+            type: 2,
+            message: "Gagal simpan data",
+          });
+
           console.error("Failed to post data");
         }
 
         setShowForm(false);
+        setSaveLoading(false);
       }
     } catch (error) {
       console.error("Error posting data:", error);
@@ -144,7 +172,9 @@ const MapelPage = () => {
                     type="text"
                     placeholder="nama mapel..."
                     required
-                    color={newData.name == "" ? "failure" : "gray"}
+                    color={newData.name == "" ? "failure" : saveLoading
+                    ? "graySave"
+                    : "gray"}
                     value={newData.name}
                     helperText={
                       newData.name == "" ? (
@@ -168,7 +198,9 @@ const MapelPage = () => {
                     id="code"
                     name="code"
                     type="text"
-                    color={newData.code == "" ? "failure" : "gray"}
+                    color={newData.code == "" ? "failure" : saveLoading
+                    ? "graySave"
+                    : "gray"}
                     placeholder="code mapel..."
                     value={newData.code}
                     helperText={
@@ -185,17 +217,18 @@ const MapelPage = () => {
               </div>
               <div className="flex gap-4">
                 {newData.name == "" || newData.code == "" ? (
-                  <Button color="light">Simpan</Button>
+                  <Button color="dark">Simpan</Button>
                 ) : (
                   <Button
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
+                    disabled={saveLoading}
                   >
                     Simpan
                   </Button>
                 )}
-                <Button color="light" onClick={cencelAdd}>
+                <Button color="dark" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -253,6 +286,16 @@ const MapelPage = () => {
           <div className="w-full text-red-500">Belum ada data</div>
         )}
       </div>
+
+      {showToastMessage.type > 0 ? (
+        <Toast className="mb-10 fixed bottom-2 right-10">
+          <ToastSave
+            type={showToastMessage.type}
+            message={showToastMessage.message}
+          />
+          <Toast.Toggle onDismiss={() => closeToast()} />
+        </Toast>
+      ) : null}
     </>
   );
 };

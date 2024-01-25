@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import ToastSave from "@/components/Attribute/ToastSave";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
@@ -45,7 +46,6 @@ const KelasPage = () => {
   };
 
   const [showForm, setShowForm] = useState(false);
-  const [showToast, setShowToast] = useState(false);
   const [showToastMessage, setShowToastMessage] = useState<any>({
     type: 0,
     message: "",
@@ -107,10 +107,20 @@ const KelasPage = () => {
     setShowForm(!showForm);
   };
 
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setSaveLoading(true);
       let store = null;
 
       if (newData.name !== "" && newData.location !== "") {
@@ -124,13 +134,11 @@ const KelasPage = () => {
           setNewData(initialState);
           setCurrentId(0);
           getData();
-          setShowToast(true);
           setShowToastMessage({
             type: 1,
             message: "Berhasil simpan data",
           });
         } else {
-          setShowToast(true);
           setShowToastMessage({
             type: 2,
             message: "Gagal simpan data",
@@ -139,6 +147,7 @@ const KelasPage = () => {
         }
 
         setShowForm(false);
+        setSaveLoading(false);
       }
     } catch (error) {
       console.error("Error posting data:", error);
@@ -178,7 +187,13 @@ const KelasPage = () => {
                     type="text"
                     name="name"
                     value={newData.name}
-                    color={newData.name == "" ? "failure" : "gray"}
+                    color={
+                      newData.name == ""
+                        ? "failure"
+                        : saveLoading
+                        ? "graySave"
+                        : "gray"
+                    }
                     placeholder="nama kelas..."
                     required
                     helperText={
@@ -204,7 +219,13 @@ const KelasPage = () => {
                     type="text"
                     name="location"
                     value={newData.location}
-                    color={newData.location == "" ? "failure" : "gray"}
+                    color={
+                      newData.location == ""
+                        ? "failure"
+                        : saveLoading
+                        ? "graySave"
+                        : "gray"
+                    }
                     placeholder="lokasi kelas..."
                     required
                     helperText={
@@ -230,7 +251,13 @@ const KelasPage = () => {
                     type="text"
                     name="studentTotal"
                     value={newData.studentTotal}
-                    color={newData.studentTotal < 1 ? "failure" : "gray"}
+                    color={
+                      newData.studentTotal < 1
+                        ? "failure"
+                        : saveLoading
+                        ? "graySave"
+                        : "gray"
+                    }
                     placeholder="total daya tampung kelas..."
                     required
                     helperText={
@@ -256,6 +283,7 @@ const KelasPage = () => {
                     name="levelClass"
                     value={newData.levelClass}
                     onChange={handleInputChange}
+                    color={saveLoading ? "graySave" : "gray"}
                   >
                     <option value="">Pilih</option>
                     <option value="1">Kelas VII</option>
@@ -268,17 +296,18 @@ const KelasPage = () => {
                 {newData.name == "" ||
                 newData.location == "" ||
                 newData.studentTotal == 0 ? (
-                  <Button color="light">Simpan</Button>
+                  <Button color="dark">Simpan</Button>
                 ) : (
                   <Button
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
+                    disabled={saveLoading}
                   >
                     Simpan
                   </Button>
                 )}
-                <Button color="gray" onClick={cencelAdd}>
+                <Button color="dark" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -342,21 +371,13 @@ const KelasPage = () => {
         )}
       </div>
 
-      {showToast ? (
+      {showToastMessage.type > 0 ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
-          <div
-            className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg  ${
-              showToastMessage.type == 1
-                ? "text-green-500 dark:bg-green-800 bg-green-100"
-                : "text-red-500 dark:bg-red-800 bg-red-100"
-            }  dark:text-red-200`}
-          >
-            <HiCheck className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">
-            {showToastMessage.message}
-          </div>
-          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+          <ToastSave
+            type={showToastMessage.type}
+            message={showToastMessage.message}
+          />
+          <Toast.Toggle onDismiss={() => closeToast()} />
         </Toast>
       ) : null}
     </>

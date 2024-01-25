@@ -57,6 +57,11 @@ const MapelProfilePage = () => {
     }
   };
 
+  const cencelAdd = () => {
+    setNewData(initialState);
+    setShowForm(!showForm);
+  };
+
   const ubahData = async (id: any) => {
     try {
       let datas = await getOneData(id, Number(session?.user?.id));
@@ -158,7 +163,7 @@ const MapelProfilePage = () => {
                   />
                 </div>
               </div>
-              <div>
+              <div className="flex gap-4">
                 {newData.mapelId == 0 ? (
                   <Button color="light">Simpan</Button>
                 ) : (
@@ -170,6 +175,10 @@ const MapelProfilePage = () => {
                     Simpan
                   </Button>
                 )}
+
+                <Button color="gray" onClick={cencelAdd}>
+                  Cancel
+                </Button>
               </div>
             </form>
           </div>

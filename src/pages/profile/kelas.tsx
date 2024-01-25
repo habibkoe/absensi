@@ -45,6 +45,11 @@ const KelasDidikanPage = () => {
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
+  const cencelAdd = () => {
+    setNewData(initialState);
+    setShowForm(!showForm);
+  };
+  
   const getData = async () => {
     try {
       let datas = await getByUserData(Number(session?.user?.id));
@@ -164,7 +169,7 @@ const KelasDidikanPage = () => {
                   />
                 </div>
               </div>
-              <div>
+              <div className="flex gap-4">
                 {newData.classRoomId == 0 ? (
                   <Button color="light">Simpan</Button>
                 ) : (
@@ -176,6 +181,9 @@ const KelasDidikanPage = () => {
                     Simpan
                   </Button>
                 )}
+                <Button color="gray" onClick={cencelAdd}>
+                  Cancel
+                </Button>
               </div>
             </form>
           </div>

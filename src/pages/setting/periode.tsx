@@ -1,8 +1,8 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import ToastSave from "@/components/Attribute/ToastSave";
 import SelectTahun from "@/components/DataComponents/SelectTahun";
-import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import {
   deleteData,
@@ -11,16 +11,11 @@ import {
   getOneData,
   postData,
 } from "@/services/periodeService";
-import { MataPelajarans, Periode } from "@prisma/client";
-import { Button, Card, Label, Table, TextInput, Toast } from "flowbite-react";
+import { Periode } from "@prisma/client";
+import { Button, Label, Table, TextInput, Toast } from "flowbite-react";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import {
-  HiCheck,
-  HiOutlinePencil,
-  HiOutlinePlus,
-  HiOutlineTrash,
-} from "react-icons/hi";
+import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 
 export interface NewForm {
   name: string;
@@ -39,8 +34,10 @@ const PeriodePage = () => {
 
   const [currentId, setCurrentId] = useState(0);
 
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessage, setShowToastMessage] = useState("");
+  const [showToastMessage, setShowToastMessage] = useState<any>({
+    type: 0,
+    message: "",
+  });
 
   const [newData, setNewData] = useState<NewForm>(initialState);
   const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
@@ -96,10 +93,20 @@ const PeriodePage = () => {
     setShowForm(!showForm);
   };
 
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setSaveLoading(true);
       let store = null;
 
       if (
@@ -117,17 +124,22 @@ const PeriodePage = () => {
           setNewData(initialState);
           setCurrentId(0);
 
-          setShowToast(true);
-          setShowToastMessage("Berhasil simpan data");
+          setShowToastMessage({
+            type: 1,
+            message: "Berhasil simpan data",
+          });
         } else {
-          setShowToast(true);
-          setShowToastMessage("Gagal simpan data");
+          setShowToastMessage({
+            type: 2,
+            message: "Gagal simpan data",
+          });
           console.error("Failed to post data");
         }
 
         getData();
 
         setShowForm(false);
+        setSaveLoading(false);
       }
     } catch (error) {
       console.error("Error posting data:", error);
@@ -168,7 +180,13 @@ const PeriodePage = () => {
                     type="text"
                     placeholder="nama periode..."
                     required
-                    color={newData.name == "" ? "failure" : "gray"}
+                    color={
+                      newData.name == ""
+                        ? "failure"
+                        : saveLoading
+                        ? "graySave"
+                        : "gray"
+                    }
                     value={newData.name}
                     helperText={
                       newData.name == "" ? (
@@ -186,6 +204,7 @@ const PeriodePage = () => {
                     name="periodeStart"
                     value={newData.periodeStart}
                     handleChange={handleInputChange}
+                    color={saveLoading ? "graySave" : "gray"}
                   />
                 </div>
                 <div>
@@ -194,6 +213,7 @@ const PeriodePage = () => {
                     name="periodeEnd"
                     value={newData.periodeEnd}
                     handleChange={handleInputChange}
+                    color={saveLoading ? "graySave" : "gray"}
                   />
                 </div>
               </div>
@@ -201,17 +221,18 @@ const PeriodePage = () => {
                 {newData.name == "" ||
                 newData.periodeStart == 0 ||
                 newData.periodeEnd == 0 ? (
-                  <Button color="light">Simpan</Button>
+                  <Button color="dark">Simpan</Button>
                 ) : (
                   <Button
                     type="submit"
                     gradientDuoTone="pinkToOrange"
                     className="w-fit"
+                    disabled={saveLoading}
                   >
                     Simpan
                   </Button>
                 )}
-                <Button color="light" onClick={cencelAdd}>
+                <Button color="dark" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -270,13 +291,13 @@ const PeriodePage = () => {
         )}
       </div>
 
-      {showToast ? (
+      {showToastMessage.type > 0 ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <HiCheck className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
-          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+          <ToastSave
+            type={showToastMessage.type}
+            message={showToastMessage.message}
+          />
+          <Toast.Toggle onDismiss={() => closeToast()} />
         </Toast>
       ) : null}
     </>
