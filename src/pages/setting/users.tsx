@@ -71,7 +71,7 @@ const UserPage = () => {
                     key={data.id}
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.firstName} {data.lastName}
                       </span>
@@ -88,7 +88,7 @@ const UserPage = () => {
                         Role: {roleName(Number(data.roleId))}
                       </span>
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className="align-top">
                       <div className="flex flex-wrap gap-4 w-full justify-end items-start">
                         <ActionButton
                           handleClick={() => hapusData(data.id)}

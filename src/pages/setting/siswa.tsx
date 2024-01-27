@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import CardForm from "@/components/Attribute/CardForm";
 import { siteConfig } from "@/libs/config";
 import {
   deleteData,
@@ -186,7 +187,7 @@ const SiswaPage = () => {
         {showForm ? (
           <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <CardForm>
                 <div>
                   <div className="mb-2 block">
                     <Label
@@ -396,12 +397,12 @@ const SiswaPage = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-              </div>
+              </CardForm>
               <div className="flex gap-4">
                 {newData.nis == "" ||
                 newData.firstName == "" ||
                 newData.gender == "" ? (
-                  <Button color="light">Simpan</Button>
+                  <Button color="dark">Simpan</Button>
                 ) : (
                   <Button
                     type="submit"
@@ -411,7 +412,7 @@ const SiswaPage = () => {
                     Simpan
                   </Button>
                 )}
-                <Button color="light" onClick={cencelAdd}>
+                <Button color="dark" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -435,7 +436,7 @@ const SiswaPage = () => {
                     key={data.id}
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.firstName} {data.lastName}
                       </span>

@@ -18,6 +18,7 @@ import { format } from "date-fns";
 import { postData } from "@/services/absensiService";
 import { HiCheck } from "react-icons/hi";
 import { siteConfig } from "@/libs/config";
+import CardForm from "@/components/Attribute/CardForm";
 
 export interface NewForm {
   userId: number;
@@ -178,63 +179,65 @@ const AbsensiPeriodePage = () => {
       </Head>
       {dataKelasSiswa !== null && dataKelasSiswa.length > 0 ? (
         <div className="w-full">
-          <div className="grid md:grid-cols-3 gap-4 mb-4">
-            <div>
-              <div className="text-gray-300">
-                <span className="font-medium text-sm">Kelas</span> <br />
-                {dataKelas?.name}
-              </div>
-              <div className="text-gray-300">
-                <span className="font-medium text-sm">Periode</span> <br />
-                {dataPeriode?.name}
-              </div>
-              <div className="text-gray-300">
-                <span className="font-medium text-sm">Guru</span> <br />
-                {dataUser?.firstName} {dataUser?.lastName}
-              </div>
-            </div>
-            <div>
+          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
+            <CardForm>
               <div>
-                <SelectMapel
-                  value={dataMapel}
-                  typeData={1}
-                  handleChange={handleInputChange}
-                  userId={Number(session?.user?.id)}
-                />
+                <div className="text-gray-300">
+                  <span className="font-medium text-sm">Kelas</span> <br />
+                  {dataKelas?.name}
+                </div>
+                <div className="text-gray-300">
+                  <span className="font-medium text-sm">Periode</span> <br />
+                  {dataPeriode?.name}
+                </div>
+                <div className="text-gray-300">
+                  <span className="font-medium text-sm">Guru</span> <br />
+                  {dataUser?.firstName} {dataUser?.lastName}
+                </div>
               </div>
               <div>
-                <SelectJamPelajaran
-                  value={dataJamPelajaran}
-                  handleChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div>
-              <div>
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="absensiDate"
-                    className="text-gray-300"
-                    value="Tanggal Absensi"
+                <div>
+                  <SelectMapel
+                    value={dataMapel}
+                    typeData={1}
+                    handleChange={handleInputChange}
+                    userId={Number(session?.user?.id)}
                   />
                 </div>
-                <Datepicker
-                  name="absensiDate"
-                  language="ID"
-                  value={dataDate}
-                  showTodayButton={false}
-                  showClearButton={true}
-                  onSelectedDateChanged={(date) => datePickerHandler(date)}
-                  color="gray"
-                />
+                <div>
+                  <SelectJamPelajaran
+                    value={dataJamPelajaran}
+                    handleChange={handleInputChange}
+                  />
+                </div>
               </div>
               <div>
-                <SelectSemester
-                  value={dataSemester}
-                  handleChange={handleInputChange}
-                />
+                <div>
+                  <div className="mb-2 block">
+                    <Label
+                      htmlFor="absensiDate"
+                      className="text-gray-300"
+                      value="Tanggal Absensi"
+                    />
+                  </div>
+                  <Datepicker
+                    name="absensiDate"
+                    language="ID"
+                    value={dataDate}
+                    showTodayButton={false}
+                    showClearButton={true}
+                    onSelectedDateChanged={(date) => datePickerHandler(date)}
+                    color="gray"
+                  />
+                </div>
+                <div>
+                  <SelectSemester
+                    value={dataSemester}
+                    handleChange={handleInputChange}
+                  />
+                </div>
               </div>
-            </div>
+            </CardForm>
           </div>
 
           <div className="overflow-x-auto">
@@ -254,7 +257,7 @@ const AbsensiPeriodePage = () => {
                     key={"as" + index}
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.student.firstName} {data.student.lastName}
                       </span>

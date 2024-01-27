@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import CardForm from "@/components/Attribute/CardForm";
 import SelectMapel from "@/components/DataComponents/SelectMapel";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
@@ -155,17 +156,17 @@ const MapelProfilePage = () => {
         {showForm ? (
           <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <CardForm>
                 <div>
                   <SelectMapel
                     value={newData.mapelId}
                     handleChange={handleInputChange}
                   />
                 </div>
-              </div>
+              </CardForm>
               <div className="flex gap-4">
                 {newData.mapelId == 0 ? (
-                  <Button color="light">Simpan</Button>
+                  <Button color="dark">Simpan</Button>
                 ) : (
                   <Button
                     type="submit"
@@ -176,7 +177,7 @@ const MapelProfilePage = () => {
                   </Button>
                 )}
 
-                <Button color="gray" onClick={cencelAdd}>
+                <Button color="dark" onClick={cencelAdd}>
                   Cancel
                 </Button>
               </div>
@@ -201,7 +202,7 @@ const MapelProfilePage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={index}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.mapel.name}
                       </span>

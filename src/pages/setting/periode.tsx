@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
 import SelectTahun from "@/components/DataComponents/SelectTahun";
 import { siteConfig } from "@/libs/config";
@@ -165,7 +166,7 @@ const PeriodePage = () => {
         {showForm ? (
           <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <CardForm>
                 <div>
                   <div className="mb-2 block">
                     <Label
@@ -216,7 +217,7 @@ const PeriodePage = () => {
                     color={saveLoading ? "graySave" : "gray"}
                   />
                 </div>
-              </div>
+              </CardForm>
               <div className="flex gap-4">
                 {newData.name == "" ||
                 newData.periodeStart == 0 ||
@@ -256,7 +257,7 @@ const PeriodePage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.name}
                       </span>

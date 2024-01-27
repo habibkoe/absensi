@@ -1,5 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import BottomInfo from "@/components/Attribute/BottomInfo";
+import ToastSave from "@/components/Attribute/ToastSave";
+import SelectJabatan from "@/components/DataComponents/SelectJabatan";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { editData, getOneData } from "@/services/userService";
@@ -50,7 +52,10 @@ const EditProfilePage = () => {
   };
 
   const [showToast, setShowToast] = useState(false);
-  const [showToastMessage, setShowToastMessage] = useState("");
+  const [showToastMessage, setShowToastMessage] = useState<any>({
+    type: 0,
+    message: "",
+  });
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
@@ -90,7 +95,9 @@ const EditProfilePage = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setNewData({
@@ -99,30 +106,50 @@ const EditProfilePage = () => {
     });
   };
 
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let checkValidate = validate();
+    try {
+      setSaveLoading(true);
+      let checkValidate = validate();
 
-    let store = null;
+      let store = null;
 
-    if (checkValidate) {
-      store = await editData(
-        Number(session?.user?.id),
-        JSON.stringify(newData)
-      );
+      if (checkValidate) {
+        store = await editData(
+          Number(session?.user?.id),
+          JSON.stringify(newData)
+        );
 
-      if (store.data) {
-        setNewData(initialState);
-        setShowToast(true);
-        setShowToastMessage("Berhasil simpan data");
-      } else {
-        setShowToast(true);
-        setShowToastMessage("Gagal simpan data");
-        console.error("Failed to post data");
+        if (store.data) {
+          setNewData(initialState);
+          setShowToastMessage({
+            type: 1,
+            message: "Berhasil simpan data",
+          });
+        } else {
+          setShowToastMessage({
+            type: 2,
+            message: "Gagal simpan data",
+          });
+          console.error("Failed to post data");
+        }
+
+        getData();
       }
 
-      getData();
+      setSaveLoading(false);
+    } catch (error) {
+      console.error("Error posting data:", error);
     }
   };
 
@@ -164,7 +191,13 @@ const EditProfilePage = () => {
                   placeholder="Your first name here..."
                   value={newData.firstName}
                   onChange={handleInputChange}
-                  color={getError("firstName") != null ? "failure" : "gray"}
+                  color={
+                    getError("firstName") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("firstName") != null ? (
                       <>{getError("firstName")}</>
@@ -187,7 +220,13 @@ const EditProfilePage = () => {
                   placeholder="Your last name here..."
                   value={newData.lastName}
                   onChange={handleInputChange}
-                  color={getError("lastName") != null ? "failure" : "gray"}
+                  color={
+                    getError("lastName") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("lastName") != null ? (
                       <>{getError("lastName")}</>
@@ -217,6 +256,7 @@ const EditProfilePage = () => {
                   name="email"
                   placeholder="Your email here..."
                   defaultValue={newData.email}
+                  color={saveLoading ? "graySave" : "gray"}
                   helperText={
                     <BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>
                   }
@@ -237,6 +277,7 @@ const EditProfilePage = () => {
                   name="username"
                   placeholder="Your first name here..."
                   defaultValue={newData.username}
+                  color={saveLoading ? "graySave" : "gray"}
                   helperText={
                     <BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>
                   }
@@ -258,6 +299,7 @@ const EditProfilePage = () => {
                   placeholder="Your role id here..."
                   value={newData.roleId}
                   onChange={handleInputChange}
+                  color={saveLoading ? "graySave" : "gray"}
                   helperText={
                     <BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>
                   }
@@ -271,31 +313,11 @@ const EditProfilePage = () => {
             <div className="w-full text-gray-300 font-bold">Profesi</div>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="typeTeacher"
-                    className="text-gray-300"
-                    value="Tipe Guru"
-                  />
-                </div>
-                <TextInput
-                  id="typeTeacher"
-                  type="text"
-                  required
-                  name="typeTeacher"
-                  placeholder="Your first name here..."
+                <SelectJabatan
+                  color={saveLoading ? "graySave" : "gray"}
+                  errors={getError("typeTeacher")}
                   value={newData.typeTeacher}
-                  onChange={handleInputChange}
-                  color={getError("typeTeacher") != null ? "failure" : "gray"}
-                  helperText={
-                    getError("typeTeacher") != null ? (
-                      <>{getError("typeTeacher")}</>
-                    ) : (
-                      <BottomInfo>
-                        example : walikelas, guru mapel, kepsek
-                      </BottomInfo>
-                    )
-                  }
+                  handleChange={handleInputChange}
                 />
               </div>
               <div>
@@ -303,7 +325,7 @@ const EditProfilePage = () => {
                   <Label
                     htmlFor="typeOfStudy"
                     className="text-gray-300"
-                    value="Tipe pelajaran"
+                    value="Jurusan"
                   />
                 </div>
                 <TextInput
@@ -314,7 +336,13 @@ const EditProfilePage = () => {
                   placeholder="Your tipe pelajaran here..."
                   value={newData.typeOfStudy}
                   onChange={handleInputChange}
-                  color={getError("typeOfStudy") != null ? "failure" : "gray"}
+                  color={
+                    getError("typeOfStudy") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("typeOfStudy") != null ? (
                       <>{getError("typeOfStudy")}</>
@@ -329,7 +357,7 @@ const EditProfilePage = () => {
                   <Label
                     htmlFor="categoryTeacher"
                     className="text-gray-300"
-                    value="Kategori guru"
+                    value="Mapel yang diajarkan"
                   />
                 </div>
                 <TextInput
@@ -341,7 +369,11 @@ const EditProfilePage = () => {
                   value={newData.categoryTeacher}
                   onChange={handleInputChange}
                   color={
-                    getError("categoryTeacher") != null ? "failure" : "gray"
+                    getError("categoryTeacher") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
                   }
                   helperText={
                     getError("categoryTeacher") != null ? (
@@ -367,6 +399,7 @@ const EditProfilePage = () => {
                   name="rating"
                   placeholder="Your first name here..."
                   value={newData.rating}
+                  color={saveLoading ? "graySave" : "gray"}
                   helperText={
                     <BottomInfo>Data ini tidak bisa dirubah manual.</BottomInfo>
                   }
@@ -374,24 +407,28 @@ const EditProfilePage = () => {
               </div>
             </div>
           </Card>
-          <Button type="submit" gradientDuoTone="pinkToOrange" size="sm">
+          <Button
+            type="submit"
+            gradientDuoTone="pinkToOrange"
+            size="sm"
+            disabled={saveLoading}
+          >
             Update
           </Button>
         </form>
       </div>
-      {showToast ? (
+      {showToastMessage.type > 0 ? (
         <Toast className="mb-10 fixed bottom-2 right-10">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <HiCheck className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
-          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+          <ToastSave
+            type={showToastMessage.type}
+            message={showToastMessage.message}
+          />
+          <Toast.Toggle onDismiss={() => closeToast()} />
         </Toast>
       ) : null}
     </>
   );
 };
-
 
 EditProfilePage.getLayout = function getLayout(content: any) {
   return <AppLayout headMenu="Edit Profile">{content}</AppLayout>;

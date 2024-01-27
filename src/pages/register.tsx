@@ -66,23 +66,33 @@ const RegisterPage = () => {
     }
   };
 
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const register = async (e: React.FormEvent) => {
     e.preventDefault();
-    let checkValidate = validate();
 
-    let store = null;
+    try {
+      setSaveLoading(true);
+      let checkValidate = validate();
 
-    if (checkValidate) {
-      store = await postData(JSON.stringify(newData));
+      let store = null;
 
-      if (store.data) {
-        router.push("/");
+      if (checkValidate) {
+        store = await postData(JSON.stringify(newData));
+
+        if (store.data) {
+          router.push("/");
+        } else {
+          setShowToast(true);
+          console.error("Failed to register user");
+        }
       } else {
-        setShowToast(true);
-        console.error("Failed to register user");
+        console.log("Cannot save");
       }
-    } else {
-      console.log("Cannot save");
+
+      setSaveLoading(false);
+    } catch (error) {
+      console.error("Error posting data:", error);
     }
   };
 
@@ -119,7 +129,13 @@ const RegisterPage = () => {
                   placeholder="email@goabsensi.com"
                   required
                   onChange={handleInputChange}
-                  color={getError("email") != null ? "failure" : "gray"}
+                  color={
+                    getError("email") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("email") != null ? <>{getError("email")}</> : null
                   }
@@ -142,7 +158,13 @@ const RegisterPage = () => {
                   required
                   value={newData.username}
                   onChange={handleInputChange}
-                  color={getError("username") != null ? "failure" : "gray"}
+                  color={
+                    getError("username") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("username") != null ? (
                       <>{getError("username")}</>
@@ -167,7 +189,13 @@ const RegisterPage = () => {
                   placeholder="Password anda disini..."
                   value={newData.password}
                   onChange={handleInputChange}
-                  color={getError("password") != null ? "failure" : "gray"}
+                  color={
+                    getError("password") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("password") != null ? (
                       <>{getError("password")}</>
@@ -193,7 +221,11 @@ const RegisterPage = () => {
                   value={newData.confirmPassword}
                   onChange={handleInputChange}
                   color={
-                    getError("confirmPassword") != null ? "failure" : "gray"
+                    getError("confirmPassword") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
                   }
                   helperText={
                     getError("confirmPassword") != null ? (
@@ -207,7 +239,11 @@ const RegisterPage = () => {
                   Pastikan password sesuai
                 </span>
               </div>
-              <Button type="submit" gradientDuoTone="pinkToOrange">
+              <Button
+                type="submit"
+                gradientDuoTone="pinkToOrange"
+                disabled={saveLoading}
+              >
                 Daftar
               </Button>
             </form>

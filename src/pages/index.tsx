@@ -60,28 +60,34 @@ const HomePage = () => {
     }
   };
 
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
-    let checkValidate = validate();
 
-    let store = null;
+    try {
+      setSaveLoading(true);
+      let checkValidate = validate();
+      let store = null;
 
-    console.log("Ini apa ", checkValidate);
+      if (checkValidate) {
+        store = await signIn("credentials", {
+          username: newData.username,
+          password: newData.password,
+          redirect: false,
+        });
 
-    if (checkValidate) {
-      store = await signIn("credentials", {
-        username: newData.username,
-        password: newData.password,
-        redirect: false,
-      });
-
-      if (store?.error) {
-        setShowToast(true);
+        if (store?.error) {
+          setShowToast(true);
+        } else {
+          router.push("/dashboard");
+        }
       } else {
-        router.push("/dashboard");
+        console.log("Cannot save");
       }
-    } else {
-      console.log("Cannot save");
+      setSaveLoading(false);
+    } catch (error) {
+      console.error("Error posting data:", error);
     }
   };
 
@@ -122,7 +128,13 @@ const HomePage = () => {
                   name="username"
                   value={newData.username}
                   onChange={handleInputChange}
-                  color={getError("username") != null ? "failure" : "gray"}
+                  color={
+                    getError("username") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("username") != null ? (
                       <>{getError("username")}</>
@@ -147,7 +159,13 @@ const HomePage = () => {
                   placeholder="Password anda disini..."
                   value={newData.password}
                   onChange={handleInputChange}
-                  color={getError("password") != null ? "failure" : "gray"}
+                  color={
+                    getError("password") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
                   helperText={
                     getError("password") != null ? (
                       <>{getError("password")}</>
@@ -158,7 +176,11 @@ const HomePage = () => {
               <div className="w-full text-right">
                 <span className="text-white text-sm">Lupa password</span>
               </div>
-              <Button gradientDuoTone="pinkToOrange" type="submit">
+              <Button
+                gradientDuoTone="pinkToOrange"
+                type="submit"
+                disabled={saveLoading}
+              >
                 Masuk
               </Button>
             </form>

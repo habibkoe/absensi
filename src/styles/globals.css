@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer components {
+  .td-custom {
+    @apply whitespace-nowrap font-medium align-top;
+  }
+}

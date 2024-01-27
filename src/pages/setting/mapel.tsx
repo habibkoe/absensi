@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
 import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
@@ -157,7 +158,7 @@ const MapelPage = () => {
         {showForm ? (
           <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <CardForm>
                 <div>
                   <div className="mb-2 block">
                     <Label
@@ -214,7 +215,7 @@ const MapelPage = () => {
                     required
                   />
                 </div>
-              </div>
+              </CardForm>
               <div className="flex gap-4">
                 {newData.name == "" || newData.code == "" ? (
                   <Button color="dark">Simpan</Button>
@@ -252,7 +253,7 @@ const MapelPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}
                   >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-300 dark:text-white">
+                    <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
                         {data.name}
                       </span>
