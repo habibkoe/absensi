@@ -6,7 +6,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const datas = await prisma.periode.findMany();
+    const datas = await prisma.periode.findMany({
+      orderBy: [
+        {
+          periodeStart: 'desc',
+        }
+      ],
+    });
 
     return res.status(200).json({
       status: 200,

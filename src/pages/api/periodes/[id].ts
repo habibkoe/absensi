@@ -19,16 +19,27 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "GET") {
-    const datas = await prisma.periode.findFirst({
-      where: { id: Number(dataId) },
-    });
 
-    return res.status(200).json({
-      status: 200,
-      success: true,
-      message: "get data success",
-      data: datas,
-    });
+    try {
+      const datas = await prisma.periode.findFirst({
+        where: { id: Number(dataId) },
+      });
+  
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "get data success",
+        data: datas,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        success: false,
+        message: error
+      });
+    }
+
+    
   } else if (req.method === "PUT" || req.method === "PATCH") {
     const { name, periodeStart, periodeEnd } = req.body;
 

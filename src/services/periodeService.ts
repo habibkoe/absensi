@@ -1,23 +1,34 @@
 import http from "@/libs/httpSetting";
+import { Periode } from "@prisma/client";
 
-export const getAllData = async () => {
-  const res = await http.get(`/periodes`);
-  return res.data;
+const getAllData = async () => {
+  const res = await http.get<any>(`/periodes`);
+  return res.data.data;
 };
 
-export const getOneData = async (id: Number) => {
-  const res = await http.get(`/periodes/${id}`);
-  return res.data;
+const getOneData = async (id: Number) => {
+  const res = await http.get<any>(`/periodes/${id}`);
+  return res.data.data;
 };
 
-export const postData = async (data: any) => {
-  return await http.post(`/periodes`, data);
+const postData = async (data: any) => {
+  return await http.post<any>(`/periodes`, JSON.stringify(data));
 };
 
-export const editData = async (id: any, data: any) => {
-  return await http.put(`/periodes/${id}`, data);
+const editData = async (data: any) => {
+  return await http.put<any>(`/periodes/${data.id}`, JSON.stringify(data));
 };
 
-export const deleteData = async (id: any) => {
-  return await http.delete(`/periodes/${id}`);
+const deleteData = async (id: Number) => {
+  return await http.delete<any>(`/periodes/${id}`);
 };
+
+const PeriodeService = {
+  getAllData,
+  getOneData,
+  postData,
+  editData,
+  deleteData,
+};
+
+export default PeriodeService;

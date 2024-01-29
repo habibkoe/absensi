@@ -30,7 +30,7 @@ const SelectTahun = (props: Props) => {
       <Select
         id={props.name}
         name={props.name}
-        defaultValue={props.value}
+        value={props.value}
         onChange={props.handleChange}
         color={props.color}
       >
