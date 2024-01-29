@@ -1,4 +1,4 @@
-import { getAllData } from "@/services/periodeService";
+import { useAllPosts } from "@/hooks/periodeHook";
 import { Periode } from "@prisma/client";
 import { Label, Select } from "flowbite-react";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -12,20 +12,8 @@ interface Props {
 }
 
 const SelectPeriode = (props: Props) => {
-  const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
 
-  const getData = async () => {
-    try {
-      let datas = await getAllData();
-      setDataPeriode(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const { isPending: isPeriodeLoading, error: isPeriodeError, data: dataPeriode } = useAllPosts();
 
   return (
     <>
@@ -40,7 +28,7 @@ const SelectPeriode = (props: Props) => {
         onChange={props.handleChange}
       >
         <option value="">Pilih</option>
-        {dataPeriode.map((data, index) => (
+        {dataPeriode !== undefined && dataPeriode.map((data, index) => (
           <option value={data.id} key={data.id}>
             {data.name}
           </option>

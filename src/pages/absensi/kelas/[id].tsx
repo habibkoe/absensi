@@ -1,13 +1,11 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
-import MainMenu from "@/components/MainMenu";
+import { useAllPosts } from "@/hooks/periodeHook";
 import { siteConfig } from "@/libs/config";
 import { getOneData } from "@/services/classRoomService";
-import { getAllData } from "@/services/periodeService";
-import { ClassRooms, Periode } from "@prisma/client";
-import { Card } from "flowbite-react";
+import { ClassRooms } from "@prisma/client";
+
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -16,7 +14,8 @@ const AbsensiKelasPage = () => {
 
   let kelasId = router.query.id;
 
-  const [dataPeriode, setDataPeriode] = useState<Periode[]>([]);
+  const { isPending: isPeriodeLoading, error: isPeriodeError, data: dataPeriode } = useAllPosts();
+
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
 
   const getKelas = async () => {
@@ -28,18 +27,9 @@ const AbsensiKelasPage = () => {
     }
   };
 
-  const getData = async () => {
-    try {
-      let datas = await getAllData();
-      setDataPeriode(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     getKelas();
-    getData();
   }, []);
   return (
     <>
@@ -47,7 +37,7 @@ const AbsensiKelasPage = () => {
         <title>{`${siteConfig.title} : Absensi Kelas`}</title>
       </Head>
 
-      {dataPeriode !== null && dataPeriode.length > 0 ? (
+      {dataPeriode !== undefined && dataPeriode.length > 0 ? (
         <div className="w-full">
           <div className="text-gray-300">
             Anda telah memilih kelas: {dataKelas?.name}

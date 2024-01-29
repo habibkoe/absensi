@@ -5,7 +5,6 @@ import SelectSemester from "@/components/DataComponents/SelectSemester";
 import SelectStatusAbsen from "@/components/DataComponents/SelectStatusAbsen";
 import MainMenu from "@/components/MainMenu";
 import { getOneData } from "@/services/classRoomService";
-import { getOneData as getOneDataPeriode } from "@/services/periodeService";
 import { getOneData as getOneDataUser } from "@/services/userService";
 import { getDataByClassAndPeriode } from "@/services/studentRoomService";
 import { ClassRooms, Periode, Users } from "@prisma/client";
@@ -19,6 +18,7 @@ import { postData } from "@/services/absensiService";
 import { HiCheck } from "react-icons/hi";
 import { siteConfig } from "@/libs/config";
 import CardForm from "@/components/Attribute/CardForm";
+import { usePostById } from "@/hooks/periodeHook";
 
 export interface NewForm {
   userId: number;
@@ -55,12 +55,17 @@ const AbsensiPeriodePage = () => {
   let kelasId = params ? params[0] : null;
   let periodeId = params ? params[1] : null;
 
+  const {
+    data: dataPeriode,
+    isPending: isPeriodeLoading,
+    isError: isPeriodeError,
+  } = usePostById(Number(periodeId));
+
   const [dataKelas, setDataKelas] = useState<ClassRooms>();
   const [dataMapel, setDataMapel] = useState<any>();
   const [dataDate, setDataDate] = useState<any>();
   const [dataJamPelajaran, setJamPelajaran] = useState<any>();
   const [dataSemester, setSemester] = useState<any>();
-  const [dataPeriode, setDataPeriode] = useState<Periode>();
   const [dataUser, setDataUser] = useState<Users>();
   const [dataKelasSiswa, setDataKelasSiswa] = useState<any[]>([]);
   const [dataAbsensi, setDataAbsensi] = useState<any[]>([]);
@@ -117,9 +122,6 @@ const AbsensiPeriodePage = () => {
 
       let kelas = await getOneData(Number(kelasId));
       setDataKelas(kelas.data);
-
-      let periode = await getOneDataPeriode(Number(periodeId));
-      setDataPeriode(periode.data);
 
       let guru = await getOneDataUser(Number(session?.user?.id));
       setDataUser(guru.data);

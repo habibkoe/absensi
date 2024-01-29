@@ -1,16 +1,12 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
-import CardForm from "@/components/Attribute/CardForm";
-import ToastSave from "@/components/Attribute/ToastSave";
-import SelectTahun from "@/components/DataComponents/SelectTahun";
 import FormPeriode from "@/components/Forms/Settings/FormPeriode";
-import { useAllPosts, useDeletePost, usePostById } from "@/hooks/periodeHook";
+import { useAllPosts, useDeletePost } from "@/hooks/periodeHook";
 import { siteConfig } from "@/libs/config";
-import { Periode } from "@prisma/client";
-import { Button, Label, Table, TextInput, Toast } from "flowbite-react";
+import { Table } from "flowbite-react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 
 const PeriodePage = () => {
