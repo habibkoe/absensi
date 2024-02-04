@@ -89,7 +89,7 @@ const MainNavbar = () => {
               <Link
                 href={data.url}
                 key={index}
-                className="text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
+                className="border-b border-gray-700 md:border-b-0 py-2 md:py-0 text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
                 title={data.name}
               >
                 {data.icon !== null ? data.icon : data.name}{" "}
@@ -99,7 +99,7 @@ const MainNavbar = () => {
           : null}
         <button
           onClick={() => signOut()}
-          className="cursor-pointer text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
+          className="cursor-pointer text-gray-300 py-2 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
           title="Sign Out"
         >
           <HiLogout /> <span className="md:hidden">Sign Out</span>
