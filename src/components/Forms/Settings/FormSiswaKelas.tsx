@@ -1,47 +1,53 @@
 import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
-import SelectTahun from "@/components/DataComponents/SelectTahun";
-import { useCreatePost, usePostById, useUpdatePost } from "@/hooks/periodeHook";
-import { Button, Label, TextInput, Toast } from "flowbite-react";
+import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
+import SelectPeriode from "@/components/DataComponents/SelectPeriode";
+import SelectStudent from "@/components/DataComponents/SelectStudent";
+import {
+  useCreatePost,
+  usePostById,
+  useUpdatePost,
+} from "@/hooks/siswaKelasHook";
+import { Button, Toast } from "flowbite-react";
 import React, { MouseEvent, useEffect, useState } from "react";
 
 export interface NewForm {
-  id?: Number | null;
-  name?: string | null;
-  periodeStart?: number;
-  periodeEnd?: number;
+  studentId?: number;
+  classRoomId?: number;
+  periodeId?: number | null;
+  assignedBy?: string;
 }
 
 interface Props {
-  id?: any;
+  studentId?: any;
+  classRoomId?: any;
   isEdit?: boolean;
   handleCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const FormPeriode = (props: Props) => {
-
+const FormSiswaKelas = (props: Props) => {
   const {
     data: dataDetail,
     isPending: isDataLoading,
     isError: isPeriodeError,
-  } = usePostById(props.id);
+  } = usePostById(props.studentId, props.classRoomId);
 
   let initialState: NewForm = {
-    id: null,
-    name: "",
-    periodeStart: 0,
-    periodeEnd: 0,
+    studentId: 0,
+    classRoomId: 0,
+    periodeId: 0,
+    assignedBy: "",
   };
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
   useEffect(() => {
-    if (props.id != null) {
+    if (props.studentId != null && props.classRoomId) {
       setNewData({
-        id: props.id,
-        name: dataDetail?.name,
-        periodeStart: dataDetail?.periodeStart,
-        periodeEnd: dataDetail?.periodeEnd,
+        studentId: dataDetail?.studentId,
+        classRoomId: dataDetail?.classRoomId,
+        periodeId: dataDetail?.periodeId,
+        assignedBy: dataDetail?.assignedBy,
       });
     }
   }, [isDataLoading]);
@@ -92,9 +98,9 @@ const FormPeriode = (props: Props) => {
       let store = null;
 
       if (
-        newData.name !== "" &&
-        newData.periodeStart !== 0 &&
-        newData.periodeEnd !== 0
+        newData.studentId !== 0 &&
+        newData.classRoomId !== 0 &&
+        newData.periodeId !== 0
       ) {
         if (!props.isEdit) {
           store = addMutate(newData, {
@@ -104,7 +110,7 @@ const FormPeriode = (props: Props) => {
           });
         } else {
           store = editMudate(
-            { id: props.id, data: newData },
+            { data: newData },
             {
               onSuccess: (response) => {
                 return response.data.body;
@@ -144,67 +150,32 @@ const FormPeriode = (props: Props) => {
           <form onSubmit={handleFormSubmit} className="space-y-4">
             <CardForm>
               <div>
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="name"
-                    className="text-gray-300"
-                    value="Nama Periode"
-                  />
-                </div>
-                <TextInput
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="nama periode..."
-                  required
-                  color={
-                    newData.name == ""
-                      ? "failure"
-                      : saveLoading
-                      ? "graySave"
-                      : "gray"
-                  }
-                  value={newData.name ? newData.name : ""}
-                  helperText={
-                    newData.name == "" ? (
-                      <>
-                        <span className="font-medium">Oops!</span> Harus diisi
-                      </>
-                    ) : null
-                  }
-                  onChange={handleInputChange}
+                <SelectClassRoom
+                  value={newData.classRoomId}
+                  handleChange={handleInputChange}
                 />
               </div>
               <div>
-                <SelectTahun
-                  label="Tahun Mulai Ajaran"
-                  name="periodeStart"
-                  value={newData.periodeStart}
+                <SelectStudent
+                  value={newData.studentId}
                   handleChange={handleInputChange}
-                  color={saveLoading ? "graySave" : "gray"}
                 />
               </div>
               <div>
-                <SelectTahun
-                  label="Tahun Selesai Ajaran"
-                  name="periodeEnd"
-                  value={newData.periodeEnd}
+                <SelectPeriode
+                  value={newData.periodeId !== null ? newData.periodeId : 0}
                   handleChange={handleInputChange}
-                  color={saveLoading ? "graySave" : "gray"}
                 />
               </div>
             </CardForm>
             <div className="flex gap-4">
-              {newData.name == "" ||
-              newData.periodeStart == 0 ||
-              newData.periodeEnd == 0 ? (
+              {newData.classRoomId == 0 || newData.studentId == 0 ? (
                 <Button color="dark">Simpan</Button>
               ) : (
                 <Button
                   type="submit"
                   gradientDuoTone="pinkToOrange"
                   className="w-fit"
-                  disabled={saveLoading}
                 >
                   Simpan
                 </Button>
@@ -229,4 +200,4 @@ const FormPeriode = (props: Props) => {
   }
 };
 
-export default FormPeriode;
+export default FormSiswaKelas;

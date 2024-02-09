@@ -1,11 +1,8 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
-import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
-import { Card } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 

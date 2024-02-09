@@ -15,7 +15,11 @@ const PeriodePage = () => {
   const [idData, setIdData] = useState<any>(null);
   const [isEdit, setIsEdit] = useState<any>(false);
 
-  const { isPending: isPeriodeLoading, error: isPeriodeError, data: dataPeriode } = useAllPosts();
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataAll,
+  } = useAllPosts();
 
   const {
     mutate: deleteMutate,
@@ -32,11 +36,10 @@ const PeriodePage = () => {
   const cancelAdd = () => {
     setShowForm(false);
     setIsEdit(false);
-    setIdData(null)
+    setIdData(null);
   };
 
   const ubahData = (id: Number) => {
-
     setIdData(id);
     setShowForm(true);
     setIsEdit(true);
@@ -63,8 +66,10 @@ const PeriodePage = () => {
           </AddButton>
         ) : null}
 
-        {showForm ? <FormPeriode handleCancel={cancelAdd} isEdit={isEdit} id={idData} /> : null}
-        {dataPeriode !== undefined && dataPeriode?.length > 0 ? (
+        {showForm ? (
+          <FormPeriode handleCancel={cancelAdd} isEdit={isEdit} id={idData} />
+        ) : null}
+        {dataAll !== undefined && dataAll?.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
@@ -76,7 +81,7 @@ const PeriodePage = () => {
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {dataPeriode.map((data, index) => (
+                {dataAll.map((data, index) => (
                   <Table.Row
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={data.id}

@@ -1,33 +1,44 @@
 import http from "@/libs/httpSetting";
 
-export const getAllData = async () => {
+const getAllData = async () => {
   const res = await http.get(`/student-rooms`);
-  return res.data;
+  return res.data.data;
 };
 
-// gunakan 3 parameter, 
+// gunakan 3 parameter,
 // [0] = classRoomId
 // [1] = periodeId
 // [2] = studentId
 
-export const getOneData = async (classRoomId: any, studentId: any) => {
+const getOneData = async (classRoomId: any, studentId: any) => {
   const res = await http.get(`/student-rooms/${classRoomId}/0/${studentId}`);
-  return res.data;
+  return res.data.data;
 };
 
-export const getDataByClassAndPeriode = async (classRoomId: any, periodeId: any) => {
+const getDataByClassAndPeriode = async (classRoomId: any, periodeId: any) => {
   const res = await http.get(`/student-rooms/${classRoomId}/${periodeId}/0`);
   return res.data;
 };
 
-export const postData = async (data: any) => {
+const postData = async (data: any) => {
   return await http.post(`/student-rooms`, data);
 };
 
-export const editData = async (classRoomId: any, studentId: any, data: any) => {
-  return await http.put(`/student-rooms/${classRoomId}/${studentId}`, data);
+const editData = async (data: any) => {
+  return await http.put(`/student-rooms/${data.classRoomId}/${data.studentId}`, data);
 };
 
-export const deleteData = async (classRoomId: any, studentId: any) => {
-  return await http.delete(`/student-rooms/${classRoomId}/${studentId}`);
+const deleteData = async (params: any) => {
+  return await http.delete(`/student-rooms/${params.classRoomId}/${params.studentId}`);
 };
+
+const StudentRoomService = {
+  getAllData,
+  getOneData,
+  postData,
+  editData,
+  deleteData,
+  getDataByClassAndPeriode,
+};
+
+export default StudentRoomService;

@@ -2,27 +2,38 @@ import http from "@/libs/httpSetting";
 
 export const getAllData = async () => {
   const res = await http.get(`/students`);
-  return res.data;
+  return res.data.data;
 };
 
-export const getAvalibleData = async () => {
+const getAvalibleData = async () => {
   const res = await http.get(`/students/available`);
-  return res.data;
+  return res.data.data;
 };
 
-export const getOneData = async (id: Number) => {
+const getOneData = async (id: Number) => {
   const res = await http.get(`/students/${id}`);
-  return res.data;
+  return res.data.data;
 };
 
-export const postData = async (data: any) => {
+const postData = async (data: any) => {
   return await http.post(`/students`, data);
 };
 
-export const editData = async (id: any, data: any) => {
-  return await http.put(`/students/${id}`, data);
+const editData = async (data: any) => {
+  return await http.put(`/students/${data.id}`, data);
 };
 
-export const deleteData = async (id: any) => {
+const deleteData = async (id: any) => {
   return await http.delete(`/students/${id}`);
 };
+
+const StudentService = {
+  getAllData,
+  getOneData,
+  postData,
+  editData,
+  deleteData,
+  getAvalibleData
+};
+
+export default StudentService;

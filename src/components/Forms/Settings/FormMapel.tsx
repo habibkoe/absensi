@@ -1,15 +1,14 @@
 import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
 import SelectTahun from "@/components/DataComponents/SelectTahun";
-import { useCreatePost, usePostById, useUpdatePost } from "@/hooks/periodeHook";
+import { useCreatePost, usePostById, useUpdatePost } from "@/hooks/mapelHook";
 import { Button, Label, TextInput, Toast } from "flowbite-react";
 import React, { MouseEvent, useEffect, useState } from "react";
 
 export interface NewForm {
   id?: Number | null;
-  name?: string | null;
-  periodeStart?: number;
-  periodeEnd?: number;
+  code?: string;
+  name?: string;
 }
 
 interface Props {
@@ -18,8 +17,7 @@ interface Props {
   handleCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const FormPeriode = (props: Props) => {
-
+const FormMapel = (props: Props) => {
   const {
     data: dataDetail,
     isPending: isDataLoading,
@@ -28,9 +26,8 @@ const FormPeriode = (props: Props) => {
 
   let initialState: NewForm = {
     id: null,
+    code: "",
     name: "",
-    periodeStart: 0,
-    periodeEnd: 0,
   };
 
   const [newData, setNewData] = useState<NewForm>(initialState);
@@ -39,9 +36,8 @@ const FormPeriode = (props: Props) => {
     if (props.id != null) {
       setNewData({
         id: props.id,
+        code: dataDetail?.code,
         name: dataDetail?.name,
-        periodeStart: dataDetail?.periodeStart,
-        periodeEnd: dataDetail?.periodeEnd,
       });
     }
   }, [isDataLoading]);
@@ -91,11 +87,7 @@ const FormPeriode = (props: Props) => {
       setSaveLoading(true);
       let store = null;
 
-      if (
-        newData.name !== "" &&
-        newData.periodeStart !== 0 &&
-        newData.periodeEnd !== 0
-      ) {
+      if (newData.code !== "" && newData.name !== "") {
         if (!props.isEdit) {
           store = addMutate(newData, {
             onSuccess: (response) => {
@@ -148,14 +140,14 @@ const FormPeriode = (props: Props) => {
                   <Label
                     htmlFor="name"
                     className="text-gray-300"
-                    value="Nama Periode"
+                    value="Nama Mapel"
                   />
                 </div>
                 <TextInput
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="nama periode..."
+                  placeholder="nama mapel..."
                   required
                   color={
                     newData.name == ""
@@ -164,7 +156,7 @@ const FormPeriode = (props: Props) => {
                       ? "graySave"
                       : "gray"
                   }
-                  value={newData.name ? newData.name : ""}
+                  value={newData.name}
                   helperText={
                     newData.name == "" ? (
                       <>
@@ -176,28 +168,40 @@ const FormPeriode = (props: Props) => {
                 />
               </div>
               <div>
-                <SelectTahun
-                  label="Tahun Mulai Ajaran"
-                  name="periodeStart"
-                  value={newData.periodeStart}
-                  handleChange={handleInputChange}
-                  color={saveLoading ? "graySave" : "gray"}
-                />
-              </div>
-              <div>
-                <SelectTahun
-                  label="Tahun Selesai Ajaran"
-                  name="periodeEnd"
-                  value={newData.periodeEnd}
-                  handleChange={handleInputChange}
-                  color={saveLoading ? "graySave" : "gray"}
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="code"
+                    className="text-gray-300"
+                    value="Code Mapel"
+                  />
+                </div>
+                <TextInput
+                  id="code"
+                  name="code"
+                  type="text"
+                  color={
+                    newData.code == ""
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
+                  placeholder="code mapel..."
+                  value={newData.code}
+                  helperText={
+                    newData.code == "" ? (
+                      <>
+                        <span className="font-medium">Oops!</span> Harus diisi
+                      </>
+                    ) : null
+                  }
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
             </CardForm>
             <div className="flex gap-4">
-              {newData.name == "" ||
-              newData.periodeStart == 0 ||
-              newData.periodeEnd == 0 ? (
+              {newData.name == "" || newData.code == "" ? (
                 <Button color="dark">Simpan</Button>
               ) : (
                 <Button
@@ -229,4 +233,4 @@ const FormPeriode = (props: Props) => {
   }
 };
 
-export default FormPeriode;
+export default FormMapel;
