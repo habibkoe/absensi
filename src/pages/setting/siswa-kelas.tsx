@@ -40,17 +40,15 @@ const SiswaKelasPage = () => {
     setIdData(null);
   };
 
-  const ubahData = (idClass : Number,idStudent: Number) => {
+  const ubahData = (idClass: Number, idStudent: Number) => {
     setIdData(idStudent);
     setIdDataClass(idClass);
     setShowForm(true);
     setIsEdit(true);
   };
 
-  const hapusData = async (idClass : Number,idStudent: Number) => {
-    let params = [
-      idStudent,idClass
-    ]
+  const hapusData = async (idClass: Number, idStudent: Number) => {
+    let params = [idStudent, idClass];
     deleteMutate(params, {
       onSuccess: (response) => {
         alert("Deleted Successfully!");
@@ -66,12 +64,19 @@ const SiswaKelasPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <AddButton handleClick={() => setShowForm(!showForm)}>
-            Tambah data mapel
+          <AddButton handleClick={() => tambahData()}>
+            Tambah data periode
           </AddButton>
         ) : null}
 
-        {showForm ? (<FormSiswaKelas handleCancel={cancelAdd} isEdit={isEdit} studentId={idData} classRoomId={idDataClass} />) : null}
+        {showForm ? (
+          <FormSiswaKelas
+            handleCancel={cancelAdd}
+            isEdit={isEdit}
+            studentId={idData}
+            classRoomId={idDataClass}
+          />
+        ) : null}
 
         {dataAll !== undefined && dataAll.length > 0 ? (
           <div className="overflow-x-auto">

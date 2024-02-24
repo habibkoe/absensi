@@ -61,8 +61,8 @@ const SiswaPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <AddButton handleClick={() => setShowForm(!showForm)}>
-            Tambah data siswa
+          <AddButton handleClick={() => tambahData()}>
+            Tambah data periode
           </AddButton>
         ) : null}
 

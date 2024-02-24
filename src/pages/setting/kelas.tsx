@@ -60,8 +60,8 @@ const KelasPage = () => {
 
       <div className="w-full">
         {!showForm ? (
-          <AddButton handleClick={() => setShowForm(!showForm)}>
-            Tambah data kelas
+          <AddButton handleClick={() => tambahData()}>
+            Tambah data periode
           </AddButton>
         ) : null}
 
