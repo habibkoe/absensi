@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormSiswa from "@/components/Forms/Settings/FormSiswa";
 import { useAllPosts, useDeletePost } from "@/hooks/siswaHook";
 import { siteConfig } from "@/libs/config";
@@ -52,6 +53,11 @@ const SiswaPage = () => {
       },
     });
   };
+
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
+
 
   return (
     <>

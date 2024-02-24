@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormMapel from "@/components/Forms/Settings/FormMapel";
 import { useAllPosts, useDeletePost } from "@/hooks/mapelHook";
 import { siteConfig } from "@/libs/config";
@@ -51,6 +52,10 @@ const MapelPage = () => {
       },
     });
   };
+
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
 
   return (
     <>

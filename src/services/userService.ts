@@ -1,23 +1,33 @@
 import http from "@/libs/httpSetting";
 
-export const getAllData = async () => {
+const getAllData = async () => {
   const res = await http.get(`/users`);
-  return res.data;
+  return res.data.data;
 };
 
-export const getOneData = async (id: Number) => {
+const getOneData = async (id: Number) => {
   const res = await http.get(`/users/${id}`);
-  return res.data;
+  return res.data.data;
 };
 
-export const postData = async (data: any) => {
-  return await http.post(`/users`, data);
+const postData = async (data: any) => {
+  return await http.post(`/users`, JSON.stringify(data));
 };
 
-export const editData = async (id: any, data: any) => {
-  return await http.put(`/users/${id}`, data);
+const editData = async (data: any) => {
+  return await http.put(`/users/${data.id}`, JSON.stringify(data));
 };
 
-export const deleteData = async (id: any) => {
+const deleteData = async (id: any) => {
   return await http.delete(`/users/${id}`);
 };
+
+const UserService = {
+  getAllData,
+  getOneData,
+  postData,
+  editData,
+  deleteData,
+};
+
+export default UserService;

@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormSiswaKelas from "@/components/Forms/Settings/FormSiswaKelas";
 import { useAllPosts, useDeletePost } from "@/hooks/siswaKelasHook";
 import { siteConfig } from "@/libs/config";
@@ -17,14 +18,14 @@ const SiswaKelasPage = () => {
   const [isEdit, setIsEdit] = useState<any>(false);
 
   const {
-    isPending: isPeriodeLoading,
-    error: isPeriodeError,
+    isPending: isDataLoading,
+    error: isDataError,
     data: dataAll,
   } = useAllPosts();
 
   const {
     mutate: deleteMutate,
-    isPending: isPeriodeDeleteLOading,
+    isPending: isDataDeleteLOading,
     isError: isErrorDeleteLoading,
   } = useDeletePost();
 
@@ -57,6 +58,10 @@ const SiswaKelasPage = () => {
       },
     });
   };
+
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
 
   return (
     <>

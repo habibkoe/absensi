@@ -8,6 +8,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import FormKelas from "@/components/Forms/Settings/FormKelas";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 
 const KelasPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -51,6 +52,10 @@ const KelasPage = () => {
       },
     });
   };
+
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
 
   return (
     <>
