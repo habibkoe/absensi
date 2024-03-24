@@ -5,7 +5,6 @@ import SelectPeriode from "@/components/DataComponents/SelectPeriode";
 import SelectStudent from "@/components/DataComponents/SelectStudent";
 import {
   useCreatePost,
-  usePostById,
   useStudentRoomPostById,
   useUpdatePost,
 } from "@/hooks/siswaHook";

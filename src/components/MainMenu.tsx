@@ -1,7 +1,6 @@
 import { Dropdown } from "flowbite-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { siteConfig } from "@/libs/config";
 import { signOut, useSession } from "next-auth/react";
 
 const MainMenu = () => {

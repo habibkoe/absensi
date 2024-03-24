@@ -92,15 +92,15 @@ const KelasPage = () => {
                     key={data.id}
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Lokasi: {data.location}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Daya Tampung: {data.studentTotal}
                       </span>
                     </Table.Cell>

@@ -3,7 +3,7 @@ import CardMenu from "@/components/Attribute/CardMenu";
 import { useUserRoomPostByUserData } from "@/hooks/userHook";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const AbsensiPage = () => {
   const { data: session } = useSession();

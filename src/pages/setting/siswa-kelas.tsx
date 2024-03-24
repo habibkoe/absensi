@@ -104,19 +104,19 @@ const SiswaKelasPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Lokasi: {data.location}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Jml siswa: {data._count.students}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Daya tampung: {data.studentTotal}
                       </span>
                     </Table.Cell>

@@ -93,19 +93,19 @@ const SiswaPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.firstName} {data.lastName}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Nis: {data.nis}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Jenis kelamin: {data.gender}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Alamat: {data.address}
                       </span>
                     </Table.Cell>

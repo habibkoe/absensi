@@ -92,15 +92,15 @@ const PeriodePage = () => {
                     key={data.id}
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Periode: {data.periodeStart} - {data.periodeEnd}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         ID: {data.id}
                       </span>
                     </Table.Cell>

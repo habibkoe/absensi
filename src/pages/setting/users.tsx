@@ -72,19 +72,19 @@ const UserPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.firstName} {data.lastName}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Email: {data.email}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Username: {data.username}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Role: {roleName(Number(data.roleId))}
                       </span>
                     </Table.Cell>
