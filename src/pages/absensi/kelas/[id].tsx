@@ -1,9 +1,8 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
+import { usePostById } from "@/hooks/kelasHook";
 import { useAllPosts } from "@/hooks/periodeHook";
 import { siteConfig } from "@/libs/config";
-import { getOneData } from "@/services/classRoomService";
-import { ClassRooms } from "@prisma/client";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -16,21 +15,12 @@ const AbsensiKelasPage = () => {
 
   const { isPending: isPeriodeLoading, error: isPeriodeError, data: dataPeriode } = useAllPosts();
 
-  const [dataKelas, setDataKelas] = useState<ClassRooms>();
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataKelas,
+  } = usePostById(Number(kelasId));
 
-  const getKelas = async () => {
-    try {
-      let datas = await getOneData(Number(kelasId));
-      setDataKelas(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-
-  useEffect(() => {
-    getKelas();
-  }, []);
   return (
     <>
       <Head>

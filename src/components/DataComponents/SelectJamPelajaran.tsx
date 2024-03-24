@@ -10,8 +10,6 @@ interface Props {
 }
 
 const SelectJamPelajaran = (props: Props) => {
-
-
   const jamPelajarans = [];
 
   for (let jam = 1; jam <= 5; jam++) {

@@ -2,15 +2,11 @@ import AppLayout from "@/components/AppLayout";
 import BottomInfo from "@/components/Attribute/BottomInfo";
 import ToastSave from "@/components/Attribute/ToastSave";
 import SelectJabatan from "@/components/DataComponents/SelectJabatan";
-import MainMenu from "@/components/MainMenu";
+import { usePostById, useUpdatePost } from "@/hooks/userHook";
 import { siteConfig } from "@/libs/config";
-import { editData, getOneData } from "@/services/userService";
-import { Users } from "@prisma/client";
 import {
   Button,
   Card,
-  CustomFlowbiteTheme,
-  Flowbite,
   Label,
   TextInput,
   Toast,
@@ -19,7 +15,6 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { HiCheck } from "react-icons/hi";
 import { ZodIssue, z } from "zod";
 
 const formSchema = z.object({
@@ -31,7 +26,7 @@ const formSchema = z.object({
   categoryTeacher: z.string().min(3, "Character minimum 3"),
   rating: z.number(),
   username: z.string().min(3, "Character minimum 3"),
-  roleId: z.number(),
+  roleId: z.number().nullable(),
 });
 
 export type NewForm = z.infer<typeof formSchema>;
@@ -63,23 +58,25 @@ const EditProfilePage = () => {
 
   const [errors, setErrors] = useState<ZodIssue[]>([]);
 
-  const getData = async () => {
-    let user = await getOneData(Number(session?.user?.id));
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataUser,
+  } = usePostById(Number(session?.user?.id));
 
-    console.log("ini isinya apa ", user);
-
+  useEffect(() => {
     setNewData({
-      firstName: user.data.firstName,
-      lastName: user.data.lastName,
-      email: user.data.email,
-      typeTeacher: user.data.typeTeacher,
-      typeOfStudy: user.data.typeOfStudy,
-      categoryTeacher: user.data.categoryTeacher,
-      rating: user.data.rating,
-      username: user.data.username,
-      roleId: user.data.roleId,
+      firstName: dataUser !== undefined ? dataUser.firstName : "",
+      lastName: dataUser !== undefined ? dataUser.lastName : "",
+      email: dataUser !== undefined ? dataUser.email : "",
+      typeTeacher: dataUser !== undefined ? dataUser.typeTeacher : "",
+      typeOfStudy: dataUser !== undefined ? dataUser.typeOfStudy : "",
+      categoryTeacher: dataUser !== undefined ? dataUser.categoryTeacher : "",
+      rating: dataUser !== undefined ? dataUser.rating : 0,
+      username: dataUser !== undefined ? dataUser.username : "",
+      roleId: dataUser !== undefined ? dataUser.roleId : 0,
     });
-  };
+  }, [dataUser, isDataLoading]);
 
   const validate = () => {
     const formData = formSchema.safeParse(newData);
@@ -113,6 +110,12 @@ const EditProfilePage = () => {
     });
   };
 
+  const {
+    mutate: editMudate,
+    isPending: isUpdateLoading,
+    isError: isUpdateError,
+  } = useUpdatePost();
+
   const [saveLoading, setSaveLoading] = useState(false);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -125,12 +128,16 @@ const EditProfilePage = () => {
       let store = null;
 
       if (checkValidate) {
-        store = await editData(
-          Number(session?.user?.id),
-          JSON.stringify(newData)
+        store = editMudate(
+          { id: Number(session?.user?.id), data: newData },
+          {
+            onSuccess: (response) => {
+              return response.data.body;
+            },
+          }
         );
 
-        if (store.data) {
+        if (store !== null) {
           setNewData(initialState);
           setShowToastMessage({
             type: 1,
@@ -143,8 +150,6 @@ const EditProfilePage = () => {
           });
           console.error("Failed to post data");
         }
-
-        getData();
       }
 
       setSaveLoading(false);
@@ -157,10 +162,6 @@ const EditProfilePage = () => {
     const error = errors.find((error) => error.path[0] === path);
     return error ? error?.message : null;
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <>
@@ -297,7 +298,7 @@ const EditProfilePage = () => {
                   readOnly={true}
                   name="roleId"
                   placeholder="Your role id here..."
-                  value={newData.roleId}
+                  value={String(newData.roleId)}
                   onChange={handleInputChange}
                   color={saveLoading ? "graySave" : "gray"}
                   helperText={

@@ -1,19 +1,19 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import { Button, Card, Label, TextInput, Toast } from "flowbite-react";
+import { Button, Label, TextInput, Toast } from "flowbite-react";
 import GuestLayout from "@/components/GuestLayout";
 import { ZodIssue, z } from "zod";
 import { useState } from "react";
-import { postData } from "@/services/userService";
 import { useRouter } from "next/router";
 import {
   HiMail,
   HiOutlineLockClosed,
   HiOutlineUser,
-  HiX,
 } from "react-icons/hi";
 import Link from "next/link";
 import { siteConfig } from "@/libs/config";
+import { useCreatePost } from "@/hooks/userHook";
+import ToastSave from "@/components/Attribute/ToastSave";
 
 const registerSchema = z
   .object({
@@ -40,8 +40,18 @@ const RegisterPage = () => {
   const router = useRouter();
 
   const [errors, setErrors] = useState<ZodIssue[]>([]);
-  const [showToast, setShowToast] = useState(false);
   const [newData, setNewData] = useState<NewForm>(initialState);
+  const [showToastMessage, setShowToastMessage] = useState<any>({
+    type: 0,
+    message: "",
+  });
+
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,6 +78,12 @@ const RegisterPage = () => {
 
   const [saveLoading, setSaveLoading] = useState(false);
 
+  const {
+    mutate: addMutate,
+    isPending: isCreateLoading,
+    isError: isCreateError,
+  } = useCreatePost();
+
   const register = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -78,12 +94,19 @@ const RegisterPage = () => {
       let store = null;
 
       if (checkValidate) {
-        store = await postData(JSON.stringify(newData));
+        store = addMutate(newData, {
+          onSuccess: (response) => {
+            return response.data.body;
+          },
+        });
 
-        if (store.data) {
+        if (store !== null) {
           router.push("/");
         } else {
-          setShowToast(true);
+          setShowToastMessage({
+            type: 2,
+            message: "Gagal simpan data",
+          });
           console.error("Failed to register user");
         }
       } else {
@@ -256,13 +279,13 @@ const RegisterPage = () => {
           </Link>
         </div>
       </div>
-      {showToast ? (
-        <Toast className="mb-10 fixed bottom-2 right-10">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <HiX className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">Tidak bisa simpan data</div>
-          <Toast.Toggle onDismiss={() => setShowToast(false)} />
+      {showToastMessage.type > 0 ? (
+        <Toast className="mb-10 fixed bottom-2 right-10 z-50">
+          <ToastSave
+            type={showToastMessage.type}
+            message={showToastMessage.message}
+          />
+          <Toast.Toggle onDismiss={() => closeToast()} />
         </Toast>
       ) : null}
     </>

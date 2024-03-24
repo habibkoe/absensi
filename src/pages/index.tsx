@@ -2,8 +2,6 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import {
   Button,
-  Card,
-  Checkbox,
   Label,
   TextInput,
   Toast,

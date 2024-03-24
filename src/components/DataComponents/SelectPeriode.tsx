@@ -1,7 +1,6 @@
 import { useAllPosts } from "@/hooks/periodeHook";
-import { Periode } from "@prisma/client";
 import { Label, Select } from "flowbite-react";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface Props {
   label?: string;

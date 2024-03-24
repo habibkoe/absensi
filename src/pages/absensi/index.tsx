@@ -1,39 +1,27 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
-import MainMenu from "@/components/MainMenu";
-import { getByUserData } from "@/services/userRoomService";
-import { Card } from "flowbite-react";
+import { useUserRoomPostByUserData } from "@/hooks/userHook";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const AbsensiPage = () => {
   const { data: session } = useSession();
 
-  const [dataKelas, setDataKelas] = useState<any[]>([]);
+  const {
+    isPending: isPeriodeLoading,
+    error: isPeriodeError,
+    data: dataKelas,
+  } = useUserRoomPostByUserData(Number(session?.user?.id));
 
-  const getData = async () => {
-    try {
-      let datas = await getByUserData(Number(session?.user?.id));
-
-      console.log("ada nggak ni ", datas);
-      setDataKelas(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  console.log("check data ", dataKelas);
   return (
     <>
       <Head>
         <title>Absensi</title>
       </Head>
 
-      {dataKelas !== null && dataKelas.length > 0 ? (
+      {dataKelas !== undefined ? (
         <div className="w-full">
           <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
             {dataKelas.map((data, index) => (

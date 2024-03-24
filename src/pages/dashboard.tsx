@@ -1,5 +1,4 @@
 import AppLayout from "@/components/AppLayout";
-import MainMenu from "@/components/MainMenu";
 import { siteConfig } from "@/libs/config";
 import { Card } from "flowbite-react";
 import { useSession } from "next-auth/react";

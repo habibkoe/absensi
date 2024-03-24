@@ -3,7 +3,10 @@ import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
 import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormSiswaKelas from "@/components/Forms/Settings/FormSiswaKelas";
-import { useAllPosts, useDeletePost } from "@/hooks/siswaKelasHook";
+import {
+  useStudentRoomAllPosts,
+  useStudentRoomDeletePost,
+} from "@/hooks/siswaHook";
 import { siteConfig } from "@/libs/config";
 import { Table } from "flowbite-react";
 import Head from "next/head";
@@ -21,13 +24,13 @@ const SiswaKelasPage = () => {
     isPending: isDataLoading,
     error: isDataError,
     data: dataAll,
-  } = useAllPosts();
+  } = useStudentRoomAllPosts();
 
   const {
     mutate: deleteMutate,
     isPending: isDataDeleteLOading,
     isError: isErrorDeleteLoading,
-  } = useDeletePost();
+  } = useStudentRoomDeletePost();
 
   const tambahData = () => {
     setIdData(null);
@@ -41,17 +44,15 @@ const SiswaKelasPage = () => {
     setIdData(null);
   };
 
-  const ubahData = (idClass : Number,idStudent: Number) => {
+  const ubahData = (idClass: Number, idStudent: Number) => {
     setIdData(idStudent);
     setIdDataClass(idClass);
     setShowForm(true);
     setIsEdit(true);
   };
 
-  const hapusData = async (idClass : Number,idStudent: Number) => {
-    let params = [
-      idStudent,idClass
-    ]
+  const hapusData = async (idClass: Number, idStudent: Number) => {
+    let params = [idStudent, idClass];
     deleteMutate(params, {
       onSuccess: (response) => {
         alert("Deleted Successfully!");
@@ -76,7 +77,14 @@ const SiswaKelasPage = () => {
           </AddButton>
         ) : null}
 
-        {showForm ? (<FormSiswaKelas handleCancel={cancelAdd} isEdit={isEdit} studentId={idData} classRoomId={idDataClass} />) : null}
+        {showForm ? (
+          <FormSiswaKelas
+            handleCancel={cancelAdd}
+            isEdit={isEdit}
+            studentId={idData}
+            classRoomId={idDataClass}
+          />
+        ) : null}
 
         {dataAll !== undefined && dataAll.length > 0 ? (
           <div className="overflow-x-auto">

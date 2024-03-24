@@ -1,7 +1,6 @@
-import { getAllData } from "@/services/classRoomService";
-import { ClassRooms } from "@prisma/client";
+import { useAllPosts } from "@/hooks/kelasHook";
 import { Label, Select } from "flowbite-react";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface Props {
   label?: string;
@@ -12,25 +11,20 @@ interface Props {
 }
 
 const SelectClassRoom = (props: Props) => {
-  const [dataKelas, setDataKelas] = useState<ClassRooms[]>([]);
-
-  const getData = async () => {
-    try {
-      let datas = await getAllData();
-      setDataKelas(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataAll,
+  } = useAllPosts();
 
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor="classRoomId" className="text-gray-300" value="Ruang Kelas" />
+        <Label
+          htmlFor="classRoomId"
+          className="text-gray-300"
+          value="Ruang Kelas"
+        />
       </div>
       <Select
         id="classRoomId"
@@ -41,11 +35,12 @@ const SelectClassRoom = (props: Props) => {
         onChange={props.handleChange}
       >
         <option value="">Pilih</option>
-        {dataKelas.map((data, index) => (
-          <option value={data.id} key={data.id}>
-            {data.name}
-          </option>
-        ))}
+        {dataAll !== undefined &&
+          dataAll.map((data, index) => (
+            <option value={data.id} key={data.id}>
+              {data.name}
+            </option>
+          ))}
       </Select>
     </>
   );
