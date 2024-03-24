@@ -1,33 +1,32 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
-import MainMenu from "@/components/MainMenu";
+import LoadingTable from "@/components/Attribute/LoadingTable";
+import { useAllPosts, useDeletePost } from "@/hooks/userHook";
 import { siteConfig } from "@/libs/config";
-import { deleteData, getAllData, getOneData } from "@/services/userService";
-import { Users } from "@prisma/client";
-import { Card, Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 
 const UserPage = () => {
-  const [dataUsers, setDataUsers] = useState<Users[]>([]);
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataAll,
+  } = useAllPosts();
 
-  const getData = async () => {
-    try {
-      let datas = await getAllData();
-      setDataUsers(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const {
+    mutate: deleteMutate,
+    isPending: isPeriodeDeleteLOading,
+    isError: isErrorDeleteLoading,
+  } = useDeletePost();
 
-  const hapusData = async (id: any) => {
-    try {
-      let datas = await deleteData(id);
-      getData();
-    } catch (error) {
-      console.error(error);
-    }
+  const hapusData = async (id: Number) => {
+    deleteMutate(id, {
+      onSuccess: (response) => {
+        alert("Deleted Successfully!");
+      },
+    });
   };
 
   const roleName = (params: number) => {
@@ -43,9 +42,10 @@ const UserPage = () => {
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
+
 
   return (
     <>
@@ -54,7 +54,7 @@ const UserPage = () => {
       </Head>
 
       <div className="w-full">
-        {dataUsers !== null && dataUsers.length > 0 ? (
+        {dataAll !== undefined && dataAll?.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
@@ -66,25 +66,25 @@ const UserPage = () => {
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {dataUsers.map((data, index) => (
+                {dataAll.map((data, index) => (
                   <Table.Row
                     key={data.id}
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.firstName} {data.lastName}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Email: {data.email}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Username: {data.username}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Role: {roleName(Number(data.roleId))}
                       </span>
                     </Table.Cell>

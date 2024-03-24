@@ -1,8 +1,6 @@
-import { getAllData } from "@/services/mapelService";
-import { getByUserData } from "@/services/userMapelService";
-import { ClassRooms } from "@prisma/client";
+import { usePostByUserId } from "@/hooks/mapelHook";
 import { Label, Select } from "flowbite-react";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface Props {
   label?: string;
@@ -15,27 +13,11 @@ interface Props {
 }
 
 const SelectMapel = (props: Props) => {
-  const [dataMapel, setDataMapel] = useState<ClassRooms[]>([]);
-  const [dataMapelByUser, setDataMapelByUser] = useState<any[]>([]);
 
-  const getData = async () => {
-    try {
-      // if 1 = byUser
-      if (props.typeData && props.typeData == 1) {
-        let datas = await getByUserData(props.userId);
-        setDataMapelByUser(datas.data);
-      } else {
-        let datas = await getAllData();
-        setDataMapel(datas.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { isPending: isPeriodeLoading, error: isPeriodeError, data: dataMapel } = usePostByUserId(props.typeData, props.userId);
 
-  useEffect(() => {
-    getData();
-  }, []);
+
+  console.log("check data mapel ", dataMapel);
 
   return (
     <>
@@ -51,11 +33,11 @@ const SelectMapel = (props: Props) => {
           onChange={props.handleChange}
         >
           <option value="">Pilih</option>
-          {dataMapelByUser.map((data, index) => (
+          {/* {dataMapelByUser.map((data, index) => (
             <option value={data.mapel.id} key={data.mapel.id}>
               {data.mapel.name}
             </option>
-          ))}
+          ))} */}
         </Select>
       ) : (
         <Select
@@ -66,11 +48,11 @@ const SelectMapel = (props: Props) => {
           onChange={props.handleChange}
         >
           <option value="">Pilih</option>
-          {dataMapel.map((data, index) => (
+          {/* {dataMapel.map((data, index) => (
             <option value={data.id} key={data.id}>
               {data.name}
             </option>
-          ))}
+          ))} */}
         </Select>
       )}
     </>

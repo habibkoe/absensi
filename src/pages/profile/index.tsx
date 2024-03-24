@@ -1,36 +1,25 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
-import MainMenu from "@/components/MainMenu";
+import { usePostById } from "@/hooks/userHook";
 import { siteConfig } from "@/libs/config";
-import { getOneData } from "@/services/userService";
-import { Users } from "@prisma/client";
 import { Button, Card } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const ProfilePage = () => {
   const router = useRouter();
-
-  const [userData, setUserData] = useState<Users>();
-
   const { data: session } = useSession();
-
-  const getData = async () => {
-    let user = await getOneData(Number(session?.user?.id));
-
-    setUserData(user.data);
-  };
+  const {
+    isPending: isPeriodeLoading,
+    error: isPeriodeError,
+    data: userData,
+  } = usePostById(Number(session?.user?.id));
 
   const editProfile = () => {
     router.push("/profile/edit");
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <>

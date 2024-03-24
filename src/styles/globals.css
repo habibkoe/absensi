@@ -28,6 +28,14 @@ body {
 
 @layer components {
   .td-custom {
-    @apply whitespace-nowrap font-medium align-top;
+    @apply whitespace-nowrap align-top;
+  }
+
+  .table-title {
+    @apply text-sm font-medium text-gray-300 dark:text-white;
+  }
+
+  .table-sub-title {
+    @apply text-xs text-gray-400 dark:text-white;
   }
 }

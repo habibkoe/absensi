@@ -2,49 +2,50 @@ import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
 import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
 import SelectPeriode from "@/components/DataComponents/SelectPeriode";
-import SelectStudent from "@/components/DataComponents/SelectStudent";
 import {
-  useCreatePost,
-  useStudentRoomPostById,
-  useUpdatePost,
-} from "@/hooks/siswaHook";
+  useUserRoomCreatePost,
+  useUserRoomPostById,
+  useUserRoomUpdatePost,
+} from "@/hooks/userHook";
 import { Button, Toast } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import React, { MouseEvent, useEffect, useState } from "react";
 
 export interface NewForm {
-  studentId?: number;
-  classRoomId?: number;
-  periodeId?: number | null;
-  assignedBy?: string;
+  userId: number;
+  classRoomId: number;
+  periodeId: number;
+  assignedBy: string;
 }
 
 interface Props {
-  studentId?: any;
+  userId?: any;
   classRoomId?: any;
   isEdit?: boolean;
   handleCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
+const FormKelas = (props: Props) => {
+  const { data: session } = useSession();
 
-const FormSiswaKelas = (props: Props) => {
-  const {
-    data: dataDetail,
+  let {
     isPending: isDataLoading,
-    isError: isPeriodeError,
-  } = useStudentRoomPostById(props.studentId, props.classRoomId);
+    error: isPeriodeError,
+    data: dataDetail,
+  } = useUserRoomPostById(props.classRoomId, Number(session?.user?.id));
 
   let initialState: NewForm = {
-    studentId: 0,
+    userId: Number(session?.user?.id),
     classRoomId: 0,
     periodeId: 0,
-    assignedBy: "",
+    assignedBy: String(session?.user?.username),
   };
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
   useEffect(() => {
-    if (props.studentId != null && props.classRoomId) {
+    if (props.userId != null && props.classRoomId) {
       setNewData({
-        studentId: dataDetail?.studentId,
+        userId: Number(session?.user?.id),
         classRoomId: dataDetail?.classRoomId,
         periodeId: dataDetail?.periodeId,
         assignedBy: dataDetail?.assignedBy,
@@ -52,10 +53,31 @@ const FormSiswaKelas = (props: Props) => {
     }
   }, [isDataLoading]);
 
+  const {
+    mutate: addMutate,
+    isPending: isCreateLoading,
+    isError: isCreateError,
+  } = useUserRoomCreatePost();
+
+  const {
+    mutate: editMudate,
+    isPending: isUpdateLoading,
+    isError: isUpdateError,
+  } = useUserRoomUpdatePost();
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const [showToastMessage, setShowToastMessage] = useState<any>({
     type: 0,
     message: "",
   });
+
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -69,27 +91,6 @@ const FormSiswaKelas = (props: Props) => {
     });
   };
 
-  const [saveLoading, setSaveLoading] = useState(false);
-
-  const closeToast = () => {
-    setShowToastMessage({
-      type: 0,
-      message: "",
-    });
-  };
-
-  const {
-    mutate: addMutate,
-    isPending: isCreateLoading,
-    isError: isCreateError,
-  } = useCreatePost();
-
-  const {
-    mutate: editMudate,
-    isPending: isUpdateLoading,
-    isError: isUpdateError,
-  } = useUpdatePost();
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -97,11 +98,7 @@ const FormSiswaKelas = (props: Props) => {
       setSaveLoading(true);
       let store = null;
 
-      if (
-        newData.studentId !== 0 &&
-        newData.classRoomId !== 0 &&
-        newData.periodeId !== 0
-      ) {
+      if (newData.classRoomId !== 0) {
         if (!props.isEdit) {
           store = addMutate(newData, {
             onSuccess: (response) => {
@@ -156,20 +153,14 @@ const FormSiswaKelas = (props: Props) => {
                 />
               </div>
               <div>
-                <SelectStudent
-                  value={newData.studentId}
-                  handleChange={handleInputChange}
-                />
-              </div>
-              <div>
                 <SelectPeriode
-                  value={newData.periodeId !== null ? newData.periodeId : 0}
+                  value={newData.periodeId}
                   handleChange={handleInputChange}
                 />
               </div>
             </CardForm>
             <div className="flex gap-4">
-              {newData.classRoomId == 0 || newData.studentId == 0 ? (
+              {newData.classRoomId == 0 ? (
                 <Button color="dark">Simpan</Button>
               ) : (
                 <Button
@@ -200,4 +191,4 @@ const FormSiswaKelas = (props: Props) => {
   }
 };
 
-export default FormSiswaKelas;
+export default FormKelas;

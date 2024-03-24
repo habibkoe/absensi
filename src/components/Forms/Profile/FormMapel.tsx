@@ -1,61 +1,80 @@
 import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
-import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
-import SelectPeriode from "@/components/DataComponents/SelectPeriode";
-import SelectStudent from "@/components/DataComponents/SelectStudent";
+import SelectMapel from "@/components/DataComponents/SelectMapel";
 import {
-  useCreatePost,
-  useStudentRoomPostById,
-  useUpdatePost,
-} from "@/hooks/siswaHook";
+  useUserMapelCreatePost,
+  useUserMapelPostById,
+  useUserMapelUpdatePost,
+} from "@/hooks/mapelHook";
 import { Button, Toast } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import React, { MouseEvent, useEffect, useState } from "react";
 
 export interface NewForm {
-  studentId?: number;
-  classRoomId?: number;
-  periodeId?: number | null;
-  assignedBy?: string;
+  userId: number;
+  mapelId: number;
+  assignedBy: string;
 }
 
 interface Props {
-  studentId?: any;
-  classRoomId?: any;
+  userId?: any;
+  mapelId?: any;
   isEdit?: boolean;
   handleCancel?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const FormSiswaKelas = (props: Props) => {
-  const {
-    data: dataDetail,
+const FormMapel = (props: Props) => {
+  const { data: session } = useSession();
+
+  let {
     isPending: isDataLoading,
-    isError: isPeriodeError,
-  } = useStudentRoomPostById(props.studentId, props.classRoomId);
+    error: isPeriodeError,
+    data: dataDetail,
+  } = useUserMapelPostById(props.mapelId, Number(session?.user?.id));
 
   let initialState: NewForm = {
-    studentId: 0,
-    classRoomId: 0,
-    periodeId: 0,
-    assignedBy: "",
+    userId: Number(session?.user?.id),
+    mapelId: 0,
+    assignedBy: String(session?.user?.username),
   };
 
   const [newData, setNewData] = useState<NewForm>(initialState);
 
   useEffect(() => {
-    if (props.studentId != null && props.classRoomId) {
+    if (props.userId != null && props.mapelId) {
       setNewData({
-        studentId: dataDetail?.studentId,
-        classRoomId: dataDetail?.classRoomId,
-        periodeId: dataDetail?.periodeId,
+        userId: Number(session?.user?.id),
+        mapelId: dataDetail?.classRoomId,
         assignedBy: dataDetail?.assignedBy,
       });
     }
   }, [isDataLoading]);
 
+  const {
+    mutate: addMutate,
+    isPending: isCreateLoading,
+    isError: isCreateError,
+  } = useUserMapelCreatePost();
+
+  const {
+    mutate: editMudate,
+    isPending: isUpdateLoading,
+    isError: isUpdateError,
+  } = useUserMapelUpdatePost();
+
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const [showToastMessage, setShowToastMessage] = useState<any>({
     type: 0,
     message: "",
   });
+
+  const closeToast = () => {
+    setShowToastMessage({
+      type: 0,
+      message: "",
+    });
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -69,27 +88,6 @@ const FormSiswaKelas = (props: Props) => {
     });
   };
 
-  const [saveLoading, setSaveLoading] = useState(false);
-
-  const closeToast = () => {
-    setShowToastMessage({
-      type: 0,
-      message: "",
-    });
-  };
-
-  const {
-    mutate: addMutate,
-    isPending: isCreateLoading,
-    isError: isCreateError,
-  } = useCreatePost();
-
-  const {
-    mutate: editMudate,
-    isPending: isUpdateLoading,
-    isError: isUpdateError,
-  } = useUpdatePost();
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -97,11 +95,7 @@ const FormSiswaKelas = (props: Props) => {
       setSaveLoading(true);
       let store = null;
 
-      if (
-        newData.studentId !== 0 &&
-        newData.classRoomId !== 0 &&
-        newData.periodeId !== 0
-      ) {
+      if (newData.mapelId !== 0) {
         if (!props.isEdit) {
           store = addMutate(newData, {
             onSuccess: (response) => {
@@ -140,7 +134,6 @@ const FormSiswaKelas = (props: Props) => {
       console.error("Error posting data:", error);
     }
   };
-
   if (isDataLoading) {
     return <>Loading...</>;
   } else {
@@ -150,26 +143,14 @@ const FormSiswaKelas = (props: Props) => {
           <form onSubmit={handleFormSubmit} className="space-y-4">
             <CardForm>
               <div>
-                <SelectClassRoom
-                  value={newData.classRoomId}
-                  handleChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <SelectStudent
-                  value={newData.studentId}
-                  handleChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <SelectPeriode
-                  value={newData.periodeId !== null ? newData.periodeId : 0}
+                <SelectMapel
+                  value={newData.mapelId}
                   handleChange={handleInputChange}
                 />
               </div>
             </CardForm>
             <div className="flex gap-4">
-              {newData.classRoomId == 0 || newData.studentId == 0 ? (
+              {newData.mapelId == 0 ? (
                 <Button color="dark">Simpan</Button>
               ) : (
                 <Button
@@ -180,6 +161,7 @@ const FormSiswaKelas = (props: Props) => {
                   Simpan
                 </Button>
               )}
+
               <Button color="dark" onClick={props.handleCancel}>
                 Cancel
               </Button>
@@ -200,4 +182,4 @@ const FormSiswaKelas = (props: Props) => {
   }
 };
 
-export default FormSiswaKelas;
+export default FormMapel;

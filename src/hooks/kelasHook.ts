@@ -21,6 +21,16 @@ const usePostById = (id: Number) => {
   });
 };
 
+const usePostByIdSpecial = (category: any, id: Number) => {
+  
+  let uniqueKey = `kelas${category}-${id}`
+
+  return useQuery<ClassRooms, Error>({
+    queryKey: [uniqueKey],
+    queryFn: () => ClassRoomService.getOneData(id),
+  });
+};
+
 const useCreatePost = () => {
   const queryClient = useQueryClient();
   return useMutation({

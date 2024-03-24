@@ -1,8 +1,12 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormSiswaKelas from "@/components/Forms/Settings/FormSiswaKelas";
-import { useAllPosts, useDeletePost } from "@/hooks/siswaKelasHook";
+import {
+  useStudentRoomAllPosts,
+  useStudentRoomDeletePost,
+} from "@/hooks/siswaHook";
 import { siteConfig } from "@/libs/config";
 import { Table } from "flowbite-react";
 import Head from "next/head";
@@ -17,16 +21,16 @@ const SiswaKelasPage = () => {
   const [isEdit, setIsEdit] = useState<any>(false);
 
   const {
-    isPending: isPeriodeLoading,
-    error: isPeriodeError,
+    isPending: isDataLoading,
+    error: isDataError,
     data: dataAll,
-  } = useAllPosts();
+  } = useStudentRoomAllPosts();
 
   const {
     mutate: deleteMutate,
-    isPending: isPeriodeDeleteLOading,
+    isPending: isDataDeleteLOading,
     isError: isErrorDeleteLoading,
-  } = useDeletePost();
+  } = useStudentRoomDeletePost();
 
   const tambahData = () => {
     setIdData(null);
@@ -55,6 +59,10 @@ const SiswaKelasPage = () => {
       },
     });
   };
+
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
 
   return (
     <>
@@ -96,19 +104,19 @@ const SiswaKelasPage = () => {
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Lokasi: {data.location}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Jml siswa: {data._count.students}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Daya tampung: {data.studentTotal}
                       </span>
                     </Table.Cell>

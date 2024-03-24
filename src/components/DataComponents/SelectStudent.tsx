@@ -1,7 +1,6 @@
-import { getAvalibleData } from "@/services/studentService";
-import { Students } from "@prisma/client";
+import { useAvailablePosts } from "@/hooks/siswaHook";
 import { Label, Select } from "flowbite-react";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface Props {
   label?: string;
@@ -12,20 +11,11 @@ interface Props {
 }
 
 const SelectStudent = (props: Props) => {
-  const [dataSiswa, setDataSiswa] = useState<Students[]>([]);
-
-  const getData = async () => {
-    try {
-      let datas = await getAvalibleData();
-      setDataSiswa(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataAll,
+  } = useAvailablePosts();
 
   return (
     <>
@@ -40,11 +30,12 @@ const SelectStudent = (props: Props) => {
         onChange={props.handleChange}
       >
         <option value="">Pilih</option>
-        {dataSiswa.map((data, index) => (
-          <option value={data.id} key={data.id}>
-            {data.firstName} {data.lastName}
-          </option>
-        ))}
+        {dataAll !== undefined &&
+          dataAll.map((data, index) => (
+            <option value={data.id} key={data.id}>
+              {data.firstName} {data.lastName}
+            </option>
+          ))}
       </Select>
     </>
   );

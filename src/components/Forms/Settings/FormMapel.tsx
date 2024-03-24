@@ -1,6 +1,5 @@
 import CardForm from "@/components/Attribute/CardForm";
 import ToastSave from "@/components/Attribute/ToastSave";
-import SelectTahun from "@/components/DataComponents/SelectTahun";
 import { useCreatePost, usePostById, useUpdatePost } from "@/hooks/mapelHook";
 import { Button, Label, TextInput, Toast } from "flowbite-react";
 import React, { MouseEvent, useEffect, useState } from "react";

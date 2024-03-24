@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormPeriode from "@/components/Forms/Settings/FormPeriode";
 import { useAllPosts, useDeletePost } from "@/hooks/periodeHook";
 import { siteConfig } from "@/libs/config";
@@ -53,6 +54,10 @@ const PeriodePage = () => {
     });
   };
 
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
+
   return (
     <>
       <Head>
@@ -83,19 +88,19 @@ const PeriodePage = () => {
               <Table.Body className="divide-y">
                 {dataAll.map((data, index) => (
                   <Table.Row
-                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
+                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052] items-start"
                     key={data.id}
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Periode: {data.periodeStart} - {data.periodeEnd}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         ID: {data.id}
                       </span>
                     </Table.Cell>

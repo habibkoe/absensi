@@ -11,11 +11,11 @@ const getOneData = async (id: Number) => {
 };
 
 const postData = async (data: any) => {
-  return await http.post(`/class-rooms`, data);
+  return await http.post(`/class-rooms`, JSON.stringify(data));
 };
 
 const editData = async (data: any) => {
-  return await http.put(`/class-rooms/${data.id}`, data);
+  return await http.put(`/class-rooms/${data.id}`, JSON.stringify(data));
 };
 
 const deleteData = async (id: any) => {

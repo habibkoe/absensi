@@ -1,144 +1,67 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
-import CardForm from "@/components/Attribute/CardForm";
-import SelectClassRoom from "@/components/DataComponents/SelectClassRoom";
-import SelectPeriode from "@/components/DataComponents/SelectPeriode";
-import MainMenu from "@/components/MainMenu";
-import { siteConfig } from "@/libs/config";
+import LoadingTable from "@/components/Attribute/LoadingTable";
+import FormKelas from "@/components/Forms/Profile/FormKelas";
 import {
-  deleteData,
-  editData,
-  getByUserData,
-  getOneData,
-  postData,
-} from "@/services/userRoomService";
-import { Button, Card, Table, Toast } from "flowbite-react";
+  useUserRoomDeletePost,
+  useUserRoomPostByUserData,
+} from "@/hooks/userHook";
+import { siteConfig } from "@/libs/config";
+import { Table } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
-import { HiCheck, HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
-
-export interface NewForm {
-  userId: number;
-  classRoomId: number;
-  periodeId: number;
-  assignedBy: string;
-}
+import React, { useState } from "react";
+import {
+  HiOutlinePencil,
+  HiOutlineTrash,
+} from "react-icons/hi";
 
 const KelasDidikanPage = () => {
   const { data: session } = useSession();
-
-  let initialState: NewForm = {
-    userId: Number(session?.user?.id),
-    classRoomId: 0,
-    periodeId: 0,
-    assignedBy: String(session?.user?.username),
-  };
-
-  const [currentId, setCurrentId] = useState(0);
-
   const [showForm, setShowForm] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [showToastMessage, setShowToastMessage] = useState("");
 
-  const [dataKelas, setDataKelas] = useState<any[]>([]);
+  const [idData, setIdData] = useState<any>(null);
+  const [idDataClass, setIdDataClass] = useState<any>(null);
+  const [isEdit, setIsEdit] = useState<any>(false);
 
-  const [newData, setNewData] = useState<NewForm>(initialState);
+  const {
+    isPending: isDataLoading,
+    error: isDataError,
+    data: dataAll,
+  } = useUserRoomPostByUserData(Number(session?.user?.id));
 
-  const cencelAdd = () => {
-    setNewData(initialState);
-    setShowForm(!showForm);
-  };
-  
-  const getData = async () => {
-    try {
-      let datas = await getByUserData(Number(session?.user?.id));
+  const {
+    mutate: deleteMutate,
+    isPending: isDataDeleteLOading,
+    isError: isErrorDeleteLoading,
+  } = useUserRoomDeletePost();
 
-      console.log("ada nggak ni ", datas);
-      setDataKelas(datas.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const ubahData = async (id: any) => {
-    try {
-      let datas = await getOneData(id, Number(session?.user?.id));
-      setNewData({
-        userId: datas.data.userId,
-        classRoomId: datas.data.classRoomId,
-        periodeId: datas.data.periodeId,
-        assignedBy: datas.data.assignedBy,
-      });
-
-      setShowForm(true);
-      setCurrentId(id);
-    } catch (error) {
-      console.error(error);
-    }
+  const cancelAdd = () => {
+    setShowForm(false);
+    setIsEdit(false);
+    setIdData(null);
   };
 
-  const hapusData = async (id: any) => {
-    try {
-      let datas = await deleteData(id, Number(session?.user?.id));
-      getData();
-    } catch (error) {
-      console.error(error);
-    }
+  const ubahData = (idClass: Number) => {
+    setIdData(Number(session?.user?.id));
+    setIdDataClass(idClass);
+    setShowForm(true);
+    setIsEdit(true);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setNewData({
-      ...newData,
-      [name]: value,
+  const hapusData = async (idClass: Number) => {
+    let idStudent = Number(session?.user?.id);
+    let params = [idStudent, idClass];
+    deleteMutate(params, {
+      onSuccess: (response) => {
+        alert("Deleted Successfully!");
+      },
     });
   };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      let store = null;
-
-      if (newData.classRoomId !== 0) {
-        if (currentId == 0) {
-          store = await postData(JSON.stringify(newData));
-        } else {
-          store = await editData(
-            currentId,
-            Number(session?.user?.id),
-            JSON.stringify(newData)
-          );
-        }
-
-        if (store.data) {
-          setNewData(initialState);
-          setCurrentId(0);
-          getData();
-          setShowToast(true);
-          setShowToastMessage("Berhasil simpan data");
-        } else {
-          setShowToast(true);
-          setShowToastMessage("Gagal simpan data");
-          console.error("Failed to post data");
-        }
-
-        setShowForm(false);
-      }
-    } catch (error) {
-      console.error("Error posting data:", error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
 
   return (
     <>
@@ -154,43 +77,15 @@ const KelasDidikanPage = () => {
         ) : null}
 
         {showForm ? (
-          <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              <CardForm>
-                <div>
-                  <SelectClassRoom
-                    value={newData.classRoomId}
-                    handleChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <SelectPeriode
-                    value={newData.periodeId}
-                    handleChange={handleInputChange}
-                  />
-                </div>
-              </CardForm>
-              <div className="flex gap-4">
-                {newData.classRoomId == 0 ? (
-                  <Button color="dark">Simpan</Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    gradientDuoTone="pinkToOrange"
-                    className="w-fit"
-                  >
-                    Simpan
-                  </Button>
-                )}
-                <Button color="dark" onClick={cencelAdd}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </div>
+          <FormKelas
+            handleCancel={cancelAdd}
+            isEdit={isEdit}
+            userId={idData}
+            classRoomId={idDataClass}
+          />
         ) : null}
 
-        {dataKelas !== null && dataKelas.length > 0 ? (
+        {dataAll !== undefined && dataAll.length > 0 ? (
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head className="border-b border-[#242526]">
@@ -202,14 +97,14 @@ const KelasDidikanPage = () => {
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {dataKelas.map((data, index) => (
+                {dataAll.map((data, index) => (
                   <Table.Row
                     className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
                     key={index}
                   >
                     <Table.Cell className="td-custom">
                       <span className="text-base text-gray-300 dark:text-white">
-                      {data.classRoom.name}
+                        {data.classRoom.name}
                       </span>
                       <br />
                       <span className="text-xs text-gray-400 dark:text-white">
@@ -217,7 +112,7 @@ const KelasDidikanPage = () => {
                       </span>
                     </Table.Cell>
                     <Table.Cell>
-                    <div className="flex flex-wrap gap-4 w-full justify-end items-start">
+                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
                         <ActionButton
                           handleClick={() => ubahData(data.classRoomId)}
                           title="Edit data"
@@ -241,16 +136,6 @@ const KelasDidikanPage = () => {
           <div className="w-full text-red-500">Belum ada data</div>
         )}
       </div>
-
-      {showToast ? (
-        <Toast className="mb-10 fixed bottom-2 right-10">
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-            <HiCheck className="h-5 w-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">{showToastMessage}</div>
-          <Toast.Toggle onDismiss={() => setShowToast(false)} />
-        </Toast>
-      ) : null}
     </>
   );
 };

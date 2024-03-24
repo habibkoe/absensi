@@ -1,10 +1,19 @@
 import AppLayout from "@/components/AppLayout";
-import CardMenu from "@/components/Attribute/CardMenu";
+import CardMenuList from "@/components/Attribute/CardMenuList";
 import { siteConfig } from "@/libs/config";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
+import {
+  HiOutlineBookOpen,
+  HiOutlineCalendar,
+  HiOutlineChevronRight,
+  HiOutlineOfficeBuilding,
+  HiOutlineUserCircle,
+  HiOutlineUserGroup,
+  HiOutlineUsers,
+} from "react-icons/hi";
 
 const SettingPage = () => {
   const { data: session } = useSession();
@@ -19,27 +28,49 @@ const SettingPage = () => {
         <title>{`${siteConfig.title} : Settings`}</title>
       </Head>
 
-      <div className="w-full">
-        <div className="grid gap-8 md:grid-cols-3 sm:grid-cols-2">
-          <CardMenu href="/setting/periode" subTitle="Setting tahun ajaran">
-            Master <br /> Periode
-          </CardMenu>
-          <CardMenu href="/setting/kelas" subTitle="Setting master kelas">
-            Master <br /> Kelas
-          </CardMenu>
-          <CardMenu href="/setting/mapel" subTitle="Setting mata pelajaran">
-            Master <br /> Mata Pelajaran
-          </CardMenu>
-          <CardMenu href="/setting/siswa" subTitle="Setting master siswa">
-            Master <br /> Siswa
-          </CardMenu>
-          <CardMenu href="/setting/siswa-kelas" subTitle="Setting kelas siswa">
-            Master <br /> Kelas Siswa
-          </CardMenu>
-          <CardMenu href="/setting/users" subTitle="Setting users">
-            Master <br /> Users
-          </CardMenu>
-        </div>
+      <div className="w-full space-y-2">
+        <CardMenuList
+          icon={<HiOutlineCalendar />}
+          href="/setting/periode"
+          subTitle="Setting tahun ajaran"
+        >
+          Master Periode
+        </CardMenuList>
+        <CardMenuList
+          icon={<HiOutlineOfficeBuilding />}
+          href="/setting/kelas"
+          subTitle="Setting master kelas"
+        >
+          Master Kelas
+        </CardMenuList>
+        <CardMenuList
+          icon={<HiOutlineBookOpen />}
+          href="/setting/mapel"
+          subTitle="Setting mata pelajaran"
+        >
+          Master Mata Pelajaran
+        </CardMenuList>
+        <CardMenuList
+          icon={<HiOutlineUsers />}
+          href="/setting/siswa"
+          subTitle="Setting master siswa"
+        >
+          Master Siswa
+        </CardMenuList>
+        <CardMenuList
+          icon={<HiOutlineUserGroup />}
+          href="/setting/siswa-kelas"
+          subTitle="Setting kelas siswa"
+        >
+          Master Kelas Siswa
+        </CardMenuList>
+        <CardMenuList
+          icon={<HiOutlineUserCircle />}
+          href="/setting/users"
+          subTitle="Setting users"
+        >
+          Master Users
+        </CardMenuList>
       </div>
     </>
   );

@@ -1,6 +1,7 @@
 import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 import FormMapel from "@/components/Forms/Settings/FormMapel";
 import { useAllPosts, useDeletePost } from "@/hooks/mapelHook";
 import { siteConfig } from "@/libs/config";
@@ -52,6 +53,10 @@ const MapelPage = () => {
     });
   };
 
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
+
   return (
     <>
       <Head>
@@ -86,11 +91,11 @@ const MapelPage = () => {
                     key={data.id}
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Code: {data.code}
                       </span>
                     </Table.Cell>

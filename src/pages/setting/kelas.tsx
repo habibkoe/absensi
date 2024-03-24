@@ -8,6 +8,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import FormKelas from "@/components/Forms/Settings/FormKelas";
+import LoadingTable from "@/components/Attribute/LoadingTable";
 
 const KelasPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -52,6 +53,10 @@ const KelasPage = () => {
     });
   };
 
+  if (isDataLoading) {
+    return <LoadingTable />;
+  }
+
   return (
     <>
       <Head>
@@ -87,15 +92,15 @@ const KelasPage = () => {
                     key={data.id}
                   >
                     <Table.Cell className="td-custom">
-                      <span className="text-base text-gray-300 dark:text-white">
+                      <span className="table-title">
                         {data.name}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Lokasi: {data.location}
                       </span>
                       <br />
-                      <span className="text-xs text-gray-400 dark:text-white">
+                      <span className="table-sub-title">
                         Daya Tampung: {data.studentTotal}
                       </span>
                     </Table.Cell>
