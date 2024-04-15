@@ -19,6 +19,7 @@ const registerSchema = z
   .object({
     email: z.string().email(),
     username: z.string().min(3, "minimum 3"),
+    refCode: z.string().min(3, "minimum 3"),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
   })
@@ -35,6 +36,7 @@ const RegisterPage = () => {
     password: "",
     confirmPassword: "",
     username: "",
+    refCode: ""
   };
 
   const router = useRouter();
@@ -131,7 +133,7 @@ const RegisterPage = () => {
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <div className="md:mx-auto md:w-96 w-full px-8">
-          <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
+          <h5 className="text-2xl font-bold tracking-tight dark:text-white text-gray-900 mb-2">
             Buat akun
           </h5>
           <span className="text-gray-400">
@@ -141,7 +143,7 @@ const RegisterPage = () => {
             <form onSubmit={register} className="flex max-w-md flex-col gap-4">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email" className="text-white" value="Email" />
+                  <Label htmlFor="email" className="form-label" value="Email" />
                 </div>
                 <TextInput
                   id="email"
@@ -168,7 +170,7 @@ const RegisterPage = () => {
                 <div className="mb-2 block">
                   <Label
                     htmlFor="username"
-                    className="text-white"
+                    className="form-label"
                     value="Username"
                   />
                 </div>
@@ -199,7 +201,7 @@ const RegisterPage = () => {
                 <div className="mb-2 block">
                   <Label
                     htmlFor="password"
-                    className="text-white"
+                    className="form-label"
                     value="Password"
                   />
                 </div>
@@ -230,7 +232,7 @@ const RegisterPage = () => {
                 <div className="mb-2 block">
                   <Label
                     htmlFor="confirmPassword"
-                    className="text-white"
+                    className="form-label"
                     value="Confirm Password"
                   />
                 </div>
@@ -257,9 +259,41 @@ const RegisterPage = () => {
                   }
                 />
               </div>
+              
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="refCode"
+                    className="form-label"
+                    value="Referensi Kode"
+                  />
+                </div>
+                <TextInput
+                  id="refCode"
+                  type="text"
+                  name="refCode"
+                  icon={HiOutlineUser}
+                  placeholder="Referensi kode sekolah anda disini..."
+                  required
+                  value={newData.refCode}
+                  onChange={handleInputChange}
+                  color={
+                    getError("refCode") != null
+                      ? "failure"
+                      : saveLoading
+                      ? "graySave"
+                      : "gray"
+                  }
+                  helperText={
+                    getError("refCode") != null ? (
+                      <>{getError("refCode")}</>
+                    ) : null
+                  }
+                />
+              </div>
               <div className="w-full text-left">
-                <span className="text-white text-sm">
-                  Pastikan password sesuai
+                <span className="dark:text-white text-gray-700 text-sm">
+                  Hubungi admin sekolah untuk mendapatkan kode referensi
                 </span>
               </div>
               <Button

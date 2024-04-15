@@ -2,6 +2,7 @@ import { Navbar } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import {
   HiFingerPrint,
@@ -13,6 +14,13 @@ import {
 
 const MainNavbar = () => {
   const { data: session } = useSession();
+  const pathname = usePathname();
+
+  let arrPath = pathname.split("/");
+  let realPath = "/"+arrPath[1];
+
+  // console.log("ini apa real A ", arrPath);
+  // console.log("ini apa real ", realPath);
 
   let initMenu: any[] = [];
 
@@ -68,8 +76,9 @@ const MainNavbar = () => {
 
   const [menus, setMenus] = useState<any[]>(initMenu);
 
+  // console.log("active ", pathname);
   return (
-    <Navbar className="bg-[#242526] border-b border-[#414344] fixed w-full py-1.5">
+    <Navbar className="dark:bg-[#242526] bg-white border-gray-100 border-b dark:border-[#414344] fixed w-full py-1.5">
       <Navbar.Brand href="/dashboard" className="flex gap-4">
         <Image
           src="/images/icons/icon-72x72.png"
@@ -78,9 +87,9 @@ const MainNavbar = () => {
           height={30}
           alt="Go Absensi"
         />
-        <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
+        {/* <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
           Go Absensi
-        </span>
+        </span> */}
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
@@ -89,7 +98,9 @@ const MainNavbar = () => {
               <Link
                 href={data.url}
                 key={index}
-                className="border-b border-gray-700 md:border-b-0 py-2 md:py-0 text-gray-300 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
+                className={`${
+                  data.url == realPath ? "text-orange-500" : "dark:text-gray-300 text-gray-900"
+                } border-b dark:border-gray-700 md:border-b-0 py-2 md:py-0 md:text-2xl md:rounded-full dark:md:bg-[#3A3B3C] md:bg-gray-200 hover:bg-gray-300 md:p-2 md:flex md:items-center md:justify-center dark:hover:bg-[#5c5d5f] flex items-center gap-2`}
                 title={data.name}
               >
                 {data.icon !== null ? data.icon : data.name}{" "}
@@ -99,7 +110,7 @@ const MainNavbar = () => {
           : null}
         <button
           onClick={() => signOut()}
-          className="cursor-pointer text-gray-300 py-2 md:text-2xl md:rounded-full md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center hover:bg-[#5c5d5f] flex items-center gap-2"
+          className="cursor-pointer dark:text-gray-300 text-gray-900 py-2 md:text-2xl md:rounded-full md:bg-gray-200 hover:bg-gray-300 dark:md:bg-[#3A3B3C] md:p-2 md:flex md:items-center md:justify-center dark:hover:bg-[#5c5d5f] flex items-center gap-2"
           title="Sign Out"
         >
           <HiLogout /> <span className="md:hidden">Sign Out</span>

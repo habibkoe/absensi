@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,18 +24,54 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 @layer components {
   .td-custom {
     @apply whitespace-nowrap align-top;
   }
 
+  .table-icon {
+    @apply basis-1/12 text-2xl border rounded-full dark:border-gray-400 p-2 dark:text-gray-400 border-gray-500 text-gray-500;
+  }
   .table-title {
-    @apply text-sm font-medium text-gray-300 dark:text-white;
+    @apply text-sm font-medium dark:text-gray-300 text-gray-900;
   }
 
   .table-sub-title {
-    @apply text-xs text-gray-400 dark:text-white;
+    @apply text-xs dark:text-gray-400 text-gray-600;
+  }
+
+  .card-list-item {
+    @apply flex w-full items-center justify-between dark:bg-[#242526] border-b dark:border-[#242526] dark:hover:border-[#4f5052] py-2 bg-white border-white hover:border-gray-200;
+  }
+
+  .form-label {
+    @apply dark:text-gray-300 text-gray-900;
+  }
+
+  .card-form {
+    @apply rounded-lg p-5 mb-4 dark:bg-[#3A3B3C] bg-gray-200 w-full;
+  }
+
+  .action-menu {
+    @apply dark:!bg-[#242526] !bg-white !min-w-[200px];
+  }
+  .action-menu-button {
+    @apply text-gray-900 dark:text-white border rounded-full dark:border-[#4f5052] p-2 dark:bg-[#4f5052] cursor-pointer bg-gray-300 border-gray-300;
+  }
+
+  .action-menu-list {
+    @apply !text-sm font-semibold flex gap-2 items-center !text-gray-600 hover:!text-gray-800 dark:!text-white hover:!bg-gray-200 dark:hover:bg-[#4f5052] dark:hover:!text-gray-900;
+  }
+
+  .form-footer {
+    @apply flex gap-2 justify-end;
+  }
+}
+
+@layer base {
+  body {
+    @apply dark:bg-black bg-gray-200;
   }
 }

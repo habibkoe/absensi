@@ -1,61 +1,29 @@
 import AppLayout from "@/components/AppLayout";
-import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
-import LoadingTable from "@/components/Attribute/LoadingTable";
-import FormPeriode from "@/components/Forms/Settings/FormPeriode";
-import { useAllPosts, useDeletePost } from "@/hooks/periodeHook";
+import CardList from "@/components/Forms/Settings/Periode/CardList";
+import { useAllPosts } from "@/hooks/periodeHook";
 import { siteConfig } from "@/libs/config";
-import { Table } from "flowbite-react";
 import Head from "next/head";
-import React, { useState } from "react";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+import React from "react";
+import { useGlobalState } from "@/store/globalStore";
+import LoadingListMaster from "@/components/Attribute/LoadingListMaster";
+import FormPeriode from "@/components/Forms/Settings/Periode/FormPeriode";
 
 const PeriodePage = () => {
-  const [showForm, setShowForm] = useState<Boolean>(false);
-
-  const [idData, setIdData] = useState<any>(null);
-  const [isEdit, setIsEdit] = useState<any>(false);
-
+  const setGlobal = useGlobalState((state) => state.setGlobal);
+  const showFormPeriode = useGlobalState((state) => state.showFormPeriode);
   const {
     isPending: isDataLoading,
     error: isDataError,
     data: dataAll,
   } = useAllPosts();
 
-  const {
-    mutate: deleteMutate,
-    isPending: isPeriodeDeleteLOading,
-    isError: isErrorDeleteLoading,
-  } = useDeletePost();
-
-  const tambahData = () => {
-    setIdData(null);
-    setShowForm(true);
-    setIsEdit(false);
-  };
-
-  const cancelAdd = () => {
-    setShowForm(false);
-    setIsEdit(false);
-    setIdData(null);
-  };
-
-  const ubahData = (id: Number) => {
-    setIdData(id);
-    setShowForm(true);
-    setIsEdit(true);
-  };
-
-  const hapusData = async (id: Number) => {
-    deleteMutate(id, {
-      onSuccess: (response) => {
-        alert("Deleted Successfully!");
-      },
-    });
+  const newData = (params: boolean) => {
+    setGlobal("showFormPeriode", params);
   };
 
   if (isDataLoading) {
-    return <LoadingTable />;
+    return <LoadingListMaster />;
   }
 
   return (
@@ -65,65 +33,19 @@ const PeriodePage = () => {
       </Head>
 
       <div className="w-full">
-        {!showForm ? (
-          <AddButton handleClick={() => tambahData()}>
+        {!showFormPeriode ? (
+          <AddButton handleClick={() => newData(true)}>
             Tambah data periode
           </AddButton>
         ) : null}
 
-        {showForm ? (
-          <FormPeriode handleCancel={cancelAdd} isEdit={isEdit} id={idData} />
-        ) : null}
+        {showFormPeriode ? <FormPeriode /> : null}
+        {/* <FormCreatePeriode /> */}
         {dataAll !== undefined && dataAll?.length > 0 ? (
           <div className="overflow-x-auto">
-            <Table hoverable>
-              <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
-                  Nama Tahun Ajaran
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
-                  <span className="sr-only">Edit</span>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                {dataAll.map((data, index) => (
-                  <Table.Row
-                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052] items-start"
-                    key={data.id}
-                  >
-                    <Table.Cell className="td-custom">
-                      <span className="table-title">
-                        {data.name}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Periode: {data.periodeStart} - {data.periodeEnd}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        ID: {data.id}
-                      </span>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
-                        <ActionButton
-                          handleClick={() => ubahData(data.id)}
-                          title="Edit data"
-                        >
-                          <HiOutlinePencil />
-                        </ActionButton>
-                        <ActionButton
-                          handleClick={() => hapusData(data.id)}
-                          title="Hapus data"
-                        >
-                          <HiOutlineTrash />
-                        </ActionButton>
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            {dataAll.map((data, index) => (
+              <CardList data={data} key={index} />
+            ))}
           </div>
         ) : (
           <div className="w-full text-red-500">Belum ada data</div>

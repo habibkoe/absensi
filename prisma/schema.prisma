@@ -11,6 +11,29 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Schools {
+  id           Int          @id @default(autoincrement())
+  name         String?
+  location     String?
+  studentTotal Int?
+  teacherTotal Int?
+  status       String? // example: Negeri, Swasta
+  email        String?      @unique
+  telp         String?
+  posCode      String?
+  province     Int?
+  city         Int?
+  district     Int?
+  village      Int?
+  nspn         String?
+  refCode      String?      @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now())
+  users        Users[]
+  students     Students[]
+  classRoom    ClassRooms[]
+}
+
 model Users {
   id               Int                           @id @default(autoincrement())
   firstName        String
@@ -23,10 +46,14 @@ model Users {
   categoryTeacher  String // example : ipa, matematika, dll
   rating           Int
   roleId           Int?
+  gender           Int?
+  dateOfBirth      String?
   classRoom        UsersOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
   absensi          Absensi[]
   mapel            UsersOnMapels[]
+  school           Schools?                      @relation(fields: [schoolId], references: [id])
+  schoolId         Int?
   createdAt        DateTime                      @default(now())
   updatedAt        DateTime                      @default(now())
 
@@ -45,6 +72,8 @@ model ClassRooms {
   students         StudentsOnClassRooms[]
   studentClassRoom StudentsAndUserOnClassRooms[]
   absensi          Absensi[]
+  school           Schools?                      @relation(fields: [schoolId], references: [id])
+  schoolId         Int?
 }
 
 model MataPelajarans {
@@ -104,6 +133,8 @@ model Students {
   classRoom        StudentsOnClassRooms[]
   classRoomStudent StudentsAndUserOnClassRooms[]
   absensi          Absensi[]
+  school           Schools?                      @relation(fields: [schoolId], references: [id])
+  schoolId         Int?
 
   @@index([id])
 }

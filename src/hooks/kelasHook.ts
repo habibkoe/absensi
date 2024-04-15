@@ -2,11 +2,6 @@ import ClassRoomService from "@/services/classRoomService";
 import { ClassRooms } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface updateParams {
-  data: any;
-  id: Number;
-}
-
 const useAllPosts = () => {
   return useQuery<ClassRooms[], Error>({
     queryKey: ["kelas"],

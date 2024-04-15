@@ -146,7 +146,7 @@ const FormSiswaKelas = (props: Props) => {
   } else {
     return (
       <>
-        <div className="rounded-lg p-5 mb-4 bg-[#3A3B3C]">
+        <div className="card-form">
           <form onSubmit={handleFormSubmit} className="space-y-4">
             <CardForm>
               <div>
@@ -168,7 +168,10 @@ const FormSiswaKelas = (props: Props) => {
                 />
               </div>
             </CardForm>
-            <div className="flex gap-4">
+            <div className="form-footer">
+              <Button color="dark" onClick={props.handleCancel}>
+                Cancel
+              </Button>
               {newData.classRoomId == 0 || newData.studentId == 0 ? (
                 <Button color="dark">Simpan</Button>
               ) : (
@@ -180,9 +183,6 @@ const FormSiswaKelas = (props: Props) => {
                   Simpan
                 </Button>
               )}
-              <Button color="dark" onClick={props.handleCancel}>
-                Cancel
-              </Button>
             </div>
           </form>
         </div>

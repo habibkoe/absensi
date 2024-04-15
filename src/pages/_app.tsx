@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { ReactNode } from "react";
+import { ThemeProvider } from "next-themes"
 
 import {
   QueryClient,
@@ -24,11 +25,13 @@ export default function App({ Component, pageProps }: Props) {
 
   if (Component.getLayout) {
     return (
+      <ThemeProvider attribute="class">
       <SessionProvider session={pageProps.session}>
         <QueryClientProvider client={queryClient}>
           {getLayout(<Component {...pageProps} />)}
         </QueryClientProvider>
       </SessionProvider>
+      </ThemeProvider>
     );
   }
 }

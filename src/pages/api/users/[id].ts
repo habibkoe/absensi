@@ -1,5 +1,17 @@
 import prisma from "@/libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
+
+const formSchema = z.object({
+  firstName: z.string().min(3, "Username minimal 3 Char"),
+  lastName: z.string().min(3, "Username minimal 3 Char"),
+  typeTeacher: z.string().min(3, "Username minimal 3 Char"),
+  typeOfStudy: z.string().min(3, "Username minimal 3 Char"),
+  categoryTeacher: z.string().min(3, "Username minimal 3 Char"),
+  rating: z.string().min(3, "Username minimal 3 Char").max(15),
+  username: z.string().min(3, "Username minimal 3 Char").max(15),
+  email: z.string().min(3, "email minimal 3").email("Invalid email"),
+});
 
 export default async function handler(
   req: NextApiRequest,

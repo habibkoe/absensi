@@ -2,7 +2,7 @@ import AppLayout from "@/components/AppLayout";
 import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
 import LoadingTable from "@/components/Attribute/LoadingTable";
-import FormSiswaKelas from "@/components/Forms/Settings/FormSiswaKelas";
+import FormSiswaKelas from "@/components/Forms/Settings/SiswaKelas/FormSiswaKelas";
 import {
   useStudentRoomAllPosts,
   useStudentRoomDeletePost,

@@ -1,51 +1,31 @@
 import AppLayout from "@/components/AppLayout";
-import ActionButton from "@/components/Attribute/ActionButton";
-import LoadingTable from "@/components/Attribute/LoadingTable";
-import { useAllPosts, useDeletePost } from "@/hooks/userHook";
+import AddButton from "@/components/Attribute/AddButton";
+import LoadingListMaster from "@/components/Attribute/LoadingListMaster";
+import CardList from "@/components/Forms/Settings/User/CardList";
+import FormUser from "@/components/Forms/Settings/User/FormUser";
+import { useAllPosts } from "@/hooks/userHook";
 import { siteConfig } from "@/libs/config";
-import { Table } from "flowbite-react";
+import { useGlobalState } from "@/store/globalStore";
 import Head from "next/head";
 import React from "react";
-import { HiOutlineTrash } from "react-icons/hi";
 
 const UserPage = () => {
+  const setGlobal = useGlobalState((state) => state.setGlobal);
+  const showFormUser = useGlobalState((state) => state.showFormUser);
+
   const {
     isPending: isDataLoading,
     error: isDataError,
     data: dataAll,
   } = useAllPosts();
 
-  const {
-    mutate: deleteMutate,
-    isPending: isPeriodeDeleteLOading,
-    isError: isErrorDeleteLoading,
-  } = useDeletePost();
-
-  const hapusData = async (id: Number) => {
-    deleteMutate(id, {
-      onSuccess: (response) => {
-        alert("Deleted Successfully!");
-      },
-    });
-  };
-
-  const roleName = (params: number) => {
-    switch (params) {
-      case 1:
-        return "Superadmin";
-      case 2:
-        return "Tata Usaha";
-      case 3:
-        return "Guru";
-      default:
-        return "User Umum";
-    }
+  const newData = (params: boolean) => {
+    setGlobal("showFormUser", params);
   };
 
   if (isDataLoading) {
-    return <LoadingTable />;
+    return <LoadingListMaster />;
   }
-
 
   return (
     <>
@@ -54,54 +34,19 @@ const UserPage = () => {
       </Head>
 
       <div className="w-full">
+        {!showFormUser ? (
+          <AddButton handleClick={() => newData(true)}>
+            Tambah data kelas
+          </AddButton>
+        ) : null}
+
+        {showFormUser ? <FormUser /> : null}
+
         {dataAll !== undefined && dataAll?.length > 0 ? (
           <div className="overflow-x-auto">
-            <Table hoverable>
-              <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
-                  Data Users
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
-                  <span className="sr-only">Edit</span>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                {dataAll.map((data, index) => (
-                  <Table.Row
-                    key={data.id}
-                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
-                  >
-                    <Table.Cell className="td-custom">
-                      <span className="table-title">
-                        {data.firstName} {data.lastName}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Email: {data.email}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Username: {data.username}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Role: {roleName(Number(data.roleId))}
-                      </span>
-                    </Table.Cell>
-                    <Table.Cell className="align-top">
-                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
-                        <ActionButton
-                          handleClick={() => hapusData(data.id)}
-                          title="Hapus data"
-                        >
-                          <HiOutlineTrash />
-                        </ActionButton>
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            {dataAll.map((data, index) => (
+              <CardList data={data} key={index} />
+            ))}
           </div>
         ) : (
           <div className="w-full text-red-500">Belum ada data</div>

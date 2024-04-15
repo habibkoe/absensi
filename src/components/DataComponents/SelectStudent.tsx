@@ -7,6 +7,8 @@ interface Props {
   value?: string | number;
   placeholder?: string;
   name?: any;
+  errors?: any;
+  color?: any;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -28,6 +30,8 @@ const SelectStudent = (props: Props) => {
         required
         defaultValue={props.value}
         onChange={props.handleChange}
+        color={props.color}
+        helperText={props.errors != null ? <>{props.errors}</> : ""}
       >
         <option value="">Pilih</option>
         {dataAll !== undefined &&

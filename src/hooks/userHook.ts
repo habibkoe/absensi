@@ -2,11 +2,6 @@ import UserService from "@/services/userService";
 import { Users } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface updateParams {
-  data: any;
-  id: Number;
-}
-
 const useAllPosts = () => {
   return useQuery<Users[], Error>({
     queryKey: ["users"],

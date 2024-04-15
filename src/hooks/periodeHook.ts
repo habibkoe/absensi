@@ -2,11 +2,6 @@ import PeriodeService from "@/services/periodeService";
 import { Periode } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface updateParams {
-  data: any;
-  id: Number;
-}
-
 const useAllPosts = () => {
   return useQuery<Periode[], Error>({
     queryKey: ["periodes"],

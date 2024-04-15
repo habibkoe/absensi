@@ -1,14 +1,15 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenuList from "@/components/Attribute/CardMenuList";
 import { siteConfig } from "@/libs/config";
+import { useGlobalState } from "@/store/globalStore";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   HiOutlineBookOpen,
   HiOutlineCalendar,
-  HiOutlineChevronRight,
+  HiOutlineLibrary,
   HiOutlineOfficeBuilding,
   HiOutlineUserCircle,
   HiOutlineUserGroup,
@@ -18,6 +19,13 @@ import {
 const SettingPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
+
+  let resetGlobal = useGlobalState((state) => state.resetGlobal);
+
+  useEffect(() => {
+    console.log("berhasil reset data")
+    resetGlobal();
+  }, []);
 
   if (Number(session?.user?.roleId) !== 1) {
     router.push("/dashboard");
@@ -29,6 +37,13 @@ const SettingPage = () => {
       </Head>
 
       <div className="w-full space-y-2">
+        <CardMenuList
+          icon={<HiOutlineLibrary />}
+          href="/setting/school"
+          subTitle="Setting data sekolah"
+        >
+          Master Sekolah
+        </CardMenuList>
         <CardMenuList
           icon={<HiOutlineCalendar />}
           href="/setting/periode"

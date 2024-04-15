@@ -50,7 +50,7 @@ const LoadingTable = () => {
           <div className="h-8 bg-gray-700 rounded-full dark:bg-gray-700 w-8"></div>
         </div>
       </div>
-      <div className="flex items-start justify-between py-2">
+      {/* <div className="flex items-start justify-between py-2">
         <div>
           <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-32 mb-2.5"></div>
           <div className="w-28 h-2 bg-gray-400 rounded-full dark:bg-gray-700 mb-2.5"></div>
@@ -104,7 +104,7 @@ const LoadingTable = () => {
           <div className="h-8 bg-gray-700 rounded-full dark:bg-gray-700 w-8"></div>
           <div className="h-8 bg-gray-700 rounded-full dark:bg-gray-700 w-8"></div>
         </div>
-      </div>
+      </div> */}
       <span className="sr-only">Loading...</span>
     </div>
   );

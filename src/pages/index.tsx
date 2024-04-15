@@ -101,7 +101,7 @@ const HomePage = () => {
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <div className="md:mx-auto md:w-96 w-full px-8">
-          <h5 className="text-2xl font-bold tracking-tight text-white dark:text-white mb-2">
+          <h5 className="text-2xl font-bold tracking-tight dark:text-white text-gray-900 mb-2">
             Masuk ke akun anda
           </h5>
           <span className="text-gray-400">
@@ -112,7 +112,7 @@ const HomePage = () => {
               <div>
                 <div className="mb-2 block">
                   <Label
-                    className="text-white"
+                    className="form-label"
                     htmlFor="username"
                     value="Username"
                   />
@@ -145,7 +145,7 @@ const HomePage = () => {
                   <Label
                     htmlFor="password1"
                     value="Password"
-                    className="text-white"
+                    className="form-label"
                   />
                 </div>
                 <TextInput
@@ -172,7 +172,7 @@ const HomePage = () => {
                 />
               </div>
               <div className="w-full text-right">
-                <span className="text-white text-sm">Lupa password</span>
+                <span className="dark:text-white text-gray-900 text-sm">Lupa password</span>
               </div>
               <Button
                 gradientDuoTone="pinkToOrange"

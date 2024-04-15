@@ -7,6 +7,8 @@ interface Props {
   placeholder?: string;
   name?: any;
   indexData?: number;
+  errors?: any;
+  color?: any;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -34,6 +36,8 @@ const SelectStatusAbsen = (props: Props) => {
         data-indexdata={props.indexData}
         defaultValue={props.value}
         onChange={props.handleChange}
+        color={props.color}
+        helperText={props.errors != null ? <>{props.errors}</> : ""}
       >
         <option value="">Pilih</option>
         {arrAbsensi.map((data, index) => (

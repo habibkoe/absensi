@@ -1,20 +1,17 @@
 import AppLayout from "@/components/AppLayout";
-import ActionButton from "@/components/Attribute/ActionButton";
 import AddButton from "@/components/Attribute/AddButton";
-import LoadingTable from "@/components/Attribute/LoadingTable";
-import FormSiswa from "@/components/Forms/Settings/FormSiswa";
-import { useAllPosts, useDeletePost } from "@/hooks/siswaHook";
+import LoadingListMaster from "@/components/Attribute/LoadingListMaster";
+import CardList from "@/components/Forms/Settings/Siswa/CardList";
+import FormSiswa from "@/components/Forms/Settings/Siswa/FormSiswa";
+import { useAllPosts } from "@/hooks/siswaHook";
 import { siteConfig } from "@/libs/config";
-import { Table } from "flowbite-react";
+import { useGlobalState } from "@/store/globalStore";
 import Head from "next/head";
-import React, { useState } from "react";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+import React from "react";
 
 const SiswaPage = () => {
-  const [showForm, setShowForm] = useState<Boolean>(false);
-
-  const [idData, setIdData] = useState<any>(null);
-  const [isEdit, setIsEdit] = useState<any>(false);
+  const setGlobal = useGlobalState((state) => state.setGlobal);
+  const showFormSiswa = useGlobalState((state) => state.showFormSiswa);
 
   const {
     isPending: isDataLoading,
@@ -22,42 +19,13 @@ const SiswaPage = () => {
     data: dataAll,
   } = useAllPosts();
 
-  const {
-    mutate: deleteMutate,
-    isPending: isPeriodeDeleteLOading,
-    isError: isErrorDeleteLoading,
-  } = useDeletePost();
-
-  const tambahData = () => {
-    setIdData(null);
-    setShowForm(true);
-    setIsEdit(false);
-  };
-
-  const cancelAdd = () => {
-    setShowForm(false);
-    setIsEdit(false);
-    setIdData(null);
-  };
-
-  const ubahData = (id: Number) => {
-    setIdData(id);
-    setShowForm(true);
-    setIsEdit(true);
-  };
-
-  const hapusData = async (id: Number) => {
-    deleteMutate(id, {
-      onSuccess: (response) => {
-        alert("Deleted Successfully!");
-      },
-    });
+  const newData = (params: boolean) => {
+    setGlobal("showFormSiswa", params);
   };
 
   if (isDataLoading) {
-    return <LoadingTable />;
+    return <LoadingListMaster />;
   }
-
 
   return (
     <>
@@ -66,69 +34,18 @@ const SiswaPage = () => {
       </Head>
 
       <div className="w-full">
-        {!showForm ? (
-          <AddButton handleClick={() => setShowForm(!showForm)}>
+        {!showFormSiswa ? (
+          <AddButton handleClick={() => newData(true)}>
             Tambah data siswa
           </AddButton>
         ) : null}
 
-        {showForm ? (
-          <FormSiswa handleCancel={cancelAdd} isEdit={isEdit} id={idData} />
-        ) : null}
+        {showFormSiswa ? <FormSiswa /> : null}
         {dataAll !== undefined && dataAll?.length > 0 ? (
           <div className="overflow-x-auto">
-            <Table hoverable>
-              <Table.Head className="border-b border-[#242526]">
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-10/12">
-                  Data Siswa
-                </Table.HeadCell>
-                <Table.HeadCell className="bg-[#3A3B3C] text-gray-300 w-2/12">
-                  <span className="sr-only">Edit</span>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                {dataAll.map((data, index) => (
-                  <Table.Row
-                    key={data.id}
-                    className="border border-[#242526] bg-[#3A3B3C] hover:bg-[#4f5052]"
-                  >
-                    <Table.Cell className="td-custom">
-                      <span className="table-title">
-                        {data.firstName} {data.lastName}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Nis: {data.nis}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Jenis kelamin: {data.gender}
-                      </span>
-                      <br />
-                      <span className="table-sub-title">
-                        Alamat: {data.address}
-                      </span>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-wrap gap-4 w-full justify-end items-start">
-                        <ActionButton
-                          handleClick={() => ubahData(data.id)}
-                          title="Edit data"
-                        >
-                          <HiOutlinePencil />
-                        </ActionButton>
-                        <ActionButton
-                          handleClick={() => hapusData(data.id)}
-                          title="Hapus data"
-                        >
-                          <HiOutlineTrash />
-                        </ActionButton>
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            {dataAll.map((data, index) => (
+              <CardList data={data} key={index} />
+            ))}
           </div>
         ) : (
           <div className="w-full text-red-500">Belum ada data</div>

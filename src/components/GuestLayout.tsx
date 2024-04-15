@@ -8,7 +8,7 @@ interface Props {
 const GuestLayout = ({ children }: Props) => {
   return (
     <Flowbite theme={{ theme: customTheme }}>
-      <div className="w-full h-screen bg-black">{children}</div>
+      <div className="w-full h-screen">{children}</div>
     </Flowbite>
   );
 };
@@ -25,7 +25,7 @@ const customTheme: CustomFlowbiteTheme = {
           lg: "sm:text-md",
         },
         colors: {
-          gray: "bg-[#272728] border-[#272728] text-gray-300 focus:border-orange-400 focus:ring-orange-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
+          gray: "border-gray-500 bg-gray-200 text-gray-900 dark:bg-[#272728] dark:border-[#272728] dark:text-gray-300 focus:border-orange-400 focus:ring-orange-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
           graySave: "bg-[#1f2020] border-gray-700 text-gray-300 focus:border-orange-400 focus:ring-orange-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
           info: "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
           failure:

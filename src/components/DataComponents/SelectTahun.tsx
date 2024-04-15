@@ -6,7 +6,8 @@ interface Props {
   value?: string | number;
   placeholder?: string;
   name?: any;
-  color?:any;
+  errors?: any;
+  color?: any;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -25,7 +26,7 @@ const SelectTahun = (props: Props) => {
   return (
     <>
       <div className="mb-2 block">
-        <Label htmlFor={props.name} className="text-gray-300" value={props.label} />
+        <Label htmlFor={props.name} className="form-label" value={props.label} />
       </div>
       <Select
         id={props.name}
@@ -33,6 +34,7 @@ const SelectTahun = (props: Props) => {
         value={props.value}
         onChange={props.handleChange}
         color={props.color}
+        helperText={props.errors != null ? <>{props.errors}</> : ""}
       >
         <option value="">Pilih</option>
         {arrYears.map((data, index) => (

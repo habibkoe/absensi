@@ -2,11 +2,6 @@ import MapelService from "@/services/mapelService";
 import { MataPelajarans } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-interface updateParams {
-  data: any;
-  id: Number;
-}
-
 const useAllPosts = () => {
   return useQuery<MataPelajarans[], Error>({
     queryKey: ["mapels"],

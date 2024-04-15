@@ -1,5 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import CardMenu from "@/components/Attribute/CardMenu";
+import CardMenuList from "@/components/Attribute/CardMenuList";
 import { usePostById } from "@/hooks/userHook";
 import { siteConfig } from "@/libs/config";
 import { Button, Card } from "flowbite-react";
@@ -7,6 +8,12 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  HiDocumentReport,
+  HiFingerPrint,
+  HiOutlineBookOpen,
+  HiOutlineOfficeBuilding,
+} from "react-icons/hi";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -29,46 +36,61 @@ const ProfilePage = () => {
         </title>
       </Head>
 
-      <div className="w-full">
-        <div className="grid gap-4 md:grid-cols-2 sm:grid-cols-1">
+      <div className="w-full space-y-4">
+        <div className="flex gap-4">
+          <div className="border rounded-full p-5 w-28 h-28">test</div>
           <div>
-            <Card
-              href="#"
-              className="w-full text-center hover:bg-[#57585a] bg-[#3A3B3C] border-[#3A3B3C]"
+            <p className="font-normal dark:text-[#DADCE1] text-gray-900">
+              {userData?.firstName} {userData?.lastName}
+            </p>
+            <p className="font-normal dark:text-[#DADCE1] text-gray-900">{userData?.email}</p>
+            <p className="font-normal dark:text-[#DADCE1] text-gray-900" onClick={editProfile}>
+              @{userData?.username}
+            </p>
+            <Button
+              onClick={editProfile}
+              gradientDuoTone="pinkToOrange"
+              size="sm"
             >
-              <div className="border rounded-full p-5 w-40 h-40 mx-auto">
-                test
-              </div>
-              <p className="font-normal text-[#DADCE1]">
-                Email: {userData?.email}
-              </p>
-              <p className="font-normal text-[#DADCE1]">
-                Username: {userData?.username}
-              </p>
-              <Button
-                onClick={editProfile}
-                gradientDuoTone="pinkToOrange"
-                size="sm"
-              >
-                Update
-              </Button>
-            </Card>
+              Update
+            </Button>
           </div>
-          <div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <CardMenu href="/profile/kelas" subTitle="Kelas didikan">
-                Kelas
-              </CardMenu>
-              <CardMenu href="/profile/mapel" subTitle="Info mapel yang diampu">
-                Mapel
-              </CardMenu>
-              <CardMenu href="/absensi" subTitle="Fitur absensi">
-                Absensi
-              </CardMenu>
-              <CardMenu href="/absensi/report" subTitle="Report Absensi">
-                Report
-              </CardMenu>
-            </div>
+        </div>
+        <div>
+          <div className="w-full space-y-2">
+            {Number(session?.user?.roleId) !== 1 ? (
+              <>
+                <CardMenuList
+                  icon={<HiOutlineOfficeBuilding />}
+                  href="/profile/kelas"
+                  subTitle="Kelas yang diampu oleh saya"
+                >
+                  Kelas Saya
+                </CardMenuList>
+                <CardMenuList
+                  icon={<HiOutlineBookOpen />}
+                  href="/profile/mapel"
+                  subTitle="Mata pelajaran yang diajarkan pada sekolah"
+                >
+                  Mata Pelajaran Saya
+                </CardMenuList>
+              </>
+            ) : null}
+
+            <CardMenuList
+              icon={<HiFingerPrint />}
+              href="/absensi"
+              subTitle="Fitur absensi"
+            >
+              Absensi
+            </CardMenuList>
+            <CardMenuList
+              icon={<HiDocumentReport />}
+              href="/absensi/report"
+              subTitle="Report Absensi"
+            >
+              Report
+            </CardMenuList>
           </div>
         </div>
       </div>

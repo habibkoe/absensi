@@ -1,5 +1,12 @@
 import prisma from "@/libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
+
+const formSchema = z.object({
+  name: z.string().min(3, "Character minimum 3").nullable(),
+  periodeStart: z.number(),
+  periodeEnd: z.number(),
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,12 +26,11 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "GET") {
-
     try {
       const datas = await prisma.periode.findFirst({
         where: { id: Number(dataId) },
       });
-  
+
       return res.status(200).json({
         status: 200,
         success: true,
@@ -35,13 +41,11 @@ export default async function handler(
       return res.status(500).json({
         status: 500,
         success: false,
-        message: error
+        message: error,
       });
     }
-
-    
   } else if (req.method === "PUT" || req.method === "PATCH") {
-    const { name, periodeStart, periodeEnd } = req.body;
+    const { name, periodeStart, periodeEnd } = formSchema.parse(req.body);
 
     const datas = await prisma.periode.update({
       where: {
@@ -50,7 +54,7 @@ export default async function handler(
       data: {
         name: name,
         periodeStart: Number(periodeStart),
-        periodeEnd : Number(periodeEnd)    
+        periodeEnd: Number(periodeEnd),
       },
     });
 

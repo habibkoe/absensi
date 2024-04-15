@@ -18,7 +18,7 @@ const AbsensiPage = () => {
   return (
     <>
       <Head>
-        <title>Absensi</title>
+        <title>Go Absensi : Proses Absensi</title>
       </Head>
 
       {dataKelas !== undefined ? (

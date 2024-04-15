@@ -3,9 +3,10 @@ import prisma from "@/libs/prisma";
 import { hash } from "bcrypt";
 import { z } from "zod";
 
-const userSchema = z.object({
+const formSchema = z.object({
   username: z.string().min(3, "Username minimal 3 Char").max(15),
   email: z.string().min(3, "email minimal 3").email("Invalid email"),
+  refCode: z.string().min(3, "minimum 3"),
   password: z.string().min(8, "minimal 8 char"),
 });
 
@@ -23,7 +24,7 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "POST") {
-    const { email, password, username } = userSchema.parse(req.body);
+    const { email, password, username, refCode } = formSchema.parse(req.body);
 
     const emailExist = await prisma.users.findUnique({
       where: {
@@ -53,6 +54,12 @@ export default async function handler(
       });
     }
 
+    const schoolExist = await prisma.schools.findFirst({
+      where: {
+        refCode: refCode,
+      },
+    });
+
     const hashPassword = await hash(password, 10);
     const datas = await prisma.users.create({
       data: {
@@ -65,7 +72,8 @@ export default async function handler(
         rating: 0,
         password: hashPassword,
         username: username,
-        roleId: 3
+        roleId: 3,
+        schoolId: schoolExist ? schoolExist.id : null,
       },
     });
     return res.status(200).json({

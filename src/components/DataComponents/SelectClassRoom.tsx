@@ -7,6 +7,8 @@ interface Props {
   value?: string | number;
   placeholder?: string;
   name?: any;
+  errors?: any;
+  color?: any;
   handleChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -30,7 +32,8 @@ const SelectClassRoom = (props: Props) => {
         id="classRoomId"
         name="classRoomId"
         required
-        color="gray"
+        color={props.color}
+        helperText={props.errors != null ? <>{props.errors}</> : ""}
         defaultValue={props.value}
         onChange={props.handleChange}
       >

@@ -1,5 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/libs/prisma";
+import { z } from "zod";
+
+const formSchema = z.object({
+  name: z.string().min(3, "Character minimum 3").nullable(),
+  periodeStart: z.number(),
+  periodeEnd: z.number(),
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,8 +16,8 @@ export default async function handler(
     const datas = await prisma.periode.findMany({
       orderBy: [
         {
-          periodeStart: 'desc',
-        }
+          periodeStart: "desc",
+        },
       ],
     });
 
@@ -21,7 +28,7 @@ export default async function handler(
       data: datas,
     });
   } else if (req.method === "POST") {
-    const { name, periodeStart, periodeEnd } = req.body;
+    const { name, periodeStart, periodeEnd } = formSchema.parse(req.body);
 
     const checkData = await prisma.periode.count({
       where: {

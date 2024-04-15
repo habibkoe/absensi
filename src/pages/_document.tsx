@@ -43,7 +43,7 @@ export default function Document() {
         />
         <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png" />
       </Head>
-      <body className="bg-black">
+      <body>
         <Main />
         <NextScript />
       </body>
